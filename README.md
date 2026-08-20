@@ -26,24 +26,72 @@ requests the page makes.
 ### 1 · Make the replies actually arrive ⚠️
 
 Out of the box the RSVP form validates and thanks the guest, **but nothing is
-sent anywhere.** Open `script.js` and fill in *one* of these two:
+sent anywhere.** Fill in one of the three blocks in `script.js`:
 
 ```js
-endpoint : '',   // a Formspree / Getform / Google-Apps-Script URL
-whatsapp : '',   // digits + country code, e.g. '962791234567'
+supabase : { url: '', key: '', table: 'rsvp' },
+endpoint : '',
+whatsapp : '',
 ```
 
-* **`whatsapp`** is the simplest and needs no account. On submit the guest's
-  WhatsApp opens with the reply already written out — name, attending or not,
-  how many people, any note — addressed to that number. They press send.
-* **`endpoint`** posts the form quietly in the background instead. If the POST
-  fails, the thank-you screen falls back to a WhatsApp button, so a reply is
-  never silently lost — provided `whatsapp` is filled in too. Fill in both if
-  you can.
+#### Supabase
 
-GitHub Pages has no server, so the Netlify-style markup on the `<form>` does
-nothing there; it is left in place only so the same file can be dropped on
-Netlify unchanged.
+Paste the project URL and the **anon** key. The form posts straight to
+PostgREST — no functions, no server:
+
+```sql
+create table public.rsvp (
+  id         bigint generated always as identity primary key,
+  created_at timestamptz not null default now(),
+  name       text   not null,
+  attending  text   not null,
+  guests     int    not null default 1,
+  note       text
+);
+
+alter table public.rsvp enable row level security;
+
+-- anon may add a reply and nothing else
+create policy "anon inserts rsvp"
+  on public.rsvp for insert to anon with check (true);
+```
+
+**Give it the insert policy and no select policy.** The anon key ships inside
+this page — that is what it is for, and it is safe *provided* the table cannot
+be read back with it. With only the insert policy above, a guest can leave a
+reply and cannot list anyone else's. Read the replies from the Supabase table
+editor, or with the service key from somewhere that is not a web page.
+
+Two optional hardening steps, worth it if the link circulates widely:
+
+```sql
+-- keep a stray double-tap from making two rows
+create unique index rsvp_one_per_name on public.rsvp (lower(trim(name)));
+
+-- and cap the free text
+alter table public.rsvp add constraint rsvp_sane
+  check (length(name) between 2 and 80 and length(coalesce(note,'')) <= 500);
+```
+
+The unique index makes a repeat submission fail, which lands the guest on the
+WhatsApp fallback rather than silently duplicating — if you would rather they
+just succeed quietly, leave it out.
+
+#### Or a plain form service
+
+`endpoint` takes any Formspree / Getform / Apps Script URL and posts the form
+urlencoded instead.
+
+#### Either way, set `whatsapp` too
+
+Digits and country code, e.g. `'962791234567'`. It is the safety net: if the
+network call fails, the thank-you screen turns into a WhatsApp button with the
+reply already written out, so nobody's answer is silently lost. With *nothing*
+else configured it becomes the primary path — the guest's WhatsApp opens on
+submit and they press send.
+
+The Netlify-style markup on the `<form>` does nothing on GitHub Pages; it is
+left in place only so the same file can be dropped on Netlify unchanged.
 
 ### 2 · Check the details that were assumed
 

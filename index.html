@@ -34,7 +34,7 @@
 <!-- ⚠️ Bump ?v= on BOTH of these whenever you edit style.css or script.js.
      Browsers cache them hard; without a new URL a guest who has already
      opened the invitation keeps seeing the old design. -->
-<link rel="stylesheet" href="style.css?v=2">
+<link rel="stylesheet" href="style.css?v=3">
 
 <!-- The cover and the scroll lock are opt-in: with JavaScript off the
      guest lands straight on the invitation instead of a dead layer. -->
@@ -2308,7 +2308,7 @@
         <div class="field">
           <label class="f-label" for="rsvpName">الاسم الكامل</label>
           <input class="f-in" type="text" id="rsvpName" name="name" autocomplete="name"
-                 enterkeyhint="next" required aria-describedby="nameErr">
+                 enterkeyhint="next" maxlength="80" required aria-describedby="nameErr">
           <p class="f-err" id="nameErr" hidden></p>
         </div>
 
@@ -2346,7 +2346,7 @@
 
         <div class="field">
           <label class="f-label" for="rsvpNote">ملاحظات <i>(اختياري)</i></label>
-          <textarea class="f-in f-area" id="rsvpNote" name="note" rows="3"></textarea>
+          <textarea class="f-in f-area" id="rsvpNote" name="note" rows="3" maxlength="500"></textarea>
         </div>
 
         <p class="f-err f-err--top" id="formErr" role="alert" hidden></p>
@@ -2388,6 +2388,6 @@
 
 </main>
 
-<script src="script.js?v=2" defer></script>
+<script src="script.js?v=3" defer></script>
 </body>
 </html>

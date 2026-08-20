@@ -27,13 +27,21 @@ const CONFIG = {
   mapsQuery: 'Amman Marriott Hotel',
 
   /* ── where the replies go ────────────────────────────────────────
-     endpoint : a Formspree / Getform / Apps-Script URL. Leave empty on
-                GitHub Pages — there is no server there to POST to.
-     whatsapp : the number that should receive replies, digits only and
-                with the country code (e.g. '962791234567'). When there
-                is no endpoint this is how the reply actually reaches
-                the couple, so one of the two must be filled in before
-                the link goes out to guests. */
+     Fill in ONE of the three. Until you do, the form validates and
+     thanks the guest but the reply goes nowhere, so do this before the
+     link is sent to anybody.
+
+     supabase : project URL + anon key + table. See README.md for the
+                table and the row-level-security policy — the anon key
+                is public by design (it ships inside this page), so the
+                table must be insert-only for it.
+     endpoint : any plain form service — Formspree, Getform, an Apps
+                Script web app. Posted as urlencoded form data.
+     whatsapp : digits and country code, e.g. '962791234567'. Opens the
+                guest's WhatsApp with the reply already written out.
+                Worth filling in even alongside the other two: it is
+                what catches a reply when the network call fails. */
+  supabase : { url: '', key: '', table: 'rsvp' },
   endpoint : '',
   whatsapp : '',
 };
@@ -214,28 +222,46 @@ for (const line of document.querySelectorAll('.arch-line')) {
       return;
     }
 
-    /* With no endpoint there is nothing on GitHub Pages to POST to, so
-       the reply is handed to WhatsApp instead. window.open has to run
-       inside this handler, before any await, or the tap is spent and
-       the popup blocker takes it. */
-    if (!CONFIG.endpoint && CONFIG.whatsapp) {
+    const sb = CONFIG.supabase;
+    const wired = (sb && sb.url && sb.key) || CONFIG.endpoint;
+
+    /* Nothing to POST to: hand the reply straight to WhatsApp. window.open
+       has to run inside this handler and before any await, or the tap is
+       already spent and the popup blocker takes it. */
+    if (!wired && CONFIG.whatsapp) {
       sent = true;
       window.open(waHref(), '_blank', 'noopener');
       settle();
       return;
     }
-    if (!CONFIG.endpoint) { sent = true; settle(); return; }
+    if (!wired) { sent = true; settle(); return; }
 
     sent = true;
     btn.disabled = true;
     ctaText.textContent = 'جارٍ الإرسال…';
 
     try {
-      const res = await fetch(CONFIG.endpoint, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: new URLSearchParams(new FormData(form)).toString(),
-      });
+      const res = sb && sb.url && sb.key
+        ? await fetch(`${sb.url.replace(/\/$/, '')}/rest/v1/${sb.table}`, {
+            method: 'POST',
+            headers: {
+              'apikey': sb.key,
+              'Authorization': `Bearer ${sb.key}`,
+              'Content-Type': 'application/json',
+              'Prefer': 'return=minimal',
+            },
+            body: JSON.stringify({
+              name: name.value.trim(),
+              attending: form.attending.value,
+              guests: coming() ? n : 0,
+              note: note.value.trim() || null,
+            }),
+          })
+        : await fetch(CONFIG.endpoint, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: new URLSearchParams(new FormData(form)).toString(),
+          });
       if (!res.ok) throw new Error(res.status);
       settle();
     } catch {
