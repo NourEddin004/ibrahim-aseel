@@ -1,6 +1,6 @@
 /* ═══════════════════════════════════════════════════════════════════
    CONFIG — everything you might need to change lives here, and only
-   here.  ⚠️ months are 0-indexed: 8 = September.
+   here.  The wording the guest reads is in index.html.
    ═══════════════════════════════════════════════════════════════════ */
 const CONFIG = {
   couple : 'أسيل وإبراهيم',
@@ -9,16 +9,6 @@ const CONFIG = {
      would mean 7:30pm wherever the guest happens to be standing, so a
      relative abroad would get a countdown to the wrong moment. */
   start  : new Date('2026-09-25T19:30:00+03:00'),
-  end    : new Date('2026-09-26T00:00:00+03:00'),
-
-  /* …and the calendar entry is written the other way round: as a floating
-     local time, with no zone at all, so every guest's calendar simply says
-     7:30pm the way the printed card does. */
-  icsStart : '20260925T193000',
-  icsEnd   : '20260926T000000',
-
-  venue  : 'الحديقة الصيفية — فندق ماريوت',
-  city   : 'عمّان، الأردن',
 
   /* Paste the exact pin from Google Maps here once you have it. Until
      then the button runs a search for the hotel, which still lands the
@@ -128,27 +118,9 @@ for (const line of document.querySelectorAll('.arch-line')) {
   setInterval(tick, 1000);
 }
 
-/* ── 4 · map and calendar ────────────────────────────────────────── */
-{
-  const title = `زفاف ${CONFIG.couple}`;
-  const where = `${CONFIG.venue}، ${CONFIG.city}`;
-
-  $('#mapLink').href = CONFIG.mapsLink ||
-    'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(CONFIG.mapsQuery);
-
-  /* one .ics as a data URI covers iOS, Android and desktop alike —
-     Google Calendar included, and with no third-party redirect */
-  const ics = [
-    'BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//aseel-ibrahim//AR',
-    'BEGIN:VEVENT',
-    `DTSTART:${CONFIG.icsStart}`, `DTEND:${CONFIG.icsEnd}`,
-    `SUMMARY:${title}`, `LOCATION:${where}`,
-    'END:VEVENT', 'END:VCALENDAR',
-  ].join('\r\n');
-  const cal = $('#calLink');
-  cal.href = 'data:text/calendar;charset=utf-8,' + encodeURIComponent(ics);
-  cal.setAttribute('download', 'aseel-ibrahim.ics');
-}
+/* ── 4 · the map ─────────────────────────────────────────────────── */
+$('#mapLink').href = CONFIG.mapsLink ||
+  'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(CONFIG.mapsQuery);
 
 /* ── 5 · the reply ───────────────────────────────────────────────── */
 {

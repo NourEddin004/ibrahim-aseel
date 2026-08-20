@@ -10,7 +10,7 @@ goes out over WhatsApp.
 ```
 index.html    the whole page, including every ornament as inline SVG
 style.css     the design system
-script.js     the cover, the countdown, the calendar link, the RSVP
+script.js     the cover, the countdown, the map link, the RSVP
 og-image.png  1200×630 preview card for WhatsApp / Facebook
 tools/        the generators for the three dense drawings (see tools/README.md)
 ```
@@ -106,8 +106,7 @@ from the brief; two were inferred and are worth confirming:
 | RSVP deadline | ١٥ أيلول | in `index.html`, under `.rsvp-sub` |
 
 The event time is pinned to Amman (`+03:00`), so the countdown is correct even
-for a guest whose phone is set to another timezone. The `.ics` file is written
-as a floating local time on purpose, so every calendar shows 7:30pm.
+for a guest whose phone is set to another timezone.
 
 ### 3 · Bump the cache buster
 
@@ -126,9 +125,6 @@ Straight off the bride's references:
 * **The pomegranate tree on midnight navy, red border, eight-point corner
   medallions, birds in the branches** — the woven textile.
 * **The pietra-dura star band** framing the details — the inlaid marble frame.
-* **The candlelit swag of olive, burgundy roses and pomegranates** — the two
-  reception photographs, drawn rather than photographed so that the page stays
-  a printed object throughout.
 
 Palette, verbatim from the brief: antique cream `#DCC197`, warm ivory
 `#E6DAC1`, deep burgundy `#612618`, pomegranate `#9B2E20`, midnight navy
