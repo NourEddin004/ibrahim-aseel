@@ -23,10 +23,10 @@ perch = []      # branch tips a bird could plausibly sit on
 mark = []       # every point that has to end up inside the frame
 
 DEPTH   = 5
-SPREAD  = 25.0      # degrees between the two children
-DECAY_L = 0.88
-DECAY_W = 0.66
-UPRIGHT = 0.31      # how strongly each new branch is pulled back to vertical
+SPREAD  = 28.0      # degrees between the two children
+DECAY_L = 0.87
+DECAY_W = 0.68
+UPRIGHT = 0.24      # how strongly each new branch is pulled back to vertical
 
 def bez(p0, p1, p2, p3, t):
     u = 1 - t
@@ -39,8 +39,24 @@ def tanp(p0, p1, p2, p3, t):
         3*u*u*(p1[1]-p0[1]) + 6*u*t*(p2[1]-p1[1]) + 3*t*t*(p3[1]-p2[1]),
         3*u*u*(p1[0]-p0[0]) + 6*u*t*(p2[0]-p1[0]) + 3*t*t*(p3[0]-p2[0])))
 
+def taper(p0, p1, p2, p3, w0, w1, M=16):
+    """Outline a limb instead of stroking it, so it narrows from the butt
+    to the tip the way a branch does. t**.7 puts the fastest narrowing at
+    the base, which is what gives the trunk its flare."""
+    lo, hi = [], []
+    for i in range(M + 1):
+        t = i / float(M)
+        x, y = bez(p0, p1, p2, p3, t)
+        a = math.radians(tanp(p0, p1, p2, p3, t))
+        nx, ny = -math.sin(a), math.cos(a)
+        hw = (w0 + (w1 - w0) * (t ** 0.7)) / 2.0
+        lo.append((x + nx * hw, y + ny * hw))
+        hi.append((x - nx * hw, y - ny * hw))
+    return "M" + " L".join("%.0f %.0f" % p for p in lo + hi[::-1]) + " Z"
+
+
 def grow(x0, y0, ang, ln, w, depth):
-    bend = rnd.r(-15, 15) * (0 if depth >= DEPTH - 1 else 1)
+    bend = rnd.r(-24, 24) * (0 if depth >= DEPTH - 1 else 1)
     a_end = ang + bend
     ex = x0 + math.cos(rad(a_end)) * ln
     ey = y0 + math.sin(rad(a_end)) * ln
@@ -58,13 +74,12 @@ def grow(x0, y0, ang, ln, w, depth):
     amp = 0.55 if depth == 4 else 0.8
     out.append('<g class="%s" style="--a:%.2fdeg;--b:%d;transform-origin:%.0fpx %.0fpx">'
                % ('bough' if live else 'twig', amp, int(rnd.r(0, 12)), x0, y0))
-    out.append('<path class="limb" d="M%.0f %.0f C%.0f %.0f %.0f %.0f %.0f %.0f" stroke-width="%.1f"/>'
-               % (p0[0], p0[1], p1[0], p1[1], p2[0], p2[1], p3[0], p3[1], w))
+    out.append('<path class="limb" d="%s"/>' % taper(p0, p1, p2, p3, w, w * DECAY_W))
 
     # foliage on the outer three orders only — the inner limbs stay bare,
     # exactly as they do in the weaving
     if depth <= 3:
-        n = 12 if depth <= 2 else 8
+        n = 9 if depth <= 2 else 6
         for i in range(n):
             t = .18 + .80 * (i / float(n - 1))
             x, y = bez(p0, p1, p2, p3, t)
@@ -73,7 +88,7 @@ def grow(x0, y0, ang, ln, w, depth):
             lx, ly = x + rnd.r(-7, 7), y + rnd.r(-7, 7)
             mark.append((lx, ly, 46))
             out.append('<use href="#lf" class="lf" transform="translate(%.0f %.0f) rotate(%.0f) scale(%.2f)"/>'
-                       % (lx, ly, a + side * rnd.r(36, 62), rnd.r(2.6, 3.3)))
+                       % (lx, ly, a + side * rnd.r(40, 68), rnd.r(2.1, 2.7)))
 
     if depth <= 0:
         # not every twig fruits, or the canopy turns solid red and the
@@ -96,11 +111,11 @@ def grow(x0, y0, ang, ln, w, depth):
         for way in ((-1, 0, 1) if depth == DEPTH else (-1, 1)):
             a = a_end + way * s
             a += (-90 - a) * UPRIGHT     # without this the limbs splay
-            grow(ex, ey, a, ln * DECAY_L * rnd.r(.9, 1.08), w * DECAY_W, depth - 1)
+            grow(ex, ey, a, ln * DECAY_L * rnd.r(.76, 1.2), w * DECAY_W, depth - 1)
     out.append('</g>')
 
 BASE = (450.0, 1078.0)
-grow(BASE[0], BASE[1], -90, 236, 40, DEPTH)
+grow(BASE[0], BASE[1], -90, 250, 46, DEPTH)
 
 # the fruit is drawn after the canopy so nothing is buried behind a leaf
 for (x, y, sc, t) in poms:
@@ -124,23 +139,39 @@ for i, (x, y) in enumerate(picks):
     mark.append((x, y - 12, 60))
 
 # ── fit the whole tree inside the plate ───────────────────────────────
-# It is grown, not drawn, so its extent is not known until it exists.
+# It is grown, not drawn, so its extent is not known until it exists — and
+# it never comes out symmetric. Scaling about the trunk alone would then
+# size the whole tree by whichever side happened to reach furthest, which
+# is what leaves it small and adrift in the middle of the plate. So allow
+# a little sideways shift as well, capped, and let the ground move with it
+# so the trunk still stands where the grass is.
 xs0 = min(x - r for (x, y, r) in mark); xs1 = max(x + r for (x, y, r) in mark)
 ys0 = min(y - r for (x, y, r) in mark)
-TOP, HALF = 86.0, 404.0
-# scale about the foot of the trunk, so the trunk stays where the grass is
-# and the canopy is sized by whichever side reaches furthest
-half = max(BASE[0] - xs0, xs1 - BASE[0])
-k = min(HALF / half, (BASE[1] - TOP) / (BASE[1] - ys0))
-head = ('<g class="tree-body" transform="translate(%.1f %.1f) scale(%.4f) translate(%.1f %.1f)">'
-        % (BASE[0], BASE[1], k, -BASE[0], -BASE[1]))
+TOP, HALF, DXMAX = 74.0, 412.0, 74.0
 
-ground = [bird(292, 1046, 1.45, 1, 7), bird(540, 1042, 1.4, -1, 8), bird(646, 1054, 1.2, -1, 9)]
+A = max(1.0, xs1 - BASE[0])          # reach to the right of the trunk
+B = max(1.0, BASE[0] - xs0)          # reach to the left
+dx = HALF * (B - A) / (A + B)        # the shift that balances the two
+dx = max(-DXMAX, min(DXMAX, dx))
+k = min((HALF - dx) / A, (HALF + dx) / B, (BASE[1] - TOP) / (BASE[1] - ys0))
 
-open('tree.svgfrag', 'w').write(head + "\n" + "\n".join(out) + "\n</g>\n" + "\n".join(ground))
-print('fit %.3f  raw %.0fx%.0f  aspect %.2f  filled %.0f%% wide %.0f%% tall'
-      % (k, xs1-xs0, BASE[1]-ys0, (xs1-xs0)/(BASE[1]-ys0),
-         100*(xs1-xs0)*k/900.0, 100*(BASE[1]-ys0)*k/1078.0))
-print("boughs %d   leaves %d   fruit %d"
-      % (sum(1 for l in out if 'class="bough"' in l),
-         sum(1 for l in out if 'href="#lf"' in l), len(poms)))
+head = ('<g class="tree-body" transform="translate(%.1f 0) translate(%.1f %.1f) '
+        'scale(%.4f) translate(%.1f %.1f)">'
+        % (dx, BASE[0], BASE[1], k, -BASE[0], -BASE[1]))
+
+# ── the ground, and who is standing on it ─────────────────────────────
+FOOT, SOIL = 450.0, 1080.0
+floor = ['<g class="tree-floor" transform="translate(%.1f 0)">' % dx,
+         '<path class="grd" fill="none" d="M232 1096C312 1082 382 1078 450 1078s142 4 222 18"/>',
+         '<path class="tuft" fill="none" d="M338 1080c4-17 2-29-4-40M348 1080c0-19 6-31 16-40'
+         'M358 1080c6-15 16-23 28-25M562 1080c-4-17-2-29 4-40M552 1080c0-19-6-31-16-40'
+         'M542 1080c-6-15-16-23-28-25"/>',
+         bird(238, 1046, 1.45, 1, 7), bird(676, 1042, 1.4, -1, 8), bird(752, 1056, 1.2, -1, 9),
+         '<use href="#groom" class="fig" transform="translate(%.0f %.0f)"/>' % (FOOT - 34, SOIL),
+         '<use href="#bride" class="fig" transform="translate(%.0f %.0f)"/>' % (FOOT + 34, SOIL),
+         '</g>']
+
+open('tree.svgfrag', 'w').write(head + "\n" + "\n".join(out) + "\n</g>\n" + "\n".join(floor))
+print('fit %.3f  dx %+.0f  raw %.0fx%.0f  filled %.0f%% wide %.0f%% tall'
+      % (k, dx, xs1 - xs0, BASE[1] - ys0,
+         100 * (xs1 - xs0) * k / 900.0, 100 * (BASE[1] - ys0) * k / 1078.0))

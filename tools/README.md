@@ -8,10 +8,17 @@ the finished markup, so it renders with no JavaScript and no layout shift.
 | script     | what it emits                              | lands in |
 |------------|--------------------------------------------|----------|
 | `arch.py`  | the cusped Moorish arch (`<path id="arch">`) | the hero and the cover |
-| `tree.py`  | the pomegranate tree — ~1000 leaves, 15 animated boughs | the navy plate |
+| `tree.py`  | the pomegranate tree, the ground, and the couple standing on it | the navy plate |
 
 Both seed a small LCG from the wedding date, so re-running any of
 them reproduces exactly the same artwork.
+
+`tree.py` grows the tree rather than drawing it, so its extent is not known
+until it exists — and it never comes out symmetric. The tail of the script
+measures what grew and fits it to the plate, scaling about the foot of the
+trunk and allowing a small capped sideways shift to balance the two halves.
+The ground and the couple are emitted in a `tree-floor` group carrying that
+same shift, so the trunk always stands where the grass is.
 
 ```bash
 python3 tools/tree.py     # writes tree.svgfrag next to the script
