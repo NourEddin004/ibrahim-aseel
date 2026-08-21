@@ -141,11 +141,14 @@ to plain `Aref Ruqaa` in `--f-disp` if you ever want them in flat burgundy.
 Everything is slow on purpose.
 
 * **The cover** is a real two-sided card hinged on the right, the edge an
-  Arabic book opens from. Press → the seal lifts away → the cover swings
-  through 168° while the light behind it opens up and a band of sheen slides
-  off its face → the invitation underneath comes up to full size → the layer
-  dissolves. The whole card is the tap target, not just the seal; the seal is
-  there to say *touch me*, not to be the only place that works.
+  Arabic book opens from, and it opens **towards the reader** — out of the
+  screen, not away into it. That is the sign of the rotation: with the hinge
+  on the right, a positive `rotateY` brings the free edge forward and a
+  negative one sends it back through the glass. Press → the seal lifts away →
+  the cover swings out through 162°, passing edge-on and standing open like a
+  card on a table → the invitation underneath comes up to full size → the
+  layer dissolves. The whole card is the tap target, not just the seal; the
+  seal is there to say *touch me*, not to be the only place that works.
 * **Petals** fall the length of the page — pomegranate red, rose, sage, olive,
   gold and cream, the card's own palette. Drawn on a canvas rather than as
   elements, and each one narrows as it turns edge-on, which is the difference

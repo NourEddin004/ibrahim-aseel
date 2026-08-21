@@ -570,7 +570,9 @@ img,svg{ max-width:100%; display:block }
 
 .gate-scene{
   position:relative; width:min(78vw,19rem); aspect-ratio:3/4;
-  perspective:1600px; perspective-origin:74% 50%;
+  /* shallower than it was: at 1600px a 300px card barely foreshortens, and
+     the whole point is that the cover comes off the screen towards you */
+  perspective:1150px; perspective-origin:68% 50%;
 }
 
 /* the inside of the card, waiting */
@@ -610,7 +612,10 @@ img,svg{ max-width:100%; display:block }
   transform-origin:100% 50%; transform-style:preserve-3d;
   transition:transform 1.45s cubic-bezier(.52,.02,.24,1);
 }
-.gate.is-opening .gate-cover{ transform:rotateY(-168deg) translateZ(6px) }
+/* POSITIVE rotateY with the hinge on the right swings the free edge out
+   of the screen and towards the reader; negative sends it away into the
+   page, which is the wrong side of the glass for opening a card. */
+.gate.is-opening .gate-cover{ transform:rotateY(162deg) translateZ(10px) }
 .gate-cover:focus-visible{ outline:2px solid var(--gold); outline-offset:6px }
 
 .cover-face{
@@ -638,11 +643,11 @@ img,svg{ max-width:100%; display:block }
 /* a band of light sliding off the face as it turns */
 .cover-sheen{
   position:absolute; inset:0; pointer-events:none;
-  background:linear-gradient(258deg,rgba(255,246,226,0) 34%,rgba(255,246,226,.5) 50%,rgba(255,246,226,0) 66%);
-  opacity:0; transform:translateX(28%);
+  background:linear-gradient(102deg,rgba(255,246,226,0) 34%,rgba(255,246,226,.55) 50%,rgba(255,246,226,0) 66%);
+  opacity:0; transform:translateX(-30%);
   transition:opacity .5s var(--ease), transform 1.4s var(--ease);
 }
-.gate.is-opening .cover-sheen{ opacity:1; transform:translateX(-42%) }
+.gate.is-opening .cover-sheen{ opacity:1; transform:translateX(44%) }
 
 .frm--gate{ --fw:17px }
 .cover-in{
