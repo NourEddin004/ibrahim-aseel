@@ -46,40 +46,64 @@ const calm = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const ar = (v) => String(v).replace(/[0-9]/g, (d) => '٠١٢٣٤٥٦٧٨٩'[d]);
 const pad = (n) => ar(String(n).padStart(2, '0'));
 
-/* ── 0 · the folded card ─────────────────────────────────────────── */
+/* ── 0 · the folded card ─────────────────────────────────────────
+   The whole cover is the target, not just the seal: a 100px medallion
+   is a small thing to ask someone to hit on a phone, and the seal is
+   there to say "touch me", not to be the only place that works.
+   ═════════════════════════════════════════════════════════════════ */
 {
-  const gate = $('#gate');
-  const seal = $('#seal');
+  const gate  = $('#gate');
+  const cover = $('#cover');
 
   const open = () => {
     root.classList.remove('is-sealed');
     root.classList.add('is-open');
   };
 
-  const strike = () => {
+  if (calm) {
     gate.remove();
     open();
-  };
-
-  if (calm) {
-    strike();
   } else {
     let going = false;
-    seal.addEventListener('click', () => {
+
+    const run = () => {
       if (going) return;
       going = true;
-      seal.disabled = true;
-      /* the seal lifts (.5s) → the two leaves fold back (1.3s) →
-         the whole layer dissolves onto the invitation behind it */
-      gate.classList.add('is-lifting');
-      setTimeout(() => gate.classList.add('is-unfolding'), 420);
-      setTimeout(open, 1250);
-      setTimeout(() => gate.classList.add('is-gone'), 1500);
-      /* a fixed full-screen layer keeps swallowing taps even at
-         opacity 0, so it has to leave the DOM */
-      gate.addEventListener('transitionend', () => gate.remove(), { once: true });
-      setTimeout(() => gate.isConnected && gate.remove(), 3000);
-    });
+      cover.disabled = true;
+
+      /* press (.15s) → the seal lifts away (.28s) → the cover swings
+         (1.45s) while the light behind it opens up → the invitation
+         underneath comes up to full size → the layer dissolves */
+      gate.classList.add('is-pressed');
+      setTimeout(() => {
+        gate.classList.remove('is-pressed');
+        gate.classList.add('is-lifting');
+      }, 150);
+      setTimeout(() => {
+        gate.classList.add('is-opening');
+        sky && sky.burst();
+      }, 430);
+      setTimeout(() => gate.classList.add('is-revealing'), 900);
+      setTimeout(open, 1450);
+      setTimeout(() => gate.classList.add('is-gone'), 1700);
+
+      /* a fixed full-screen layer keeps swallowing taps even at opacity
+         0, so it has to leave the DOM either way */
+      gate.addEventListener('transitionend', (e) => {
+        if (e.target === gate && e.propertyName === 'opacity') gate.remove();
+      });
+      setTimeout(() => gate.isConnected && gate.remove(), 3400);
+    };
+
+    /* press feedback on the way down, so the card answers the finger
+       before anything else starts moving */
+    const press = () => !going && gate.classList.add('is-pressed');
+    const release = () => !going && gate.classList.remove('is-pressed');
+    cover.addEventListener('pointerdown', press);
+    cover.addEventListener('pointerup', release);
+    cover.addEventListener('pointercancel', release);
+    cover.addEventListener('pointerleave', release);
+    cover.addEventListener('click', run);
   }
 }
 
@@ -252,39 +276,178 @@ $('#mapLink').href = CONFIG.mapsLink ||
   });
 }
 
-/* ── 6 · drifting gold dust ──────────────────────────────────────── */
-if (!calm) {
+/* ── 6 · petals on the air ───────────────────────────────────────
+   Canvas rather than elements: two dozen drifting shapes as DOM nodes
+   would have the compositor re-laying-out the page sixty times a second
+   behind a form people are trying to fill in.
+   ═════════════════════════════════════════════════════════════════ */
+const sky = calm ? null : (() => {
   const cv = $('#motes');
   const ctx = cv.getContext('2d');
-  let w, h;
+  let w, h, dpr;
 
   const size = () => {
-    w = cv.width  = innerWidth  * devicePixelRatio;
-    h = cv.height = innerHeight * devicePixelRatio;
+    dpr = Math.min(devicePixelRatio || 1, 2);
+    w = cv.width  = Math.round(innerWidth  * dpr);
+    h = cv.height = Math.round(innerHeight * dpr);
   };
   size();
-  addEventListener('resize', size);
+  addEventListener('resize', size, { passive: true });
 
-  const N = Math.min(22, Math.floor(innerWidth / 46));
-  const dust = Array.from({ length: N }, () => ({
-    x: Math.random(), y: Math.random(),
-    r: (0.9 + Math.random() * 2) * devicePixelRatio,
-    vy: (0.005 + Math.random() * 0.012) / 100,
-    vx: (Math.random() - 0.5) / 9000,
-    p: Math.random() * Math.PI * 2,
-  }));
+  /* pomegranate red, a deeper rose, sage, olive, gold and cream — the
+     card's own palette, so what falls looks like it came off the page */
+  const KIND = [
+    ['#9B2E20', 0], ['#7C241B', 0], ['#B4472F', 0],
+    ['#7C8467', 1], ['#626455', 1],
+    ['#A88755', 0], ['#DCC197', 0],
+  ];
 
-  (function draw() {
+  const make = (fromTop) => {
+    const [c, leaf] = KIND[(Math.random() * KIND.length) | 0];
+    return {
+      x   : Math.random(),
+      y   : fromTop ? -0.08 - Math.random() * 0.25 : Math.random(),
+      r   : (4.5 + Math.random() * 6.5) * dpr,
+      vy  : (0.10 + Math.random() * 0.15) / 1000,
+      vx  : (Math.random() - 0.5) / 2800,
+      rot : Math.random() * Math.PI * 2,
+      vr  : (Math.random() - 0.5) * 0.0009,
+      p   : Math.random() * Math.PI * 2,
+      sway: 0.00016 + Math.random() * 0.0003,
+      a   : 0.2 + Math.random() * 0.3,
+      c, leaf,
+    };
+  };
+
+  const N = Math.round(Math.min(24, Math.max(10, innerWidth / 30)));
+  let flakes = Array.from({ length: N }, () => make(false));
+
+  const petal = (r) => {
+    ctx.beginPath();
+    ctx.moveTo(0, -r);
+    ctx.bezierCurveTo(r * 0.95, -r * 0.45, r * 0.62, r * 0.72, 0, r);
+    ctx.bezierCurveTo(-r * 0.62, r * 0.72, -r * 0.95, -r * 0.45, 0, -r);
+    ctx.closePath();
+  };
+  const leafShape = (r) => {
+    ctx.beginPath();
+    ctx.moveTo(0, -r * 1.2);
+    ctx.quadraticCurveTo(r * 0.66, 0, 0, r * 1.2);
+    ctx.quadraticCurveTo(-r * 0.66, 0, 0, -r * 1.2);
+    ctx.closePath();
+  };
+
+  let raf = 0, last = 0;
+  const step = (now) => {
+    /* Re-check rather than trusting the one measurement taken at load: a
+       tab that starts life with a zero-sized viewport (backgrounded, or
+       inside some in-app browsers) would otherwise keep a 0x0 canvas for
+       the rest of the session and never show a thing. */
+    if (cv.width !== Math.round(innerWidth * dpr) ||
+        cv.height !== Math.round(innerHeight * dpr)) size();
+
+    const dt = Math.min(64, now - last || 16);
+    last = now;
     ctx.clearRect(0, 0, w, h);
-    for (const m of dust) {
-      m.y -= m.vy;
-      m.x += m.vx + Math.sin(m.p += 0.0035) / 11000;
-      if (m.y < -0.02) { m.y = 1.02; m.x = Math.random(); }
-      ctx.beginPath();
-      ctx.arc(m.x * w, m.y * h, m.r, 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(168,135,85,${0.26 + Math.sin(m.p * 3) * 0.2})`;
+
+    let drop = false;
+    for (const f of flakes) {
+      if (f.g) f.vy += f.g * dt;               // burst petals fall back
+      f.y += f.vy * dt;
+      f.p += f.sway * dt;
+      f.x += f.vx * dt + Math.sin(f.p) * 0.00026 * dt;
+      f.rot += f.vr * dt;
+
+      if (f.y > 1.12) {
+        if (f.g) { f.dead = true; drop = true; continue; }
+        Object.assign(f, make(true));
+      }
+      if (f.x < -0.1) f.x += 1.2;
+      if (f.x > 1.1)  f.x -= 1.2;
+
+      ctx.save();
+      ctx.translate(f.x * w, f.y * h);
+      ctx.rotate(f.rot);
+      /* the narrow axis is what sells it: a petal turning edge-on is the
+         difference between falling and merely sliding down the screen */
+      ctx.scale(0.3 + 0.7 * Math.abs(Math.cos(f.p * 1.7)), 1);
+      ctx.globalAlpha = f.a;
+      ctx.fillStyle = f.c;
+      f.leaf ? leafShape(f.r) : petal(f.r);
       ctx.fill();
+      ctx.restore();
     }
-    requestAnimationFrame(draw);
-  })();
+    if (drop) flakes = flakes.filter((f) => !f.dead);
+
+    raf = requestAnimationFrame(step);
+  };
+  raf = requestAnimationFrame(step);
+
+  /* a hidden tab still burns battery on requestAnimationFrame in some
+     browsers, and there is nothing to see either way */
+  addEventListener('visibilitychange', () => {
+    if (document.hidden) { cancelAnimationFrame(raf); raf = 0; }
+    else if (!raf) { last = 0; raf = requestAnimationFrame(step); }
+  });
+
+  return {
+    /* a handful thrown up as the cover opens, then let go of */
+    burst() {
+      for (let i = 0; i < 20; i++) {
+        const f = make(false);
+        f.x  = 0.5 + (Math.random() - 0.5) * 0.3;
+        f.y  = 0.4 + (Math.random() - 0.5) * 0.16;
+        f.vy = -(0.05 + Math.random() * 0.1) / 1000;
+        f.vx = (Math.random() - 0.5) / 700;
+        f.g  = (1.4 + Math.random() * 1.8) / 1e6;
+        f.vr = (Math.random() - 0.5) * 0.004;
+        f.a  = 0.45 + Math.random() * 0.4;
+        flakes.push(f);
+      }
+    },
+  };
+})();
+
+/* ── 7 · the plate drifts as it passes ───────────────────────────── */
+{
+  const field = $('.np-field'), tree = $('.tree');
+  if (field && tree && !calm) {
+    let live = false, queued = false;
+    new IntersectionObserver((rows) => { live = rows[0].isIntersecting; },
+                             { rootMargin: '80px' }).observe(field);
+    const move = () => {
+      queued = false;
+      if (!live) return;
+      const r = field.getBoundingClientRect();
+      const p = (r.top + r.height / 2 - innerHeight / 2) / innerHeight;
+      tree.style.transform = `translate3d(0,${(-p * 18).toFixed(1)}px,0)`;
+    };
+    addEventListener('scroll', () => {
+      if (!queued) { queued = true; requestAnimationFrame(move); }
+    }, { passive: true });
+    move();
+  }
+}
+
+/* ── 8 · the card tilts to the pointer ───────────────────────────── */
+{
+  const sec = $('.sec--hero'), sheet = $('.sec--hero .sheet');
+  const fine = matchMedia('(hover:hover) and (pointer:fine)').matches;
+  if (sec && sheet && fine && !calm) {
+    let queued = 0, ry = 0, rx = 0;
+    const apply = () => {
+      queued = 0;
+      sheet.style.transform = `rotateX(${rx.toFixed(2)}deg) rotateY(${ry.toFixed(2)}deg)`;
+    };
+    sec.addEventListener('pointermove', (e) => {
+      const r = sec.getBoundingClientRect();
+      ry = ((e.clientX - r.left) / r.width - 0.5) * 3;
+      rx = -((e.clientY - r.top) / r.height - 0.5) * 2;
+      if (!queued) queued = requestAnimationFrame(apply);
+    });
+    sec.addEventListener('pointerleave', () => {
+      ry = rx = 0;
+      if (!queued) queued = requestAnimationFrame(apply);
+    });
+  }
 }

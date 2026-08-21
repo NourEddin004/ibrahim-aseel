@@ -138,12 +138,39 @@ to plain `Aref Ruqaa` in `--f-disp` if you ever want them in flat burgundy.
 
 ### Motion
 
-Everything is slow on purpose. The boughs breathe (only 15 groups animate; the
-other 80 ride along inside them, which keeps a canopy of a thousand leaves off
-the phone's main thread), the birds shift their weight, the flames flicker, the
-arch draws itself in once when the cover opens, and gold dust drifts. All of it
-is turned off under `prefers-reduced-motion` — which also skips the cover
+Everything is slow on purpose.
+
+* **The cover** is a real two-sided card hinged on the right, the edge an
+  Arabic book opens from. Press → the seal lifts away → the cover swings
+  through 168° while the light behind it opens up and a band of sheen slides
+  off its face → the invitation underneath comes up to full size → the layer
+  dissolves. The whole card is the tap target, not just the seal; the seal is
+  there to say *touch me*, not to be the only place that works.
+* **Petals** fall the length of the page — pomegranate red, rose, sage, olive,
+  gold and cream, the card's own palette. Drawn on a canvas rather than as
+  elements, and each one narrows as it turns edge-on, which is the difference
+  between falling and merely sliding down the screen. A handful is thrown up
+  when the cover opens.
+* **The boughs breathe.** Only 15 groups animate; the other 80 ride along
+  inside them, which keeps a canopy of a thousand leaves off the phone's main
+  thread. The birds shift their weight, the arch draws itself in once, and the
+  navy plate drifts a little inside its frame as it scrolls past.
+* **The card tilts** to the pointer on desktop — about a degree and a half,
+  enough to read as a physical thing catching the light. Pointer-only; it is
+  never wired to a phone's gyroscope.
+
+All of it is off under `prefers-reduced-motion`, which also skips the cover
 entirely and lands the guest straight on the invitation.
+
+### Controls
+
+Every control on the page — the map button, the text fields, both answers,
+the stepper — is one height, `--ctl`, with one edge treatment, `--edge`. The
+two RSVP answers are forced to the same size with `grid-auto-rows:1fr`, since
+a pair of controls that differ only by how much text they happen to hold reads
+as a mistake. They stay in a single column at every width: side by side they
+get about 170px each inside the card, which is not enough for
+«للأسف لن أتمكن من الحضور» to sit on one line.
 
 ---
 

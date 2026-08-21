@@ -34,7 +34,7 @@
 <!-- ⚠️ Bump ?v= on BOTH of these whenever you edit style.css or script.js.
      Browsers cache them hard; without a new URL a guest who has already
      opened the invitation keeps seeing the old design. -->
-<link rel="stylesheet" href="style.css?v=6">
+<link rel="stylesheet" href="style.css?v=7">
 
 <!-- The cover and the scroll lock are opt-in: with JavaScript off the
      guest lands straight on the invitation instead of a dead layer. -->
@@ -255,10 +255,13 @@
      opacity 0.
      ════════════════════════════════════════════════════════════════ -->
 <div class="gate" id="gate">
+  <div class="gate-glow" aria-hidden="true"></div>
+
   <div class="gate-scene">
 
     <!-- what is waiting underneath -->
     <div class="gate-plate" aria-hidden="true">
+      <div class="gate-shade"></div>
       <p class="gate-kicker">دعوة زفاف</p>
       <p class="gate-names"><span>أسيل</span><em>&amp;</em><span>إبراهيم</span></p>
       <svg class="gate-sprig" viewBox="0 0 120 26">
@@ -270,47 +273,57 @@
       </svg>
     </div>
 
-    <!-- the cover, hinged on the right the way an Arabic book opens -->
-    <div class="gate-cover">
-      <div class="frm frm--gate" aria-hidden="true">
-        <svg class="fe ft"><rect width="100%" height="100%" fill="url(#bandH)"/></svg>
-        <svg class="fe fb"><rect width="100%" height="100%" fill="url(#bandH)"/></svg>
-        <svg class="fe fl"><rect width="100%" height="100%" fill="url(#bandV)"/></svg>
-        <svg class="fe fr"><rect width="100%" height="100%" fill="url(#bandV)"/></svg>
-        <svg class="fc fc1" viewBox="0 0 26 26"><use href="#corn"/></svg>
-        <svg class="fc fc2" viewBox="0 0 26 26"><use href="#corn"/></svg>
-        <svg class="fc fc3" viewBox="0 0 26 26"><use href="#corn"/></svg>
-        <svg class="fc fc4" viewBox="0 0 26 26"><use href="#corn"/></svg>
-      </div>
+    <!-- The cover is a real two-sided card. Without a back face it simply
+         vanishes at ninety degrees, which is what made the old one read as
+         a glitch rather than a card being opened. Hinged on the right,
+         because that is the edge an Arabic book opens from. -->
+    <button class="gate-cover" id="cover" type="button"
+            aria-label="افتح الدعوة">
+      <span class="cover-face cover-front">
+        <span class="frm frm--gate" aria-hidden="true">
+          <svg class="fe ft"><rect width="100%" height="100%" fill="url(#bandH)"/></svg>
+          <svg class="fe fb"><rect width="100%" height="100%" fill="url(#bandH)"/></svg>
+          <svg class="fe fl"><rect width="100%" height="100%" fill="url(#bandV)"/></svg>
+          <svg class="fe fr"><rect width="100%" height="100%" fill="url(#bandV)"/></svg>
+          <svg class="fc fc1" viewBox="0 0 26 26"><use href="#corn"/></svg>
+          <svg class="fc fc2" viewBox="0 0 26 26"><use href="#corn"/></svg>
+          <svg class="fc fc3" viewBox="0 0 26 26"><use href="#corn"/></svg>
+          <svg class="fc fc4" viewBox="0 0 26 26"><use href="#corn"/></svg>
+        </span>
 
-      <div class="cover-in">
-        <svg class="cover-arch" viewBox="-3 -3 306 203" aria-hidden="true">
-          <mask id="coverMask">
-            <rect x="-3" y="-3" width="306" height="203" fill="#fff"/>
-            <use href="#arch" fill="#000"/>
-          </mask>
-          <rect x="-3" y="-3" width="306" height="203" fill="url(#lattice)" mask="url(#coverMask)"/>
-          <use href="#arch" class="cover-archline" fill="none"/>
-        </svg>
-
-        <button class="seal" id="seal" type="button" aria-label="افتح الدعوة">
-          <!-- composed here rather than stamped from #medal: overriding the
-               parts of a <use> that is itself inside a <use> is not something
-               to lean on, and this stamp wants its own colours anyway -->
-          <svg class="seal-art" viewBox="0 0 120 120" aria-hidden="true">
-            <circle class="seal-wax" cx="60" cy="60" r="43"/>
-            <use href="#star8" class="sl-out" transform="translate(60 60) scale(1.9)"/>
-            <use href="#star8" class="sl-mid" transform="translate(60 60) scale(1.44)"/>
-            <rect class="sl-dia" x="-13" y="-13" width="26" height="26" transform="translate(60 60) rotate(45)"/>
+        <span class="cover-in">
+          <svg class="cover-arch" viewBox="-3 -3 306 203" aria-hidden="true">
+            <mask id="coverMask">
+              <rect x="-3" y="-3" width="306" height="203" fill="#fff"/>
+              <use href="#arch" fill="#000"/>
+            </mask>
+            <rect x="-3" y="-3" width="306" height="203" fill="url(#lattice)" mask="url(#coverMask)"/>
+            <use href="#arch" class="cover-archline" fill="none"/>
           </svg>
-          <span class="seal-mono" aria-hidden="true">أ<i>·</i>إ</span>
-        </button>
 
-        <p class="cover-kick">دعوة زفاف</p>
-      </div>
-    </div>
+          <span class="seal" id="seal">
+            <svg class="seal-art" viewBox="0 0 120 120" aria-hidden="true">
+              <circle class="seal-wax" cx="60" cy="60" r="43"/>
+              <use href="#star8" class="sl-out" transform="translate(60 60) scale(1.9)"/>
+              <use href="#star8" class="sl-mid" transform="translate(60 60) scale(1.44)"/>
+              <rect class="sl-dia" x="-13" y="-13" width="26" height="26" transform="translate(60 60) rotate(45)"/>
+            </svg>
+            <span class="seal-mono" aria-hidden="true">أ<i>·</i>إ</span>
+            <span class="seal-ring" aria-hidden="true"></span>
+          </span>
 
-    <p class="gate-hint" id="gateHint">اضغط على الخاتم لفتح الدعوة</p>
+          <span class="cover-kick">دعوة زفاف</span>
+        </span>
+
+        <span class="cover-sheen" aria-hidden="true"></span>
+      </span>
+
+      <span class="cover-face cover-back" aria-hidden="true">
+        <span class="cover-back-orn"></span>
+      </span>
+    </button>
+
+    <p class="gate-hint" id="gateHint">اضغط لفتح الدعوة</p>
 
   </div>
 </div>
@@ -386,10 +399,12 @@
 
 
 <!-- ════════════════════════════════════════════════════════════════
-     2 · THE VERSE
+     2 · THE DEDICATION
+     A quiet beat between the card and the particulars — theirs, not
+     borrowed from anywhere.
      ════════════════════════════════════════════════════════════════ -->
-<section class="sec sec--verse">
-  <div class="verse reveal">
+<section class="sec sec--ode">
+  <div class="ode reveal">
     <svg class="div-orn" viewBox="0 0 260 30" aria-hidden="true">
       <path class="dv-rule" d="M4 15H96M164 15H256" fill="none"/>
       <use href="#olv" class="lf" transform="translate(104 15) rotate(200) scale(.86)"/>
@@ -398,8 +413,17 @@
       <use href="#olv" class="lf" transform="translate(154 15) rotate(-20) scale(.86)"/>
       <use href="#olv" class="lf" transform="translate(152 12) rotate(-50) scale(.7)"/>
     </svg>
-    <p class="verse-text">وَمِنْ آيَاتِهِ أَنْ خَلَقَ لَكُم مِّنْ أَنفُسِكُمْ أَزْوَاجًا لِّتَسْكُنُوا إِلَيْهَا<br>وَجَعَلَ بَيْنَكُم مَّوَدَّةً وَرَحْمَةً</p>
-    <p class="verse-src">صدق الله العظيم</p>
+
+    <p class="ode-kicker">بِدايَةُ الحِكاية</p>
+    <p class="ode-line">قَلْبانِ الْتَقَيا، فَصارَ لِلْفَرَحِ عُنْوان<br>وَحِكايَةٌ تَبْدَأُ الْيَومَ… وَلا تَنْتَهي</p>
+
+    <svg class="ode-mark" viewBox="0 0 160 58" aria-hidden="true">
+      <use href="#olv" class="lf" transform="translate(58 34) rotate(202) scale(1.05)"/>
+      <use href="#olv" class="lf" transform="translate(102 34) rotate(-22) scale(1.05)"/>
+      <use href="#pg" class="pg" transform="translate(80 30) scale(.62)"/>
+      <path class="dv-rule" fill="none" d="M18 46h34M108 46h34"/>
+    </svg>
+    <p class="ode-sign">أسيل <em>&amp;</em> إبراهيم</p>
   </div>
 </section>
 
@@ -1782,6 +1806,6 @@
 
 </main>
 
-<script src="script.js?v=6" defer></script>
+<script src="script.js?v=7" defer></script>
 </body>
 </html>
