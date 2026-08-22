@@ -34,7 +34,7 @@
 <!-- ⚠️ Bump ?v= on BOTH of these whenever you edit style.css or script.js.
      Browsers cache them hard; without a new URL a guest who has already
      opened the invitation keeps seeing the old design. -->
-<link rel="stylesheet" href="style.css?v=45">
+<link rel="stylesheet" href="style.css?v=47">
 
 <!-- The cover and the scroll lock are opt-in: with JavaScript off the
      guest lands straight on the invitation instead of a dead layer. -->
@@ -372,20 +372,7 @@
                 </svg>
       </div>
 
-      <p class="hero-phrase reveal">بِكُلِّ الحُبِّ نَدْعُوكُم<br>لِتُشَارِكُونَا فَرْحَةَ بِدَايَةِ حَيَاتِنَا</p>
-
-      <!-- a bead falling down a plumb line in the margin, level with the
-           names: the page saying "there is more this way" in its own
-           language rather than in an icon set's -->
-      <svg class="drop" viewBox="0 0 22 120" aria-hidden="true">
-        <path class="drop-line" fill="none" d="M11 4v112"/>
-        <g class="drop-bead">
-          <use href="#pg" class="pg" transform="translate(11 11) scale(.55)"/>
-        </g>
-        <path class="drop-v" fill="none" d="M5 108 11 114l6-6"/>
-      </svg>
-
-      <h1 class="names reveal">
+      <p class="hero-phrase reveal">بِكُلِّ الحُبِّ نَدْعُوكُم<br>لِتُشَارِكُونَا فَرْحَةَ بِدَايَةِ حَيَاتِنَا</p>      <h1 class="names reveal">
         <span class="nm">إبراهيم زريق</span>
         <span class="amp" aria-hidden="true">
           <svg class="amp-art" viewBox="0 0 180 34">
@@ -408,11 +395,20 @@
     </div>
   </article>
 
-  <a class="cue" href="#details">
-    <span class="cue-txt">تفاصيل الحفل</span>
-    <svg class="cue-v" viewBox="0 0 28 12" aria-hidden="true">
-      <path fill="none" d="M3 3 14 9 25 3"/>
+  <!-- Centred, under the card, where a reader looks for what comes next;
+       big enough to see without hunting; and worded, because a falling
+       fruit on its own is a lovely thing that means nothing to someone
+       who was not told what it is for. -->
+  <a class="cue" href="#details" aria-label="مرّر للأسفل لتفاصيل الحفل">
+    <svg class="cue-art" viewBox="0 0 44 78" aria-hidden="true">
+      <path class="cue-line" fill="none" d="M22 3v34"/>
+      <g class="cue-fruit">
+        <use href="#pg" class="pg" transform="translate(22 10) scale(.82)"/>
+      </g>
+      <path class="cue-v cue-v1" fill="none" d="M10 52 22 62l12-10"/>
+      <path class="cue-v cue-v2" fill="none" d="M10 63 22 73l12-10"/>
     </svg>
+    <span class="cue-txt">مرّر للأسفل</span>
   </a>
 </section>
 
@@ -1834,6 +1830,6 @@
 
 </main>
 
-<script src="script.js?v=45" defer></script>
+<script src="script.js?v=47" defer></script>
 </body>
 </html>

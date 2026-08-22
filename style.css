@@ -251,53 +251,50 @@ img,svg{ max-width:100%; display:block }
 }
 
 /* ── the scroll cue ────────────────────────────────────────────────
-   Two of them, doing different jobs. In the margin beside the names, a
-   bead falling down a plumb line — that is the one a reader catches out
-   of the corner of the eye while they are still looking at the names.
-   At the foot of the card, a plain worded link, for the reader who has
-   finished and is looking for what comes next.
+   Centred under the card, because that is where a reader looks for what
+   comes next; large enough to be seen without hunting; and worded,
+   because a pomegranate falling down a line is a lovely thing that means
+   nothing at all to someone who was not told what it is for. The motif
+   carries the theme, the words carry the meaning, and neither is asked
+   to do the other's job.
    ═══════════════════════════════════════════════════════════════════ */
-.drop{
-  /* the gutter between the border band and the text block — the only
-     column on the card that is not spoken for */
-  position:absolute; inset-inline-start:calc(var(--fw) + .2rem); top:40%;
-  width:20px; height:auto; pointer-events:none; z-index:2;
-}
-.drop-line{ stroke:var(--gold); stroke-width:1.1; opacity:.55; stroke-dasharray:2 5 }
-.drop-v{ stroke:var(--pom); stroke-width:2.4; stroke-linecap:round; stroke-linejoin:round;
-  opacity:0; animation:dropV 3s var(--ease) infinite }
-.drop-bead{ animation:dropBead 3s var(--ease) infinite }
-@keyframes dropBead{
-  0%      { transform:translateY(0);   opacity:0 }
-  14%     { opacity:1 }
-  70%     { transform:translateY(88px); opacity:1 }
-  86%,100%{ transform:translateY(98px); opacity:0 }
-}
-@keyframes dropV{ 0%,58%,100%{ opacity:0 } 76%{ opacity:.85 } }
-.has-scrolled .drop{ opacity:0; transition:opacity .8s var(--ease) }
-
 .cue{
-  display:inline-flex; align-items:center; gap:.5rem;
-  margin:clamp(.5rem,2vw,.9rem) auto 0;
-  padding:.55rem 1.1rem;              /* keeps the target well over 44px */
-  color:var(--olive); text-decoration:none;
+  display:grid; justify-items:center; gap:.15rem;
+  width:max-content; margin:clamp(.5rem,2vw,.9rem) auto 0;
+  padding:.3rem 1.2rem .55rem;        /* keeps the target well over 44px */
+  text-decoration:none;
 }
+.cue-art{ width:38px; height:auto; overflow:visible }
+.cue-line{ stroke:var(--gold); stroke-width:1.2; opacity:.55; stroke-dasharray:2 5 }
+
+/* the fruit falls, then the two chevrons answer it — the order is what
+   makes the pair read as a direction rather than as two loose ornaments */
+.cue-fruit{ animation:cueFall 3s var(--ease) infinite }
+@keyframes cueFall{
+  0%      { transform:translateY(0);    opacity:0 }
+  12%     { opacity:1 }
+  56%     { transform:translateY(30px); opacity:1 }
+  72%,100%{ transform:translateY(36px); opacity:0 }
+}
+.cue-v{ stroke:var(--pom); stroke-width:3.4; stroke-linecap:round; stroke-linejoin:round; opacity:0 }
+.cue-v1{ animation:cueChev 3s var(--ease) infinite }
+.cue-v2{ animation:cueChev 3s var(--ease) infinite .12s }
+@keyframes cueChev{
+  0%,50%,100%{ opacity:0; transform:translateY(-4px) }
+  66%        { opacity:1; transform:translateY(0) }
+}
+
 .cue-txt{
-  font-family:var(--f-body); font-size:1rem; letter-spacing:.02em;
-  color:var(--olive); transition:color .4s var(--ease);
+  font-family:var(--f-body); font-size:1.02rem; letter-spacing:.02em;
+  color:var(--burg); transition:color .4s var(--ease);
 }
-.cue-v{ width:22px; height:auto; overflow:visible }
-.cue-v path{
-  stroke:var(--pom); stroke-width:2.6; stroke-linecap:round; stroke-linejoin:round;
-  animation:cueNudge 3s var(--ease) infinite;
-}
-@keyframes cueNudge{
-  0%,62%,100%{ transform:translateY(0);   opacity:.55 }
-  80%        { transform:translateY(3px); opacity:1 }
-}
-.cue:hover .cue-txt{ color:var(--burg) }
+.cue:hover .cue-txt{ color:var(--pom) }
 .cue:focus-visible{ outline:2px solid var(--gold); outline-offset:4px }
-.has-scrolled .cue-v path{ animation:none; opacity:.55 }
+
+/* once they have scrolled they know, so it stops asking */
+.has-scrolled .cue-fruit,
+.has-scrolled .cue-v{ animation:none }
+.has-scrolled .cue-v{ opacity:.5 }
 
 /* ── the dedication ───────────────────────────────────────────── */
 .sec--ode{ padding-block:clamp(1rem,3.4vw,1.8rem) }
@@ -613,8 +610,9 @@ img,svg{ max-width:100%; display:block }
   .hero-when{ margin-top:clamp(.8rem,3vw,1.2rem) }
   .hw-place::before{ margin-block:.5rem .45rem }
   .sec--hero .sheet-in{ padding-block:calc(var(--fw) + .6rem) }
-  .cue{ margin-top:.25rem; padding:.45rem 1rem }
-  .cue-txt{ font-size:.95rem }
+  .cue{ margin-top:.2rem; padding:.2rem 1rem .45rem }
+  .cue-art{ width:34px }
+  .cue-txt{ font-size:.98rem }
 }
 
 /* ═══ WIDER SCREENS ═════════════════════════════════════════════════ */
