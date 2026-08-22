@@ -34,7 +34,7 @@
 <!-- ⚠️ Bump ?v= on BOTH of these whenever you edit style.css or script.js.
      Browsers cache them hard; without a new URL a guest who has already
      opened the invitation keeps seeing the old design. -->
-<link rel="stylesheet" href="style.css?v=41">
+<link rel="stylesheet" href="style.css?v=45">
 
 <!-- The cover and the scroll lock are opt-in: with JavaScript off the
      guest lands straight on the invitation instead of a dead layer. -->
@@ -374,6 +374,17 @@
 
       <p class="hero-phrase reveal">بِكُلِّ الحُبِّ نَدْعُوكُم<br>لِتُشَارِكُونَا فَرْحَةَ بِدَايَةِ حَيَاتِنَا</p>
 
+      <!-- a bead falling down a plumb line in the margin, level with the
+           names: the page saying "there is more this way" in its own
+           language rather than in an icon set's -->
+      <svg class="drop" viewBox="0 0 22 120" aria-hidden="true">
+        <path class="drop-line" fill="none" d="M11 4v112"/>
+        <g class="drop-bead">
+          <use href="#pg" class="pg" transform="translate(11 11) scale(.55)"/>
+        </g>
+        <path class="drop-v" fill="none" d="M5 108 11 114l6-6"/>
+      </svg>
+
       <h1 class="names reveal">
         <span class="nm">إبراهيم زريق</span>
         <span class="amp" aria-hidden="true">
@@ -397,26 +408,11 @@
     </div>
   </article>
 
-  <!-- A manicule: the pointing hand that printers have been using to say
-       "look here" since long before this typeface existed. It is the one
-       mark a reader cannot mistake for ornament, and it shows the gesture
-       rather than describing it. -->
   <a class="cue" href="#details">
-    <svg class="cue-hand" viewBox="0 0 44 84" aria-hidden="true">
-      <!-- built from overlapping filled shapes rather than outlines: at
-           30-odd pixels an outlined hand turns to mush, a silhouette
-           still reads -->
-      <g class="hd">
-        <rect class="hd-ink" x="12" y="2" width="20" height="12" rx="3.5"/>
-        <rect class="hd-ink" x="8" y="11" width="28" height="25" rx="11"/>
-        <ellipse class="hd-ink" cx="8.5" cy="25" rx="5.6" ry="6.8"/>
-        <rect class="hd-ink" x="16.6" y="30" width="10.8" height="32" rx="5.4"/>
-        <path class="hd-fold" fill="none" d="M14.5 20h15M14.5 27h15"/>
-      </g>
-      <path class="cue-v cue-v1" fill="none" d="M12 64 22 73l10-9"/>
-      <path class="cue-v cue-v2" fill="none" d="M12 74 22 83l10-9"/>
-    </svg>
     <span class="cue-txt">تفاصيل الحفل</span>
+    <svg class="cue-v" viewBox="0 0 28 12" aria-hidden="true">
+      <path fill="none" d="M3 3 14 9 25 3"/>
+    </svg>
   </a>
 </section>
 
@@ -1838,6 +1834,6 @@
 
 </main>
 
-<script src="script.js?v=41" defer></script>
+<script src="script.js?v=45" defer></script>
 </body>
 </html>

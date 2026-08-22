@@ -251,48 +251,53 @@ img,svg{ max-width:100%; display:block }
 }
 
 /* ── the scroll cue ────────────────────────────────────────────────
-   A pointing hand, not a mark in a ring. A bordered pill still reads as
-   ornament on a card that is already made of ornament; a hand pointing
-   down and moving down is the one thing that cannot be mistaken for
-   decoration, and it shows the gesture instead of describing it.
+   Two of them, doing different jobs. In the margin beside the names, a
+   bead falling down a plumb line — that is the one a reader catches out
+   of the corner of the eye while they are still looking at the names.
+   At the foot of the card, a plain worded link, for the reader who has
+   finished and is looking for what comes next.
    ═══════════════════════════════════════════════════════════════════ */
+.drop{
+  /* the gutter between the border band and the text block — the only
+     column on the card that is not spoken for */
+  position:absolute; inset-inline-start:calc(var(--fw) + .2rem); top:40%;
+  width:20px; height:auto; pointer-events:none; z-index:2;
+}
+.drop-line{ stroke:var(--gold); stroke-width:1.1; opacity:.55; stroke-dasharray:2 5 }
+.drop-v{ stroke:var(--pom); stroke-width:2.4; stroke-linecap:round; stroke-linejoin:round;
+  opacity:0; animation:dropV 3s var(--ease) infinite }
+.drop-bead{ animation:dropBead 3s var(--ease) infinite }
+@keyframes dropBead{
+  0%      { transform:translateY(0);   opacity:0 }
+  14%     { opacity:1 }
+  70%     { transform:translateY(88px); opacity:1 }
+  86%,100%{ transform:translateY(98px); opacity:0 }
+}
+@keyframes dropV{ 0%,58%,100%{ opacity:0 } 76%{ opacity:.85 } }
+.has-scrolled .drop{ opacity:0; transition:opacity .8s var(--ease) }
+
 .cue{
-  display:grid; justify-items:center; gap:.15rem;
-  width:max-content; margin:clamp(.4rem,1.8vw,.8rem) auto 0;
-  padding:.4rem 1.1rem .5rem;         /* keeps the target well over 44px */
+  display:inline-flex; align-items:center; gap:.5rem;
+  margin:clamp(.5rem,2vw,.9rem) auto 0;
+  padding:.55rem 1.1rem;              /* keeps the target well over 44px */
   color:var(--olive); text-decoration:none;
 }
-.cue-hand{ width:42px; height:auto; overflow:visible }
-
-.hd-ink{ fill:var(--burg) }
-.hd-fold{ stroke:var(--cream-lt); stroke-width:2; stroke-linecap:round; opacity:.65 }
-
-/* the hand leads, the two chevrons follow it down a beat later — the
-   order is what makes it read as a direction rather than a wobble */
-.hd{ animation:point 2.6s var(--ease) infinite }
-@keyframes point{
-  0%,58%,100%{ transform:translateY(0) }
-  30%        { transform:translateY(9px) }
-}
-.cue-v{ stroke:var(--pom); stroke-width:3.6; stroke-linecap:round; stroke-linejoin:round; opacity:0 }
-.cue-v1{ animation:chev 2.6s var(--ease) infinite .1s }
-.cue-v2{ animation:chev 2.6s var(--ease) infinite .22s }
-@keyframes chev{
-  0%,60%,100%{ opacity:0; transform:translateY(-5px) }
-  32%        { opacity:.9; transform:translateY(0) }
-}
-
 .cue-txt{
   font-family:var(--f-body); font-size:1rem; letter-spacing:.02em;
   color:var(--olive); transition:color .4s var(--ease);
 }
+.cue-v{ width:22px; height:auto; overflow:visible }
+.cue-v path{
+  stroke:var(--pom); stroke-width:2.6; stroke-linecap:round; stroke-linejoin:round;
+  animation:cueNudge 3s var(--ease) infinite;
+}
+@keyframes cueNudge{
+  0%,62%,100%{ transform:translateY(0);   opacity:.55 }
+  80%        { transform:translateY(3px); opacity:1 }
+}
 .cue:hover .cue-txt{ color:var(--burg) }
 .cue:focus-visible{ outline:2px solid var(--gold); outline-offset:4px }
-
-/* once they have scrolled they know, so it stops asking */
-.has-scrolled .hd,
-.has-scrolled .cue-v{ animation:none }
-.has-scrolled .cue-v{ opacity:.45 }
+.has-scrolled .cue-v path{ animation:none; opacity:.55 }
 
 /* ── the dedication ───────────────────────────────────────────── */
 .sec--ode{ padding-block:clamp(1rem,3.4vw,1.8rem) }
@@ -608,9 +613,8 @@ img,svg{ max-width:100%; display:block }
   .hero-when{ margin-top:clamp(.8rem,3vw,1.2rem) }
   .hw-place::before{ margin-block:.5rem .45rem }
   .sec--hero .sheet-in{ padding-block:calc(var(--fw) + .6rem) }
-  .cue{ margin-top:.3rem; padding:.3rem 1rem .4rem; gap:.1rem }
-  .cue-hand{ width:34px }
-  .cue-txt{ font-size:.94rem }
+  .cue{ margin-top:.25rem; padding:.45rem 1rem }
+  .cue-txt{ font-size:.95rem }
 }
 
 /* ═══ WIDER SCREENS ═════════════════════════════════════════════════ */
