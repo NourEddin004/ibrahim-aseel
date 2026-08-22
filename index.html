@@ -34,7 +34,7 @@
 <!-- ⚠️ Bump ?v= on BOTH of these whenever you edit style.css or script.js.
      Browsers cache them hard; without a new URL a guest who has already
      opened the invitation keeps seeing the old design. -->
-<link rel="stylesheet" href="style.css?v=50">
+<link rel="stylesheet" href="style.css?v=52">
 
 <!-- The cover and the scroll lock are opt-in: with JavaScript off the
      guest lands straight on the invitation instead of a dead layer. -->
@@ -409,20 +409,14 @@
     </div>
   </article>
 
-  <!-- Centred, under the card, where a reader looks for what comes next;
-       big enough to see without hunting; and worded, because a falling
-       fruit on its own is a lovely thing that means nothing to someone
-       who was not told what it is for. -->
+  <!-- Kept plain on purpose: the rail up in the gutter carries the motif
+       and the movement, so down here the words are enough with one mark
+       under them to say which way. -->
   <a class="cue" href="#details" aria-label="مرّر للأسفل لتفاصيل الحفل">
-    <svg class="cue-art" viewBox="0 0 44 78" aria-hidden="true">
-      <path class="cue-line" fill="none" d="M22 3v34"/>
-      <g class="cue-fruit">
-        <use href="#pg" class="pg" transform="translate(22 10) scale(.82)"/>
-      </g>
-      <path class="cue-v cue-v1" fill="none" d="M10 52 22 62l12-10"/>
-      <path class="cue-v cue-v2" fill="none" d="M10 63 22 73l12-10"/>
-    </svg>
     <span class="cue-txt">مرّر للأسفل</span>
+    <svg class="cue-art" viewBox="0 0 30 16" aria-hidden="true">
+      <path class="cue-v" fill="none" d="M5 5 15 12 25 5"/>
+    </svg>
   </a>
 </section>
 
@@ -1844,6 +1838,6 @@
 
 </main>
 
-<script src="script.js?v=50" defer></script>
+<script src="script.js?v=52" defer></script>
 </body>
 </html>

@@ -285,51 +285,32 @@ img,svg{ max-width:100%; display:block }
 .has-scrolled .rail{ opacity:0; transition:opacity .9s var(--ease) }
 
 /* ── the scroll cue ────────────────────────────────────────────────
-   Centred under the card, because that is where a reader looks for what
-   comes next; large enough to be seen without hunting; and worded,
-   because a pomegranate falling down a line is a lovely thing that means
-   nothing at all to someone who was not told what it is for. The motif
-   carries the theme, the words carry the meaning, and neither is asked
-   to do the other's job.
+   Plain on purpose. The rail up in the gutter already carries the motif
+   and the movement; down here the words do the work and one chevron says
+   which way, with a nudge small enough to notice and not to watch.
    ═══════════════════════════════════════════════════════════════════ */
 .cue{
-  display:grid; justify-items:center; gap:.15rem;
-  width:max-content; margin:clamp(.5rem,2vw,.9rem) auto 0;
-  padding:.3rem 1.2rem .55rem;        /* keeps the target well over 44px */
+  display:grid; justify-items:center; gap:.3rem;
+  width:max-content; margin:clamp(.7rem,2.6vw,1.2rem) auto 0;
+  padding:.5rem 1.2rem;               /* keeps the target well over 44px */
   text-decoration:none;
 }
-.cue-art{ width:38px; height:auto; overflow:visible }
-.cue-line{ stroke:var(--gold); stroke-width:1.2; opacity:.55; stroke-dasharray:2 5 }
-
-/* the fruit falls, then the two chevrons answer it — the order is what
-   makes the pair read as a direction rather than as two loose ornaments */
-.cue-fruit{ animation:cueFall 3s var(--ease) infinite }
-@keyframes cueFall{
-  0%      { transform:translateY(0);    opacity:0 }
-  12%     { opacity:1 }
-  56%     { transform:translateY(30px); opacity:1 }
-  72%,100%{ transform:translateY(36px); opacity:0 }
-}
-.cue-v{ stroke:var(--pom); stroke-width:3.4; stroke-linecap:round; stroke-linejoin:round;
-  opacity:.34 }
-.cue-v1{ animation:cueChev 3s var(--ease) infinite }
-.cue-v2{ animation:cueChev 3s var(--ease) infinite .12s }
-@keyframes cueChev{
-  0%,50%,100%{ opacity:.34; transform:translateY(-3px) }
-  66%        { opacity:1;   transform:translateY(0) }
-}
-
 .cue-txt{
   font-family:var(--f-body); font-size:1.02rem; letter-spacing:.02em;
   color:var(--burg); transition:color .4s var(--ease);
 }
+.cue-art{ width:26px; height:auto; overflow:visible }
+.cue-v{
+  stroke:var(--pom); stroke-width:2.8; stroke-linecap:round; stroke-linejoin:round;
+  animation:cueNudge 2.4s var(--ease) infinite;
+}
+@keyframes cueNudge{
+  0%,68%,100%{ transform:translateY(0);   opacity:.5 }
+  84%        { transform:translateY(4px); opacity:1 }
+}
 .cue:hover .cue-txt{ color:var(--pom) }
 .cue:focus-visible{ outline:2px solid var(--gold); outline-offset:4px }
-
-/* once they have scrolled they know, so it stops asking */
-.has-scrolled .cue-fruit,
-.has-scrolled .cue-v{ animation:none }
-.has-scrolled .cue-v{ opacity:.5 }
+.has-scrolled .cue-v{ animation:none; opacity:.5 }
 
 /* ── the dedication ───────────────────────────────────────────── */
 .sec--ode{ padding-block:clamp(1rem,3.4vw,1.8rem) }
@@ -645,8 +626,7 @@ img,svg{ max-width:100%; display:block }
   .hero-when{ margin-top:clamp(.8rem,3vw,1.2rem) }
   .hw-place::before{ margin-block:.5rem .45rem }
   .sec--hero .sheet-in{ padding-block:calc(var(--fw) + .6rem) }
-  .cue{ margin-top:.2rem; padding:.2rem 1rem .45rem }
-  .cue-art{ width:34px }
+  .cue{ margin-top:.5rem; padding:.4rem 1rem }
   .cue-txt{ font-size:.98rem }
 }
 
