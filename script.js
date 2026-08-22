@@ -150,6 +150,7 @@ $('#mapLink').href = CONFIG.mapsLink ||
   const form  = $('#rsvpForm');
   const name  = $('#rsvpName');
   const phone = $('#rsvpPhone');
+  const note  = $('#rsvpNote');
   const seats = $('#seatsField');
   const sOut  = $('#sOut'), sVal = $('#sVal');
   const minus = $('#sMinus'), plus = $('#sPlus');
@@ -200,9 +201,10 @@ $('#mapLink').href = CONFIG.mapsLink ||
   const message = () => [
     `تأكيد حضور — زفاف ${CONFIG.couple}`,
     `الاسم: ${name.value.trim()}`,
-    `الهاتف: ${phone.value.trim()}`,
+    phone.value.trim() ? `الهاتف: ${phone.value.trim()}` : '',
     `الحضور: ${form.attending.value}`,
     coming() ? `عدد الأشخاص: ${n}` : '',
+    note.value.trim() ? `ملاحظات: ${note.value.trim()}` : '',
   ].filter(Boolean).join('\n');
 
   const waHref = () => 'https://wa.me/' + CONFIG.whatsapp +
@@ -230,13 +232,11 @@ $('#mapLink').href = CONFIG.mapsLink ||
       name.focus();
       return;
     }
+    /* blank is fine — the number is optional. Something too short to be
+       a number is still worth catching, since that is a typo rather than
+       a deliberate omission. */
     const tel = digits();
-    if (!tel) {
-      flag(errPhone, 'يرجى كتابة رقم الهاتف', phone);
-      phone.focus();
-      return;
-    }
-    if (tel.length < 7) {
+    if (tel && tel.length < 7) {
       flag(errPhone, 'رقم الهاتف يبدو قصيرًا', phone);
       phone.focus();
       return;
@@ -276,9 +276,10 @@ $('#mapLink').href = CONFIG.mapsLink ||
             },
             body: JSON.stringify({
               name: name.value.trim(),
-              phone: phone.value.trim(),
+              phone: phone.value.trim() || null,
               attending: form.attending.value,
               guests: coming() ? n : 0,
+              note: note.value.trim() || null,
             }),
           })
         : await fetch(CONFIG.endpoint, {

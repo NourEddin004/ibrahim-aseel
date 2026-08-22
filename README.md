@@ -44,7 +44,7 @@ create table public.rsvp (
   id         bigint generated always as identity primary key,
   created_at timestamptz not null default now(),
   name       text   not null,
-  phone      text   not null,
+  phone      text,                 -- optional on the form
   attending  text   not null,
   guests     int    not null default 1,
   note       text
@@ -72,8 +72,8 @@ create unique index rsvp_one_per_name on public.rsvp (lower(trim(name)));
 -- and cap the free text
 alter table public.rsvp add constraint rsvp_sane
   check (length(name) between 2 and 80
-     and length(phone) between 7 and 24
-     and length(coalesce(note,'')) <= 500);
+     and (phone is null or length(phone) between 7 and 24)
+     and length(coalesce(note,'')) <= 300);
 ```
 
 The unique index makes a repeat submission fail, which lands the guest on the
