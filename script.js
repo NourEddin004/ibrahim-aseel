@@ -115,6 +115,13 @@ for (const line of document.querySelectorAll('.arch-line')) {
   line.style.setProperty('--len', len);
 }
 
+/* ── 1b · the cue stops asking once they have answered ───────────── */
+addEventListener('scroll', function once() {
+  if (scrollY < 40) return;
+  root.classList.add('has-scrolled');
+  removeEventListener('scroll', once);
+}, { passive: true });
+
 /* ── 2 · scroll reveal ───────────────────────────────────────────── */
 {
   const io = new IntersectionObserver((rows) => {
@@ -158,6 +165,7 @@ $('#mapLink').href = CONFIG.mapsLink ||
   const errPhone = $('#phoneErr'), errGo = $('#goErr');
   const btn = $('#sendBtn'), ctaText = $('#ctaText');
   const done = $('#rsvpDone'), doneSub = $('#doneSub'), waLink = $('#waLink');
+  const doneEcho = $('#doneEcho');
   let n = 1, sent = false;
 
   const setSeats = (v) => {
@@ -216,6 +224,12 @@ $('#mapLink').href = CONFIG.mapsLink ||
     doneSub.textContent = coming()
       ? 'وجودكم يعني لنا الكثير، وننتظركم على أحرّ من الجمر'
       : 'سنفتقدكم في يومنا، وشكرًا لإخبارنا';
+    /* echo the reply back. A thank-you that does not say WHAT was
+       received leaves the guest with no way to tell a mistake from a
+       success — and no way to know whether to send it again. */
+    doneEcho.textContent = coming()
+      ? `${name.value.trim()} — ${ar(n)} ${n === 1 ? 'شخص' : n === 2 ? 'شخصان' : 'أشخاص'}`
+      : `${name.value.trim()} — لن يتمكن من الحضور`;
     done.focus();
   };
 
@@ -243,6 +257,9 @@ $('#mapLink').href = CONFIG.mapsLink ||
     }
     if (!form.attending.value) {
       flag(errGo, 'يرجى اختيار أحد الخيارين');
+      /* without this the message appears and the caret stays where it
+         was — announced, but with no way to find what it is about */
+      form.attending[0].focus();
       return;
     }
 
