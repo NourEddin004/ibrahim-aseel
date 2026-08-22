@@ -23,7 +23,7 @@
   --sage-lt  : #7C8467;
 
   --ink      : #34281D;
-  --ink-soft : #5E4B38;
+  --ink-soft : #55442F;
 
   --f-disp: 'Aref Ruqaa Ink','Aref Ruqaa',"Amiri",serif;
   --f-head: 'Aref Ruqaa','Amiri',serif;
@@ -31,7 +31,7 @@
   --f-lat : 'Cormorant Garamond',Georgia,serif;
 
   --fw: 24px;                 /* the running border band's thickness */
-  --ctl: 54px;                /* one height for every control on the page */
+  --ctl: 48px;                /* one height for every control on the page */
   --edge: 0 0 0 1px rgba(107,93,61,.45) inset;
   --card: 34rem;              /* the printed card never grows past this */
   --ease: cubic-bezier(.22,.61,.36,1);
@@ -212,8 +212,8 @@ img,svg{ max-width:100%; display:block }
      sitting in the open part of the arch at every size, clear of the
      pendant hanging from its point */
   margin:44% auto 0; max-width:26ch;
-  font-family:var(--f-head);
-  font-size:clamp(1.02rem,4.3vw,1.2rem); line-height:2.15;
+  font-family:var(--f-body);
+  font-size:clamp(1.1rem,4.6vw,1.3rem); line-height:2.2;
   color:var(--burg);
 }
 .names{ margin:clamp(1.9rem,7vw,2.8rem) 0 0; font-weight:400 }
@@ -232,18 +232,19 @@ img,svg{ max-width:100%; display:block }
   color:var(--gold); opacity:0;
 }
 .hero-when{ margin:clamp(2.1rem,8vw,3rem) 0 0 }
-.hw-day{ margin:0; font-family:var(--f-head); font-size:1.05rem; color:var(--ink-soft) }
+.hw-day{ margin:0; font-family:var(--f-body); font-size:1.08rem; color:var(--ink-soft) }
 .hw-date{
   margin:.35rem 0 0; display:flex; align-items:baseline; justify-content:center; gap:.6rem;
   font-family:var(--f-head); color:var(--burg);
 }
 .hw-date span{ font-size:clamp(1.7rem,7.6vw,2.3rem); line-height:1.2 }
 .hw-date i{
-  font-style:normal; font-size:clamp(1rem,4.2vw,1.15rem);
-  padding-inline:.55rem; border-inline:1px solid rgba(168,135,85,.6);
+  font-family:var(--f-body); font-style:normal;
+  font-size:clamp(1.02rem,4.2vw,1.18rem);
+  padding-inline:.6rem; border-inline:1px solid rgba(168,135,85,.6);
 }
 .hw-place{
-  margin:0; font-family:var(--f-head); font-size:1.06rem; color:var(--ink);
+  margin:0; font-family:var(--f-body); font-size:1.12rem; line-height:1.9; color:var(--ink);
 }
 .hw-place::before{
   content:''; display:block; width:2.6rem; height:1px;
@@ -277,7 +278,7 @@ img,svg{ max-width:100%; display:block }
 @keyframes cueHead{ 0%,52%,100%{ opacity:.35 } 72%{ opacity:1 } }
 .cue-lf{ opacity:.9 }
 .cue-txt{
-  font-family:var(--f-head); font-size:.82rem; letter-spacing:.09em;
+  font-family:var(--f-body); font-size:.95rem; letter-spacing:.03em;
   color:var(--olive); transition:color .4s var(--ease);
 }
 .cue:hover .cue-txt{ color:var(--burg) }
@@ -288,12 +289,12 @@ img,svg{ max-width:100%; display:block }
 .ode{ max-width:32rem; margin-inline:auto; text-align:center }
 .div-orn{ width:min(78%,17rem); margin:0 auto clamp(1.1rem,4vw,1.6rem) }
 .ode-kicker{
-  margin:0 0 .9rem; font-family:var(--f-head); font-size:.86rem;
+  margin:0 0 .9rem; font-family:var(--f-body); font-size:.92rem;
   letter-spacing:.16em; color:var(--olive);
 }
 .ode-line{
   margin:0; font-family:var(--f-head); font-weight:400;
-  font-size:clamp(1.08rem,4.6vw,1.32rem); line-height:2.3; color:var(--burg);
+  font-size:clamp(1.28rem,5.6vw,1.6rem); line-height:2.15; color:var(--burg);
 }
 .ode-mark{ width:min(46%,9.5rem); margin:clamp(1rem,3.6vw,1.4rem) auto 0 }
 
@@ -310,8 +311,8 @@ img,svg{ max-width:100%; display:block }
 .facts{ margin:clamp(1.6rem,6vw,2.2rem) 0 0 }
 .fact{ margin:0 }
 .fact dt{
-  font-family:var(--f-head); font-size:.92rem; color:var(--olive);
-  letter-spacing:.06em;
+  font-family:var(--f-body); font-size:1rem; color:var(--olive);
+  letter-spacing:.02em;
 }
 .fact dd{
   margin:.35rem 0 0; font-size:clamp(1.06rem,4.5vw,1.22rem);
@@ -340,17 +341,19 @@ img,svg{ max-width:100%; display:block }
   width:1px; background:rgba(168,135,85,.55);
 }
 .cu b{
-  display:block; font-family:var(--f-head); font-weight:400;
+  display:block; font-family:var(--f-body); font-weight:700;
   font-size:clamp(1.35rem,6.2vw,1.7rem); line-height:1.4; color:var(--burg);
   font-variant-numeric:tabular-nums;
 }
-.cu i{ display:block; font-style:normal; font-size:.74rem; color:var(--olive); letter-spacing:.04em }
+/* 0.74rem lands at 11.8px, which is below the floor for Arabic — the
+   letterforms carry their meaning in strokes that fine type loses */
+.cu i{ display:block; font-style:normal; font-size:.88rem; color:var(--olive); letter-spacing:.02em }
 
 .acts{ display:flex; flex-wrap:wrap; gap:.7rem; justify-content:center;
   max-width:20rem; margin-inline:auto; margin:clamp(1.7rem,6.6vw,2.2rem) 0 0 }
 .btn{
   flex:1 1 12rem; min-height:var(--ctl); display:inline-flex; align-items:center; justify-content:center;
-  padding:.7rem 1.3rem; font-family:var(--f-head); font-size:.98rem;
+  padding:.7rem 1.3rem; font-family:var(--f-body); font-size:1.04rem;
   color:var(--cream-lt); text-decoration:none; background:var(--burg);
   border:1px solid var(--burg);
   box-shadow:0 0 0 1px rgba(168,135,85,.75) inset, 0 0 0 3px rgba(230,218,193,.6) inset;
@@ -369,7 +372,7 @@ img,svg{ max-width:100%; display:block }
   gap:.7rem; text-align:start;
   margin:clamp(1.6rem,6vw,2.1rem) auto 0; max-width:30ch;
   padding:.85rem 1rem;
-  font-size:.94rem; line-height:1.85; color:var(--pom);
+  font-size:1rem; line-height:1.9; color:var(--pom);
   box-shadow:0 0 0 1px rgba(155,46,32,.3) inset;
   background:rgba(155,46,32,.05);
 }
@@ -414,26 +417,26 @@ img,svg{ max-width:100%; display:block }
 .np-med--mr{ top:50%; right:-3%; transform:translateY(-50%) }
 .night-phrase{
   margin:clamp(1.6rem,6vw,2.2rem) 0 0; text-align:center;
-  font-family:var(--f-head); font-size:clamp(1.2rem,5.2vw,1.55rem);
+  font-family:var(--f-head); font-size:clamp(1.34rem,5.8vw,1.7rem);
   line-height:2; color:var(--burg);
 }
 
 /* ── the last page ─────────────────────────────────────────────── */
 .rsvp-crest{ width:min(60%,11.5rem); margin:0 auto clamp(.9rem,3.6vw,1.3rem) }
 .rsvp-sub{
-  margin:1rem auto 0; max-width:30ch; font-size:.98rem;
+  margin:1rem auto 0; max-width:32ch; font-size:1.04rem;
   line-height:2; color:var(--ink-soft);
 }
 .form{ margin:clamp(1.8rem,7vw,2.4rem) 0 0; text-align:start }
 .hp{ position:absolute; width:1px; height:1px; overflow:hidden; clip-path:inset(50%); white-space:nowrap }
 .field{ margin:0 0 1.3rem; padding:0; border:0 }
 .f-label{
-  display:block; margin:0 0 .5rem; font-family:var(--f-head);
-  font-size:.95rem; color:var(--burg); letter-spacing:.02em;
+  display:block; margin:0 0 .5rem; font-family:var(--f-body);
+  font-size:1rem; color:var(--burg); letter-spacing:.02em;
 }
-.f-label i{ font-style:normal; color:var(--olive); font-size:.85em }
+.f-label i{ font-style:normal; color:var(--olive); font-size:.92em }
 .f-in{
-  width:100%; min-height:var(--ctl); padding:.85rem .95rem;
+  width:100%; min-height:var(--ctl); padding:.6rem .9rem;
   font-family:var(--f-body); font-size:1.02rem; line-height:1.4; color:var(--ink);
   background:rgba(255,251,240,.5); border:0;
   box-shadow:var(--edge), 0 1px 0 rgba(255,255,255,.5);
@@ -444,7 +447,7 @@ img,svg{ max-width:100%; display:block }
 /* the notes box is deliberately shorter than the other controls: it is
    the one optional, free-text thing on the form, and a tall box invites
    an essay nobody needs to write */
-.f-area{ min-height:0; height:4.4rem; line-height:1.65; padding-block:.6rem; resize:vertical }
+.f-area{ min-height:0; height:3.5rem; line-height:1.6; padding-block:.55rem; resize:vertical }
 
 .f-in:focus{ outline:0; background:#FFFCF3; box-shadow:0 0 0 1px var(--gold) inset, 0 0 0 3px rgba(168,135,85,.2) }
 
@@ -458,7 +461,7 @@ img,svg{ max-width:100%; display:block }
 .pick-face{
   display:flex; align-items:center; gap:.7rem;
   min-height:var(--ctl); height:100%;
-  padding:.85rem 1rem; font-size:1.01rem; line-height:1.6; color:var(--ink);
+  padding:.7rem 1rem; font-size:1.02rem; line-height:1.55; color:var(--ink);
   background:rgba(255,251,240,.42);
   box-shadow:var(--edge);
   transition:box-shadow .35s var(--ease), background .35s var(--ease),
@@ -493,17 +496,17 @@ img,svg{ max-width:100%; display:block }
 .st-b:active:not(:disabled){ transform:scale(.93) }
 .st-b:disabled{ opacity:.32; cursor:default }
 .st-o{
-  min-width:66px; text-align:center; font-family:var(--f-head);
+  min-width:66px; text-align:center; font-family:var(--f-body);
   font-size:1.35rem; color:var(--burg);
 }
-.f-hint{ margin:.5rem 0 0; font-size:.84rem; color:var(--olive) }
-.f-err{ margin:.45rem 0 0; font-size:.86rem; color:var(--pom) }
+.f-hint{ margin:.5rem 0 0; font-size:.92rem; color:var(--olive) }
+.f-err{ margin:.45rem 0 0; font-size:.92rem; color:var(--pom) }
 .f-err--top{ margin:0 0 1rem; text-align:center }
 
 .cta{
   display:block; width:100%; min-height:calc(var(--ctl) + 4px); margin-top:.4rem;
   padding:.85rem 1.4rem; border:0; cursor:pointer;
-  font-family:var(--f-head); font-size:1.1rem; color:var(--cream-lt);
+  font-family:var(--f-body); font-size:1.1rem; color:var(--cream-lt);
   background:linear-gradient(175deg,#71301F,var(--burg) 60%,#4C1D11);
   box-shadow:0 0 0 1px rgba(168,135,85,.85) inset, 0 0 0 4px rgba(230,218,193,.55) inset,
              0 8px 20px -14px rgba(45,33,25,.9);
@@ -520,7 +523,7 @@ img,svg{ max-width:100%; display:block }
 .done-art{ width:min(58%,12rem); margin:0 auto clamp(.8rem,3.4vw,1.2rem) }
 .done-arch{ stroke:var(--gold); stroke-width:2 }
 .done-lead{
-  margin:0; font-family:var(--f-head); font-size:clamp(1.2rem,5.2vw,1.5rem);
+  margin:0; font-family:var(--f-head); font-size:clamp(1.32rem,5.6vw,1.62rem);
   line-height:1.9; color:var(--burg);
 }
 .done-sub{ margin:.5rem 0 0; font-size:1rem; color:var(--ink-soft) }
@@ -531,8 +534,8 @@ img,svg{ max-width:100%; display:block }
 .foot-orn{ width:min(56%,12rem); margin:0 auto .8rem }
 .foot-names{ margin:0; font-family:var(--f-disp); font-size:clamp(1.4rem,6vw,1.8rem); color:var(--burg) }
 .foot-date{
-  margin:.55rem 0 0; font-family:var(--f-head); font-size:.92rem;
-  letter-spacing:.22em; color:var(--olive);
+  margin:.55rem 0 0; font-family:var(--f-body); font-size:.95rem;
+  letter-spacing:.16em; color:var(--olive);
 }
 
 /* ═══ MOTION ════════════════════════════════════════════════════════
@@ -554,10 +557,6 @@ img,svg{ max-width:100%; display:block }
 .bd{ transform-box:view-box; animation:perch 7s ease-in-out infinite alternate;
      animation-delay:calc(var(--b) * -1.1s); animation-duration:calc(6.5s + var(--b) * .4s) }
 @keyframes perch{ from{ transform:rotate(-.9deg) } to{ transform:rotate(.9deg) } }
-
-  50%{ transform:scale(1.04,1.06) translateX(.4px); opacity:1 }
-  100%{ transform:scale(.98,1) translateX(-.2px); opacity:.9 }
-}
 
 /* the arch draws itself once, when the card first arrives */
 .arch-line{ stroke-dasharray:var(--len); stroke-dashoffset:var(--len) }
@@ -593,15 +592,15 @@ img,svg{ max-width:100%; display:block }
     padding-block:.5rem clamp(3rem,6vw,5rem) }
 }
 
-/* ═══ THE DOORS ══════════════════════════════════════════════════════
-   Two leaves hinged on their OUTER edges and swung towards the reader.
-   The sign of the rotation is the whole trick: with the hinge on the
-   left a NEGATIVE rotateY brings the free edge forward, and with the
-   hinge on the right a positive one does. Get them the wrong way round
-   and the doors open into the page instead of out of it.
+/* ═══ THE CURTAIN ════════════════════════════════════════════════════
+   Two drapes that draw apart, the way a theatre curtain does. Each one
+   gathers towards its OWN outer edge — which is what scaleX from that
+   origin gives you: the folds compress into a bunch at the side, rather
+   than the whole panel sliding off like a shutter. It is also the one
+   property the compositor can animate without touching layout.
 
    The ground behind is the same parchment as the invitation, not a
-   colour of its own: the doors belong to the card, they are not a
+   colour of its own: the curtain belongs to the card, it is not a
    lightbox standing in front of it.
    ═════════════════════════════════════════════════════════════════ */
 .gate{ display:none }
@@ -609,178 +608,105 @@ img,svg{ max-width:100%; display:block }
   position:fixed; inset:0; z-index:90; display:grid; place-items:center;
   padding:1.4rem;
   background:
-    radial-gradient(60% 44% at 50% 44%,rgba(255,250,238,.85),transparent 72%),
-    radial-gradient(130% 80% at 50% 108%,rgba(120,90,52,.22),transparent 70%),
+    radial-gradient(58% 42% at 50% 46%,rgba(255,250,238,.8),transparent 72%),
+    radial-gradient(130% 80% at 50% 108%,rgba(120,90,52,.2),transparent 70%),
     linear-gradient(180deg,var(--cream-lt),var(--cream) 58%,#DFD0B0);
   transition:opacity 1s var(--ease);
 }
 .js .gate.is-gone{ opacity:0 }
 
 .stage{
-  position:relative; width:min(76vw,18.5rem); aspect-ratio:5/7;
+  position:relative; width:min(78vw,19rem); aspect-ratio:5/7;
   padding:0; border:0; background:none; cursor:pointer;
   -webkit-tap-highlight-color:transparent;
-  /* the doorway is a thing standing in a room, so it casts on the floor */
-  filter:drop-shadow(0 26px 30px rgba(78,54,28,.28));
+  filter:drop-shadow(0 24px 30px rgba(78,54,28,.26));
   transition:transform 1.3s var(--ease);
 }
-/* and as the layer goes, the whole doorway comes towards the reader — it
-   reads as walking through rather than as one picture fading into another */
-.gate.is-gone .stage{ transform:scale(1.14) }
+/* as the layer goes, the whole proscenium comes forward — it reads as
+   stepping through rather than as one picture fading into another */
+.gate.is-gone .stage{ transform:scale(1.12) }
 .stage:focus-visible{ outline:2px solid var(--gold); outline-offset:10px }
 
-.hall{
-  position:absolute; inset:0; display:block;
-  perspective:1150px; perspective-origin:50% 46%;
-  transition:transform 2.4s var(--ease);
-}
-.gate.is-opening .hall{ transform:scale(1.045) }
+.house{ position:absolute; inset:0; display:block; overflow:hidden }
 
-/* ── what is standing behind the doors ──────────────────────────── */
-.hall-in{
+/* ── the stage behind ───────────────────────────────────────────── */
+.house-in{
   position:absolute; inset:0; display:grid; align-content:center; justify-items:center;
-  gap:.15rem; padding:1.4rem 1rem; text-align:center;
-  background:linear-gradient(180deg,#EFE4CB,var(--cream) 62%,#DBC9A6);
-  /* darker at the edges than in the middle, so the opening has somewhere
-     to go: without it the doors part on a flat card and reveal nothing */
-  box-shadow:0 0 0 1px rgba(97,38,24,.4), 0 0 70px -6px rgba(96,68,34,.55) inset;
-  opacity:0; transform:scale(.94);
-  transition:opacity 1.1s var(--ease), transform 1.5s var(--ease);
+  gap:.15rem; padding:3.4rem 1rem 1.4rem; text-align:center;
+  background:linear-gradient(180deg,#EEE3CA,var(--cream) 60%,#DAC8A4);
+  box-shadow:0 0 60px -6px rgba(96,68,34,.5) inset;
+  opacity:0; transform:scale(.95);
+  transition:opacity 1.1s var(--ease), transform 1.6s var(--ease);
 }
-.gate.is-naming .hall-in{ opacity:1; transform:scale(1) }
-.hall-glow{
+.gate.is-naming .house-in{ opacity:1; transform:scale(1) }
+.house-glow{
   position:absolute; inset:0; pointer-events:none;
-  background:radial-gradient(58% 42% at 50% 48%,rgba(214,166,92,.3),transparent 74%);
+  background:radial-gradient(56% 40% at 50% 52%,rgba(214,166,92,.3),transparent 74%);
 }
 .bill-kick{
-  font-family:var(--f-lat); font-size:.7rem; letter-spacing:.34em;
-  text-transform:uppercase; color:var(--olive);
+  font-family:var(--f-body); font-size:.78rem; letter-spacing:.3em; color:var(--olive);
 }
 .bill-nm{
-  font-family:var(--f-disp); font-size:clamp(1.45rem,7vw,1.95rem);
+  font-family:var(--f-disp); font-size:clamp(1.5rem,7.2vw,2rem);
   line-height:1.5; color:var(--burg);
 }
 .bill-orn{ width:6.6rem; margin:.15rem 0 }
 
-/* ── the leaves ─────────────────────────────────────────────────────
-   Animated rather than transitioned, because a door has mass: it leaves
-   slowly, swings through, goes a little past itself and settles back. A
-   plain transition arrives at exactly its endpoint and stops dead, which
-   is the thing that reads as cheap.
-   ═══════════════════════════════════════════════════════════════════ */
-.leaf{
-  position:absolute; top:0; width:50%; height:100%;
-  transform-style:preserve-3d;
+/* ── the drapes ─────────────────────────────────────────────────── */
+.drape{
+  position:absolute; top:0; bottom:0; width:52%;      /* they overlap, so
+                                                         no seam of light */
+  transition:transform 1.8s cubic-bezier(.42,.02,.16,1);
   will-change:transform;
-}
-.leaf--l{ left:0;  transform-origin:left center }
-.leaf--r{ right:0; transform-origin:right center }
-
-/* negative on the left hinge, positive on the right — both bring the
-   free edge forward, out of the screen */
-@keyframes swingL{
-  0%   { transform:rotateY(0deg) }
-  58%  { transform:rotateY(-92deg) }
-  80%  { transform:rotateY(-105deg) }
-  100% { transform:rotateY(-100deg) }
-}
-@keyframes swingR{
-  0%   { transform:rotateY(0deg) }
-  58%  { transform:rotateY(92deg) }
-  80%  { transform:rotateY(105deg) }
-  100% { transform:rotateY(100deg) }
-}
-.gate.is-opening .leaf--l{
-  animation:swingL 1.95s cubic-bezier(.58,.04,.18,1) forwards;
-  animation-delay:.11s;                    /* the pair are never quite together */
-}
-.gate.is-opening .leaf--r{
-  animation:swingR 1.95s cubic-bezier(.58,.04,.18,1) forwards;
-}
-
-/* Each face carries the WHOLE panel and is clipped to its half, which is
-   how the arch and the rails meet exactly across the seam. clip-path and
-   not overflow:hidden — overflow would flatten the leaf out of 3D. */
-.leaf-face{
-  position:absolute; top:0; height:100%; width:200%;
-  backface-visibility:hidden; -webkit-backface-visibility:hidden;
+  /* the folds: soft darks and a lit crest, close together near the
+     leading edge and opening out towards the hinge side */
   background:
-    linear-gradient(118deg,rgba(255,252,244,.9),transparent 46%),
-    radial-gradient(120% 80% at 50% 0%,rgba(255,250,238,.7),transparent 62%),
-    linear-gradient(180deg,var(--cream-lt),#E7DBC2 58%,#DDCDAC);
+    /* two fold rhythms laid over each other, so the pleats are not a
+       row of identical tubes */
+    repeating-linear-gradient(90deg,
+      rgba(104,76,40,.13) 0,
+      rgba(255,252,244,.34) 13px,
+      rgba(104,76,40,.13) 27px,
+      rgba(88,64,34,.17) 34px,
+      rgba(104,76,40,.13) 44px),
+    repeating-linear-gradient(90deg,
+      rgba(88,64,34,.09) 0,
+      rgba(255,252,244,.12) 31px,
+      rgba(88,64,34,.09) 67px),
+    linear-gradient(180deg,#EFE5CE,#E1D3B4 52%,#D2BE96);
+  box-shadow:0 0 44px -10px rgba(88,62,30,.36) inset;
 }
-.leaf--l .leaf-face{ left:0;  clip-path:inset(0 50% 0 0) }
-.leaf--r .leaf-face{ right:0; clip-path:inset(0 0 0 50%) }
-.leaf-art{ position:absolute; inset:0; width:100%; height:100% }
+.drape--l{ left:0;  transform-origin:left center }
+.drape--r{ right:0; transform-origin:right center }
+.gate.is-opening .drape--l{ transform:scaleX(.11) }
+.gate.is-opening .drape--r{ transform:scaleX(.11); transition-delay:.09s }
 
-.leaf-back{
-  position:absolute; inset:0; transform:rotateY(180deg);
-  backface-visibility:hidden; -webkit-backface-visibility:hidden;
-  background:linear-gradient(200deg,#D9C8A4,#CBB88F 58%,#BFAA7E);
-  box-shadow:0 0 0 1px rgba(97,38,24,.3), 0 0 60px -14px rgba(70,50,26,.6) inset;
+/* the leading edge carries a gold cord, the way a stage drape does */
+.drape-lead{
+  position:absolute; top:0; bottom:0; width:7px;
+  background:linear-gradient(90deg,rgba(168,135,85,.85),rgba(97,38,24,.55));
+  box-shadow:0 0 10px -2px rgba(70,44,20,.5);
 }
-.leaf-back::after{
-  content:''; position:absolute; inset:14px;
-  box-shadow:0 0 0 1px rgba(120,92,52,.4);
-}
+.drape--l .drape-lead{ right:0 }
+.drape--r .drape-lead{ left:0; transform:scaleX(-1) }
 
-/* the door's thickness, standing on its free edge and running back into
-   the opening — the one detail that stops a leaf reading as paper */
-.leaf-edge{
-  position:absolute; top:0; bottom:0; width:11px;
-  background:linear-gradient(180deg,#CDBA95,#B7A17A 50%,#A08A64);
-  box-shadow:0 0 0 1px rgba(97,38,24,.28);
-}
-.leaf--l .leaf-edge{ right:0; transform-origin:right center; transform:rotateY(-90deg) }
-.leaf--r .leaf-edge{ left:0;  transform-origin:left center;  transform:rotateY(90deg) }
+/* ── the pelmet, which never travels ────────────────────────────── */
+.valance{ position:absolute; top:0; left:0; right:0; height:22%; z-index:3 }
+.vl-art,.vl-drops{ position:absolute; inset:0; width:100%; height:100% }
+.vl-body{ fill:var(--burg) }
+.vl-rule{ stroke:rgba(220,193,151,.7); stroke-width:1.6 }
+.vl-trim{ stroke:var(--cream-dk); stroke-width:2.4; opacity:.9 }
+.vl-drop{ opacity:.95 }
 
-/* the leaf falls into its own shade as it comes round to face the wall */
-.leaf-face::after{
-  content:''; position:absolute; inset:0; pointer-events:none;
-  background:linear-gradient(90deg,rgba(64,42,20,.3),transparent 60%);
-  opacity:0; transition:opacity 1.5s var(--ease);
-}
-.leaf--r .leaf-face::after{ background:linear-gradient(270deg,rgba(64,42,20,.3),transparent 60%) }
-.gate.is-opening .leaf-face::after{ opacity:1 }
-
-/* each leaf takes a little shade along the seam, which is what stops the
-   pair reading as one flat printed panel */
-.leaf::before{
-  content:''; position:absolute; top:0; bottom:0; width:18px; z-index:2;
-  pointer-events:none; transition:opacity .7s var(--ease);
-}
-.leaf--l::before{ right:0; background:linear-gradient(270deg,rgba(72,48,24,.2),transparent) }
-.leaf--r::before{ left:0;  background:linear-gradient(90deg,rgba(72,48,24,.2),transparent) }
-.gate.is-opening .leaf::before{ opacity:0 }
-
-/* ── the wall the doorway is cut into ───────────────────────────── */
-.jamb{
-  position:absolute; inset:0; pointer-events:none;
-  /* a reveal, so the leaves sit INSIDE an opening rather than on top of
-     a flat rectangle */
+/* ── the proscenium ─────────────────────────────────────────────── */
+.prosc{
+  position:absolute; inset:0; pointer-events:none; z-index:4;
   box-shadow:
     0 0 0 1px rgba(97,38,24,.5),
     0 0 0 7px var(--cream-lt),
-    0 0 0 8px rgba(168,135,85,.55),
-    0 0 22px -4px rgba(70,48,24,.35) inset;
+    0 0 0 8px rgba(168,135,85,.6),
+    0 0 26px -4px rgba(70,48,24,.4) inset;
 }
-
-/* ── the door's own drawing ─────────────────────────────────────── */
-.dr-lat{ opacity:.7 }
-.dr-line{ stroke:var(--burg); stroke-width:2.6; stroke-linejoin:round }
-.dr-rail{ stroke:rgba(97,38,24,.6); stroke-width:1.5 }
-.dr-panel{ stroke:rgba(146,112,62,.95); stroke-width:1.7; stroke-linejoin:round }
-.dr-star{ fill:none; stroke:rgba(155,46,32,.85); stroke-width:1.8 }
-.dr-seam{ stroke:rgba(97,38,24,.6); stroke-width:2 }
-.pl-plate{ fill:rgba(146,112,62,.16); stroke:rgba(146,112,62,.7); stroke-width:1.2 }
-.pl-ring{ stroke:var(--gold); stroke-width:3 }
-.pl-boss{ fill:var(--burg) }
-.dr-pull{
-  transform-box:view-box; transform-origin:150px 280px;
-  transition:transform .5s var(--ease), opacity .5s var(--ease);
-}
-.gate.is-pressed .dr-pull{ transform:translateY(3px); transition-duration:.14s }
-.gate.is-lifting .dr-pull{ opacity:0; transform:translateY(10px) }
 
 .gate-hint{
   position:absolute; top:calc(100% + 1.4rem); left:0; right:0; margin:0;

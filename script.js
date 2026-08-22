@@ -46,7 +46,7 @@ const calm = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const ar = (v) => String(v).replace(/[0-9]/g, (d) => '٠١٢٣٤٥٦٧٨٩'[d]);
 const pad = (n) => ar(String(n).padStart(2, '0'));
 
-/* ── 0 · the doors ───────────────────────────────────────────────
+/* ── 0 · the curtain ─────────────────────────────────────────────
    The whole doorway is the target — asking someone to find a small
    control on a phone is the wrong way round when the entire screen is
    the door.
@@ -71,10 +71,9 @@ const pad = (n) => ar(String(n).padStart(2, '0'));
       going = true;
       cover.disabled = true;
 
-      /* press (.16s) → the rings drop away (.3s) → the leaves swing out
-         towards the reader (1.55s), with the names coming up behind
-         while they are still travelling, so the reveal lands on the
-         names rather than on an empty hall */
+      /* press (.16s) → hold (.28s) → the drapes draw apart (1.8s), with
+         the names coming up behind while the cloth is still travelling,
+         so the reveal lands on them rather than on an empty stage */
       gate.classList.add('is-pressed');
       setTimeout(() => {
         gate.classList.remove('is-pressed');
@@ -84,9 +83,9 @@ const pad = (n) => ar(String(n).padStart(2, '0'));
         gate.classList.add('is-opening');
         sky && sky.burst();
       }, 440);
-      setTimeout(() => gate.classList.add('is-naming'), 1000);
-      setTimeout(open, 1900);
-      setTimeout(() => gate.classList.add('is-gone'), 2150);
+      setTimeout(() => gate.classList.add('is-naming'), 1050);
+      setTimeout(open, 2050);
+      setTimeout(() => gate.classList.add('is-gone'), 2300);
 
       /* a fixed full-screen layer keeps swallowing taps even at opacity
          0, so it has to leave the DOM either way */

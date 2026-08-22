@@ -34,7 +34,7 @@
 <!-- ⚠️ Bump ?v= on BOTH of these whenever you edit style.css or script.js.
      Browsers cache them hard; without a new URL a guest who has already
      opened the invitation keeps seeing the old design. -->
-<link rel="stylesheet" href="style.css?v=20">
+<link rel="stylesheet" href="style.css?v=27">
 
 <!-- The cover and the scroll lock are opt-in: with JavaScript off the
      guest lands straight on the invitation instead of a dead layer. -->
@@ -262,7 +262,7 @@
      opacity 0.
      ════════════════════════════════════════════════════════════════ -->
 <!-- ════════════════════════════════════════════════════════════════
-     0 · THE DOORS
+     0 · THE CURTAIN
      A Moorish doorway, closed. One tap and the two leaves swing OUT of
      the screen towards the reader, on the couple's names waiting behind
      them. Then the whole thing dissolves into the invitation. The ground
@@ -273,11 +273,11 @@
 <div class="gate" id="gate">
   <button class="stage" id="cover" type="button" aria-label="افتح الدعوة">
 
-    <span class="hall" aria-hidden="true">
+    <span class="house" aria-hidden="true">
 
-      <!-- what the doors are standing in front of -->
-      <span class="hall-in">
-        <span class="hall-glow"></span>
+      <!-- the stage the curtain opens on -->
+      <span class="house-in">
+        <span class="house-glow"></span>
         <span class="bill-kick">دعوة زفاف</span>
         <span class="bill-nm">إبراهيم</span>
         <svg class="bill-orn" viewBox="0 0 160 30">
@@ -289,77 +289,29 @@
         <span class="bill-nm">أسيل</span>
       </span>
 
-      <!-- Two leaves, each showing one half of a single panel drawing, so
-           the arch and the rails meet exactly across the seam. Hinged on
-           their OUTER edges and swung towards the reader. -->
-      <span class="leaf leaf--r">
-        <span class="leaf-face">
-          <svg class="leaf-art" viewBox="-5 -5 310 430" preserveAspectRatio="none">
-            <rect x="-5" y="-5" width="310" height="430" fill="url(#lattice)" mask="url(#doorMask)" class="dr-lat"/>
-            <use href="#arch" class="dr-line" fill="none"/>
-            <path class="dr-line" fill="none" d="M0 198v222M300 198v222"/>
-            <!-- an inner arched panel echoing the head, rather than a dome
-                 of its own crossing over the cusps -->
-            <use href="#arch" class="dr-panel" fill="none" transform="translate(150 200) scale(.84) translate(-150 -200)"/>
-            <path class="dr-panel" fill="none" d="M24 200v54M276 200v54M24 254h252"/>
-            <path class="dr-rail" fill="none" d="M4 266h292M4 292h292"/>
-            <path class="dr-panel" fill="none" d="M28 306h102v98H28Z"/>
-            <path class="dr-panel" fill="none" d="M170 306h102v98H170Z"/>
-            <use href="#star8" class="dr-star" transform="translate(79 355) scale(1)"/>
-            <use href="#star8" class="dr-star" transform="translate(221 355) scale(1)"/>
-            <path class="dr-seam" fill="none" d="M150 2v418"/>
-            <g class="dr-pull">
-              <path class="pl-plate" d="M118 268h26v22h-26Z"/>
-              <path class="pl-plate" d="M156 268h26v22h-26Z"/>
-              <circle class="pl-boss" cx="131" cy="276" r="4.6"/>
-              <circle class="pl-ring" cx="131" cy="292" r="13" fill="none"/>
-              <circle class="pl-boss" cx="169" cy="276" r="4.6"/>
-              <circle class="pl-ring" cx="169" cy="292" r="13" fill="none"/>
-            </g>
-          </svg>
-        </span>
-        <span class="leaf-back"></span>
-        <span class="leaf-edge"></span>
+      <!-- Two drapes. Each gathers towards its OWN outer edge, which is
+           what scaleX from that origin does: the folds compress into a
+           bunch at the side instead of the whole panel sliding off like
+           a shutter. -->
+      <span class="drape drape--r"><span class="drape-lead"></span></span>
+      <span class="drape drape--l"><span class="drape-lead"></span></span>
+
+      <!-- the valance is fixed: it is the pelmet, it never travels -->
+      <span class="valance">
+        <svg class="vl-art" viewBox="0 0 300 78" preserveAspectRatio="none">
+          <path class="vl-body" d="M0 0h300v46 q-21.43 26.0 -42.86 0 q-21.43 26.0 -42.86 0 q-21.43 26.0 -42.86 0 q-21.43 26.0 -42.86 0 q-21.43 26.0 -42.86 0 q-21.43 26.0 -42.86 0 q-21.43 26.0 -42.86 0 Z"/>
+          <path class="vl-rule" fill="none" d="M0 9h300M0 38h300"/>
+          <path class="vl-trim" fill="none" d="M300 46 q-21.43 26 -42.86 0 q-21.43 26 -42.86 0 q-21.43 26 -42.86 0 q-21.43 26 -42.86 0 q-21.43 26 -42.86 0 q-21.43 26 -42.86 0 q-21.43 26 -42.86 0"/>
+        </svg>
+        <svg class="vl-drops" viewBox="0 0 300 78"><use href="#pg" class="pg vl-drop" transform="translate(42.9 70) scale(.34)"/><use href="#pg" class="pg vl-drop" transform="translate(85.7 70) scale(.34)"/><use href="#pg" class="pg vl-drop" transform="translate(128.6 70) scale(.34)"/><use href="#pg" class="pg vl-drop" transform="translate(171.4 70) scale(.34)"/><use href="#pg" class="pg vl-drop" transform="translate(214.3 70) scale(.34)"/><use href="#pg" class="pg vl-drop" transform="translate(257.1 70) scale(.34)"/></svg>
       </span>
 
-      <span class="leaf leaf--l">
-        <span class="leaf-face">
-          <svg class="leaf-art" viewBox="-5 -5 310 430" preserveAspectRatio="none">
-            <rect x="-5" y="-5" width="310" height="430" fill="url(#lattice)" mask="url(#doorMask)" class="dr-lat"/>
-            <use href="#arch" class="dr-line" fill="none"/>
-            <path class="dr-line" fill="none" d="M0 198v222M300 198v222"/>
-            <!-- an inner arched panel echoing the head, rather than a dome
-                 of its own crossing over the cusps -->
-            <use href="#arch" class="dr-panel" fill="none" transform="translate(150 200) scale(.84) translate(-150 -200)"/>
-            <path class="dr-panel" fill="none" d="M24 200v54M276 200v54M24 254h252"/>
-            <path class="dr-rail" fill="none" d="M4 266h292M4 292h292"/>
-            <path class="dr-panel" fill="none" d="M28 306h102v98H28Z"/>
-            <path class="dr-panel" fill="none" d="M170 306h102v98H170Z"/>
-            <use href="#star8" class="dr-star" transform="translate(79 355) scale(1)"/>
-            <use href="#star8" class="dr-star" transform="translate(221 355) scale(1)"/>
-            <path class="dr-seam" fill="none" d="M150 2v418"/>
-            <g class="dr-pull">
-              <path class="pl-plate" d="M118 268h26v22h-26Z"/>
-              <path class="pl-plate" d="M156 268h26v22h-26Z"/>
-              <circle class="pl-boss" cx="131" cy="276" r="4.6"/>
-              <circle class="pl-ring" cx="131" cy="292" r="13" fill="none"/>
-              <circle class="pl-boss" cx="169" cy="276" r="4.6"/>
-              <circle class="pl-ring" cx="169" cy="292" r="13" fill="none"/>
-            </g>
-          </svg>
-        </span>
-        <span class="leaf-back"></span>
-        <span class="leaf-edge"></span>
-      </span>
-
-      <!-- the jamb is drawn over the leaves, so the doorway keeps a crisp
-           edge no matter where the leaves have swung to -->
-      <span class="jamb"></span>
+      <span class="prosc"></span>
     </span>
 
   </button>
 
-  <p class="gate-hint" id="gateHint">اضغط لفتح الباب</p>
+  <p class="gate-hint" id="gateHint">اضغط لرفع الستارة</p>
 </div>
 
 
@@ -1865,6 +1817,6 @@
 
 </main>
 
-<script src="script.js?v=20" defer></script>
+<script src="script.js?v=23" defer></script>
 </body>
 </html>

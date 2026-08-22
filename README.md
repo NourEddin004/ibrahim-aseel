@@ -144,52 +144,38 @@ to plain `Aref Ruqaa` in `--f-disp` if you ever want them in flat burgundy.
 
 Everything is slow on purpose.
 
-* **The curtain.** A lit arched window with the cloth drawn back either
-  side. One tap and the curtains sweep closed over it, hold, then open the
-  way a theatre curtain opens — slow off the mark, quick through the middle
-  — on the couple's names, and the stage dissolves into the invitation.
-  About three and a half seconds end to end. The whole stage is the tap
-  target; asking someone to find a small control is the wrong way round
-  when the entire screen is the door.
-* **Petals, leaves and whole blossoms** fall the length of the page —
-  pomegranate red, rose, sage, olive, gold and cream, the card's own palette.
-  Drawn on a canvas rather than as elements, and each one narrows as it turns
-  edge-on, which is the difference between falling and merely sliding down the
-  screen. A petal takes the better part of half a minute to cross. A handful
-  is thrown up as the curtains open.
+* **The curtain.** Two drapes that draw apart the way a theatre curtain
+  does, under a fixed scalloped valance. Each gathers towards its *own*
+  outer edge, which is what `scaleX` from that origin gives you: the folds
+  compress into a bunch at the side rather than the panel sliding off like
+  a shutter. It is also the one property the compositor can animate without
+  touching layout. The whole proscenium is the tap target.
+* **The arch draws itself in** once the curtain is up — `stroke-dashoffset`
+  on the cusped head, measured from the path at load.
+* **Petals** fall the length of the page in the card's own palette, on a
+  canvas rather than as elements. A handful is thrown up as the curtain
+  opens.
 * **The boughs breathe.** Only 15 groups animate; the other 80 ride along
-  inside them, which keeps a canopy of a thousand leaves off the phone's main
-  thread. The birds shift their weight, the arch draws itself in once, and the
-  navy plate drifts a little inside its frame as it scrolls past.
-* **The card tilts** to the pointer on desktop — about a degree and a half,
-  enough to read as a physical thing catching the light. Pointer-only; it is
-  never wired to a phone's gyroscope.
+  inside them, which keeps a canopy of a thousand leaves off the phone's
+  main thread. The navy plate drifts inside its frame as it scrolls past,
+  and the card tilts about a degree and a half to the pointer on desktop.
 
-All of it is off under `prefers-reduced-motion`, which also skips the cover
-entirely and lands the guest straight on the invitation.
+All of it is off under `prefers-reduced-motion`, which also skips the
+curtain and lands the guest straight on the invitation.
 
-### Alignment
+### Type
 
-Two things are worth knowing, because both look like bugs if you meet them
-without the reason:
+Two Arabic faces, and the split between them is the whole readability story:
 
-* **The border bands are fitted by script.** An SVG `userSpaceOnUse` pattern
-  tiles from the origin and stops wherever the strip ends, so every band used
-  to finish on a sliced motif — a whole star at one end, a shard at the other.
-  CSS gives you this as `background-repeat: round`; SVG has no equivalent, so
-  each strip gets its own pattern whose tile is stretched **along the strip**
-  by a few percent until the count comes out whole. Across the strip nothing
-  changes, so the band keeps its exact thickness. It re-runs on resize and
-  once the webfonts land.
-* **The countdown has no column gap.** With one, `inset-inline-end:100%` puts
-  each rule flush against a cell edge rather than halfway between two cells.
-  Columns that touch make the shared boundary the midpoint; the breathing room
-  is padding inside each cell instead.
+* **Aref Ruqaa (and Ruqaa Ink)** is a Ruq'ah hand — beautiful at display
+  size, close to illegible at label size. It is used for the couple's
+  names, the section titles, the two poetic lines and the big date
+  numerals. Nothing under 20px is set in it.
+* **Amiri**, a Naskh built to be read, carries everything else: the
+  invitation line, the venue, every form label, button, hint and error.
 
-The tree is the one thing not centred on its own bounding box: it is centred
-on its **trunk**, because that — with the couple standing at its foot — is
-what a viewer reads the plate's axis from. The canopy ends up about two
-pixels heavier on one side, which nobody will ever see.
+Nothing on the page is under 14px. Arabic loses its meaning in strokes
+that fine type drops, so the floor is higher than it would be for Latin.
 
 ### Controls
 
