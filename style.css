@@ -245,9 +245,13 @@ img,svg{ max-width:100%; display:block }
 
 /* ── the scroll cue ────────────────────────────────────────────── */
 .cue{
-  display:block; width:22px; margin:clamp(1.8rem,7vw,2.6rem) auto 0;
+  /* the arrow is 22px wide; the box around it is not, so the target
+     clears 44x44 without the mark growing */
+  display:grid; place-items:center; width:48px; height:48px;
+  margin:clamp(1.4rem,6vw,2.2rem) auto 0;
   color:var(--olive); opacity:.75;
 }
+.cue svg{ width:22px }
 .cue svg{ stroke:currentColor; stroke-width:1.2; stroke-linecap:round; stroke-linejoin:round }
 .cue svg path{ animation:cue 3.4s var(--ease) infinite }
 @keyframes cue{ 0%,72%,100%{ transform:translateY(0); opacity:.75 } 36%{ transform:translateY(4px); opacity:1 } }
@@ -303,9 +307,13 @@ img,svg{ max-width:100%; display:block }
 /* ── the countdown, set as printed numerals rather than a widget ── */
 .count{
   display:grid; grid-template-columns:repeat(4,1fr);
-  gap:.3rem; margin:clamp(1.8rem,7vw,2.4rem) auto 0; max-width:22rem;
+  /* no column gap on purpose: with one, inset-inline-end:100% puts each
+     rule flush against a cell edge rather than halfway between the two,
+     which reads as four numbers nudged off their dividers. With the
+     columns touching, the shared boundary IS the midpoint. */
+  gap:0; margin:clamp(1.8rem,7vw,2.4rem) auto 0; max-width:22rem;
 }
-.cu{ position:relative; padding-block:.2rem }
+.cu{ position:relative; padding:.2rem .4rem }
 .cu + .cu::after{
   content:''; position:absolute; inset-block:22%; inset-inline-end:100%;
   width:1px; background:rgba(168,135,85,.55);

@@ -147,7 +147,12 @@ for i, (x, y) in enumerate(picks):
 # so the trunk still stands where the grass is.
 xs0 = min(x - r for (x, y, r) in mark); xs1 = max(x + r for (x, y, r) in mark)
 ys0 = min(y - r for (x, y, r) in mark)
-TOP, HALF, DXMAX = 74.0, 412.0, 74.0
+# DXMAX is 0 deliberately. Balancing the canopy's bounding box costs the
+# trunk its place on the centre line, and the trunk — with the couple
+# standing at its foot — is what a viewer reads the plate's axis from.
+# A canopy a few units heavier on one side is invisible; a trunk three
+# pixels off the middle of a symmetrical frame is not.
+TOP, HALF, DXMAX = 74.0, 412.0, 0.0
 
 A = max(1.0, xs1 - BASE[0])          # reach to the right of the trunk
 B = max(1.0, BASE[0] - xs0)          # reach to the left

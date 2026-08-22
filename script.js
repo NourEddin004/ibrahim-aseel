@@ -166,6 +166,8 @@ $('#mapLink').href = CONFIG.mapsLink ||
     minus.disabled = n === 1;
     plus.disabled  = n === MAX_SEATS;
   };
+  name.addEventListener('input', () => name.value.trim() && clear(errName, name));
+
   minus.addEventListener('click', () => setSeats(n - 1));
   plus .addEventListener('click', () => setSeats(n + 1));
   setSeats(1);
@@ -175,12 +177,20 @@ $('#mapLink').href = CONFIG.mapsLink ||
   form.addEventListener('change', (e) => {
     if (e.target.name === 'attending') {
       seats.hidden = !coming();
-      errGo.hidden = true;
+      clear(errGo);
     }
-    if (e.target === name && name.value.trim()) errName.hidden = true;
+    if (e.target === name && name.value.trim()) clear(errName, name);
   });
 
-  const flag = (box, msg) => { box.textContent = msg; box.hidden = false; };
+  const flag = (box, msg, field) => {
+    box.textContent = msg;
+    box.hidden = false;
+    if (field) field.setAttribute('aria-invalid', 'true');
+  };
+  const clear = (box, field) => {
+    box.hidden = true;
+    if (field) field.removeAttribute('aria-invalid');
+  };
 
   /* the reply, written out the way the couple will want to read it */
   const message = () => [
@@ -206,10 +216,12 @@ $('#mapLink').href = CONFIG.mapsLink ||
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
     if (sent) return;
-    errTop.hidden = errName.hidden = errGo.hidden = true;
+    errTop.hidden = true;
+    clear(errName, name);
+    clear(errGo);
 
     if (!name.value.trim()) {
-      flag(errName, 'يرجى كتابة الاسم الكامل');
+      flag(errName, 'يرجى كتابة الاسم الكامل', name);
       name.focus();
       return;
     }
@@ -408,7 +420,63 @@ const sky = calm ? null : (() => {
   };
 })();
 
-/* ── 7 · the plate drifts as it passes ───────────────────────────── */
+/* ── 7 · the border bands fit a whole number of motifs ───────────
+   A userSpaceOnUse pattern tiles from the origin and stops wherever the
+   strip ends, so every band was finishing on a sliced motif — a whole
+   star at one end and a shard at the other. This is what CSS gives you
+   as `background-repeat: round`, and there is no SVG equivalent, so it
+   is done by hand: give each strip its own pattern and stretch the tile
+   along the strip by up to a few percent until the count comes out
+   whole. Across the strip nothing changes, so the band keeps its exact
+   thickness.
+   ═════════════════════════════════════════════════════════════════ */
+{
+  const SVGNS = 'http://www.w3.org/2000/svg';
+  const REPEAT = { bandH: 46, bandV: 46, starband: 34 };
+  const strips = [...document.querySelectorAll('.fe')];
+  const store = $('.plates defs');
+  let made = 0;
+
+  const fit = () => {
+    for (const svg of strips) {
+      const rect = svg.querySelector('rect');
+      if (!rect) continue;
+      const src = (rect.dataset.pattern ||
+                   (rect.getAttribute('fill') || '').replace(/^url\(#|\)$/g, ''));
+      const tile = REPEAT[src];
+      if (!tile) continue;
+      rect.dataset.pattern = src;
+
+      const across = svg.classList.contains('ft') || svg.classList.contains('fb');
+      const len = across ? svg.clientWidth : svg.clientHeight;
+      if (!len) continue;
+
+      const n = Math.max(1, Math.round(len / tile));
+      const k = len / (n * tile);
+
+      let own = rect.dataset.own;
+      if (!own) {
+        own = rect.dataset.own = `${src}-fit-${made++}`;
+        const clone = document.createElementNS(SVGNS, 'pattern');
+        clone.setAttribute('id', own);
+        clone.setAttribute('href', `#${src}`);
+        store.appendChild(clone);
+        rect.setAttribute('fill', `url(#${own})`);
+      }
+      document.getElementById(own).setAttribute(
+        'patternTransform', across ? `scale(${k.toFixed(5)},1)` : `scale(1,${k.toFixed(5)})`);
+    }
+  };
+
+  fit();
+  let wait;
+  addEventListener('resize', () => { clearTimeout(wait); wait = setTimeout(fit, 120); },
+                   { passive: true });
+  /* the webfonts can nudge the card's width when they land */
+  document.fonts && document.fonts.ready.then(fit);
+}
+
+/* ── 8 · the plate drifts as it passes ───────────────────────────── */
 {
   const field = $('.np-field'), tree = $('.tree');
   if (field && tree && !calm) {
@@ -429,7 +497,7 @@ const sky = calm ? null : (() => {
   }
 }
 
-/* ── 8 · the card tilts to the pointer ───────────────────────────── */
+/* ── 9 · the card tilts to the pointer ───────────────────────────── */
 {
   const sec = $('.sec--hero'), sheet = $('.sec--hero .sheet');
   const fine = matchMedia('(hover:hover) and (pointer:fine)').matches;

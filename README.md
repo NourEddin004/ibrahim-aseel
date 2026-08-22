@@ -166,6 +166,29 @@ Everything is slow on purpose.
 All of it is off under `prefers-reduced-motion`, which also skips the cover
 entirely and lands the guest straight on the invitation.
 
+### Alignment
+
+Two things are worth knowing, because both look like bugs if you meet them
+without the reason:
+
+* **The border bands are fitted by script.** An SVG `userSpaceOnUse` pattern
+  tiles from the origin and stops wherever the strip ends, so every band used
+  to finish on a sliced motif — a whole star at one end, a shard at the other.
+  CSS gives you this as `background-repeat: round`; SVG has no equivalent, so
+  each strip gets its own pattern whose tile is stretched **along the strip**
+  by a few percent until the count comes out whole. Across the strip nothing
+  changes, so the band keeps its exact thickness. It re-runs on resize and
+  once the webfonts land.
+* **The countdown has no column gap.** With one, `inset-inline-end:100%` puts
+  each rule flush against a cell edge rather than halfway between two cells.
+  Columns that touch make the shared boundary the midpoint; the breathing room
+  is padding inside each cell instead.
+
+The tree is the one thing not centred on its own bounding box: it is centred
+on its **trunk**, because that — with the couple standing at its foot — is
+what a viewer reads the plate's axis from. The canopy ends up about two
+pixels heavier on one side, which nobody will ever see.
+
 ### Controls
 
 Every control on the page — the map button, the text fields, both answers,
