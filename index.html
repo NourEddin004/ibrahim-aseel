@@ -10,7 +10,7 @@
 <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
 
 <title>إبراهيم &amp; أسيل — دعوة زفاف</title>
-<meta name="description" content="بكل الحب ندعوكم لتشاركونا فرحة بداية حياتنا — الجمعة ٢٥ أيلول ٢٠٢٦، Summer Garden، فندق ماريوت.">
+<meta name="description" content="بكل الحب ندعوكم لتشاركونا فرحة بداية حياتنا — الجمعة ٢٥ أيلول ٢٠٢٦، فندق ماريوت عمّان.">
 <meta name="robots" content="noindex, nofollow">
 <meta name="theme-color" content="#E6DAC1">
 <meta name="color-scheme" content="light only">
@@ -18,7 +18,7 @@
 <meta property="og:type" content="website">
 <meta property="og:locale" content="ar_JO">
 <meta property="og:title" content="إبراهيم &amp; أسيل — دعوة زفاف">
-<meta property="og:description" content="الجمعة ٢٥ أيلول ٢٠٢٦ · Summer Garden — فندق ماريوت">
+<meta property="og:description" content="الجمعة ٢٥ أيلول ٢٠٢٦ · فندق ماريوت عمّان">
 <meta property="og:image" content="og-image.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -34,7 +34,7 @@
 <!-- ⚠️ Bump ?v= on BOTH of these whenever you edit style.css or script.js.
      Browsers cache them hard; without a new URL a guest who has already
      opened the invitation keeps seeing the old design. -->
-<link rel="stylesheet" href="style.css?v=11">
+<link rel="stylesheet" href="style.css?v=13">
 
 <!-- The cover and the scroll lock are opt-in: with JavaScript off the
      guest lands straight on the invitation instead of a dead layer. -->
@@ -254,78 +254,73 @@
      because a fixed full-screen layer keeps swallowing taps even at
      opacity 0.
      ════════════════════════════════════════════════════════════════ -->
+<!-- ════════════════════════════════════════════════════════════════
+     0 · THE CURTAIN
+     A lit window with the curtains drawn back. One tap and they sweep
+     closed over it, hold, then open the way a theatre curtain opens —
+     slow off the mark, quick through the middle — on the couple's names.
+     Then the whole stage dissolves into the invitation.
+     ════════════════════════════════════════════════════════════════ -->
 <div class="gate" id="gate">
-  <div class="gate-glow" aria-hidden="true"></div>
+  <button class="stage" id="cover" type="button" aria-label="افتح الدعوة">
 
-  <div class="gate-scene">
+    <span class="stage-glow" aria-hidden="true"></span>
 
-    <!-- what is waiting underneath -->
-    <div class="gate-plate" aria-hidden="true">
-      <div class="gate-shade"></div>
-      <p class="gate-kicker">دعوة زفاف</p>
-      <p class="gate-names"><span>إبراهيم</span><em>&amp;</em><span>أسيل</span></p>
-      <svg class="gate-sprig" viewBox="0 0 120 26">
-        <use href="#olv" class="lf" transform="translate(36 13) rotate(196) scale(.9)"/>
-        <use href="#olv" class="lf" transform="translate(38 13) rotate(160) scale(.9)"/>
-        <use href="#pg"  class="pg" transform="translate(60 13) scale(.42)"/>
-        <use href="#olv" class="lf" transform="translate(82 13) rotate(-16) scale(.9)"/>
-        <use href="#olv" class="lf" transform="translate(84 13) rotate(20) scale(.9)"/>
+    <!-- the window the curtains hang over -->
+    <span class="win" aria-hidden="true">
+      <svg class="win-art" viewBox="-6 -6 312 402">
+        <defs>
+          <radialGradient id="winLight" cx=".5" cy=".62" r=".72">
+            <stop offset="0" stop-color="#FFE4B0"/>
+            <stop offset=".5" stop-color="#D89A4E"/>
+            <stop offset="1" stop-color="#7E4520"/>
+          </radialGradient>
+        </defs>
+        <!-- an arched head sitting on a rectangular body: a window, not a
+             doorway floating in the middle of the wall -->
+        <mask id="winMask">
+          <rect x="-6" y="-6" width="312" height="402" fill="#000"/>
+          <use href="#arch" fill="#fff"/>
+          <rect x="0" y="198" width="300" height="192" fill="#fff"/>
+        </mask>
+        <g mask="url(#winMask)">
+          <rect x="-6" y="-6" width="312" height="402" fill="url(#winLight)"/>
+          <rect x="-6" y="-6" width="312" height="402" fill="url(#lattice)" class="win-lat"/>
+        </g>
+        <use href="#arch" class="win-frame" fill="none"/>
+        <path class="win-frame" fill="none" d="M0 198v192M300 198v192M-6 390h312"/>
+        <path class="win-bar" fill="none" d="M150 200v190M4 286h292"/>
       </svg>
-    </div>
+    </span>
 
-    <!-- The cover is a real two-sided card. Without a back face it simply
-         vanishes at ninety degrees, which is what made the old one read as
-         a glitch rather than a card being opened. Hinged on the right,
-         because that is the edge an Arabic book opens from. -->
-    <button class="gate-cover" id="cover" type="button"
-            aria-label="افتح الدعوة">
-      <span class="cover-face cover-front">
-        <span class="frm frm--gate" aria-hidden="true">
-          <svg class="fe ft"><rect width="100%" height="100%" fill="url(#bandH)"/></svg>
-          <svg class="fe fb"><rect width="100%" height="100%" fill="url(#bandH)"/></svg>
-          <svg class="fe fl"><rect width="100%" height="100%" fill="url(#bandV)"/></svg>
-          <svg class="fe fr"><rect width="100%" height="100%" fill="url(#bandV)"/></svg>
-          <svg class="fc fc1" viewBox="0 0 26 26"><use href="#corn"/></svg>
-          <svg class="fc fc2" viewBox="0 0 26 26"><use href="#corn"/></svg>
-          <svg class="fc fc3" viewBox="0 0 26 26"><use href="#corn"/></svg>
-          <svg class="fc fc4" viewBox="0 0 26 26"><use href="#corn"/></svg>
-        </span>
+    <!-- what the curtains open on -->
+    <span class="bill" aria-hidden="true">
+      <span class="bill-kick">دعوة زفاف</span>
+      <span class="bill-nm">إبراهيم</span>
+      <svg class="bill-orn" viewBox="0 0 160 30">
+        <path class="dv-rule" fill="none" d="M6 15h44M110 15h44"/>
+        <use href="#olv" class="lf" transform="translate(60 15) rotate(200) scale(.8)"/>
+        <use href="#pg" class="pg" transform="translate(80 15) scale(.5)"/>
+        <use href="#olv" class="lf" transform="translate(100 15) rotate(-20) scale(.8)"/>
+      </svg>
+      <span class="bill-nm">أسيل</span>
+    </span>
 
-        <span class="cover-in">
-          <svg class="cover-arch" viewBox="-3 -3 306 203" aria-hidden="true">
-            <mask id="coverMask">
-              <rect x="-3" y="-3" width="306" height="203" fill="#fff"/>
-              <use href="#arch" fill="#000"/>
-            </mask>
-            <rect x="-3" y="-3" width="306" height="203" fill="url(#lattice)" mask="url(#coverMask)"/>
-            <use href="#arch" class="cover-archline" fill="none"/>
-          </svg>
+    <!-- the pelmet sits above the rail and never moves -->
+    <span class="pelmet" aria-hidden="true">
+      <svg class="pelmet-art" viewBox="0 0 400 64" preserveAspectRatio="none">
+        <path class="pel-body" d="M0 0h400v34c-16 0-16 18-33 18s-17-18-33-18-17 18-34 18-17-18-33-18-17 18-34 18-17-18-33-18-17 18-34 18-17-18-33-18-17 18-34 18-17-18-33-18-17 18-33 18-17-18-33-18Z"/>
+        <path class="pel-trim" fill="none" d="M0 30h400"/>
+      </svg>
+      <span class="pel-rail"></span>
+    </span>
 
-          <span class="seal" id="seal">
-            <svg class="seal-art" viewBox="0 0 120 120" aria-hidden="true">
-              <circle class="seal-wax" cx="60" cy="60" r="43"/>
-              <use href="#star8" class="sl-out" transform="translate(60 60) scale(1.9)"/>
-              <use href="#star8" class="sl-mid" transform="translate(60 60) scale(1.44)"/>
-              <rect class="sl-dia" x="-13" y="-13" width="26" height="26" transform="translate(60 60) rotate(45)"/>
-            </svg>
-            <span class="seal-mono" aria-hidden="true">إ<i>·</i>أ</span>
-            <span class="seal-ring" aria-hidden="true"></span>
-          </span>
+    <span class="curtain curtain--l" aria-hidden="true"><span class="tie"></span></span>
+    <span class="curtain curtain--r" aria-hidden="true"><span class="tie"></span></span>
 
-          <span class="cover-kick">دعوة زفاف</span>
-        </span>
+  </button>
 
-        <span class="cover-sheen" aria-hidden="true"></span>
-      </span>
-
-      <span class="cover-face cover-back" aria-hidden="true">
-        <span class="cover-back-orn"></span>
-      </span>
-    </button>
-
-    <p class="gate-hint" id="gateHint">اضغط لفتح الدعوة</p>
-
-  </div>
+  <p class="gate-hint" id="gateHint">اضغط لفتح الستارة</p>
 </div>
 
 
@@ -361,10 +356,17 @@
           <rect x="-3" y="-3" width="306" height="203" fill="url(#lattice)" mask="url(#archMask)" class="arch-lat"/>
           <use href="#arch" class="arch-line" fill="none"/>
           <use href="#arch" class="arch-line arch-line--in" fill="none" transform="translate(150 200) scale(.955) translate(-150 -200)"/>
+
+          <!-- a pendant hung from the point of the arch, swinging the way
+               something on a thread does: slowly, and never quite evenly -->
+          <g class="crown">
+            <path class="crown-cord" d="M150 3v20" fill="none"/>
+            <use href="#olv" class="lf" transform="translate(150 25) rotate(208) scale(.72)"/>
+            <use href="#olv" class="lf" transform="translate(150 25) rotate(-28) scale(.72)"/>
+            <use href="#pg" class="pg" transform="translate(150 34) scale(.5)"/>
+          </g>
         </svg>
       </div>
-
-      <p class="basmala reveal">بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ</p>
 
       <p class="hero-phrase reveal">بِكُلِّ الحُبِّ نَدْعُوكُم<br>لِتُشَارِكُونَا فَرْحَةَ بِدَايَةِ حَيَاتِنَا</p>
 
@@ -385,8 +387,7 @@
       <div class="hero-when reveal">
         <p class="hw-day">يوم الجمعة</p>
         <p class="hw-date"><span>٢٥</span><i>أيلول</i><span>٢٠٢٦</span></p>
-        <p class="hw-where">Summer Garden — فندق ماريوت</p>
-        <p class="hw-city">عمّان</p>
+        <p class="hw-place">فندق ماريوت عمّان</p>
       </div>
 
     </div>
@@ -423,7 +424,6 @@
       <use href="#pg" class="pg" transform="translate(80 30) scale(.62)"/>
       <path class="dv-rule" fill="none" d="M18 46h34M108 46h34"/>
     </svg>
-    <p class="ode-sign">إبراهيم <em>&amp;</em> أسيل</p>
   </div>
 </section>
 
@@ -453,7 +453,6 @@
         <div class="fact">
           <dt>التاريخ</dt>
           <dd>الجمعة ٢٥ أيلول ٢٠٢٦</dd>
-          <dd class="fact-sub" dir="ltr">Friday · 25 / 09 / 2026</dd>
         </div>
         <svg class="fact-div" viewBox="0 0 200 22" aria-hidden="true">
           <path class="dv-rule" d="M6 11H82M118 11H194" fill="none"/>
@@ -476,19 +475,7 @@
 
         <div class="fact">
           <dt>المكان</dt>
-          <dd dir="ltr">Summer Garden</dd>
-          <dd class="fact-sub fact-sub--ar">فندق ماريوت</dd>
-        </div>
-        <svg class="fact-div" viewBox="0 0 200 22" aria-hidden="true">
-          <path class="dv-rule" d="M6 11H82M118 11H194" fill="none"/>
-          <use href="#flr" class="fl" transform="translate(100 11) scale(.78)"/>
-          <use href="#olv" class="lf" transform="translate(88 11) rotate(196) scale(.62)"/>
-          <use href="#olv" class="lf" transform="translate(112 11) rotate(-16) scale(.62)"/>
-        </svg>
-
-        <div class="fact">
-          <dt>المدينة</dt>
-          <dd>عمّان — الأردن</dd>
+          <dd>فندق ماريوت عمّان</dd>
         </div>
       </dl>
 
@@ -504,9 +491,11 @@
       </div>
 
       <p class="note">
-        <svg class="note-orn" viewBox="0 0 40 16" aria-hidden="true">
-          <use href="#olv" class="lf" transform="translate(14 8) rotate(198) scale(.62)"/>
-          <use href="#olv" class="lf" transform="translate(26 8) rotate(-18) scale(.62)"/>
+        <svg class="note-mark" viewBox="0 0 48 48" role="img" aria-label="نعتذر عن اصطحاب الأطفال">
+          <circle class="nk-ring" cx="24" cy="24" r="21" fill="none"/>
+          <path class="nk-slash" d="M9.6 38.4 38.4 9.6" fill="none"/>
+          <circle class="nk-fig" cx="24" cy="16.4" r="5"/>
+          <path class="nk-fig" d="M24 23.6c-4.4 0-7.4 2.9-7.4 7.2V38h4.6v-5.7h5.6V38h4.6v-7.2c0-4.3-3-7.2-7.4-7.2Z"/>
         </svg>
         نعتذر عن اصطحاب الأطفال، شاكرين لكم تفهّمكم ومحبتكم
       </p>
@@ -1716,7 +1705,7 @@
       </svg>
 
       <h2 class="sec-title">تأكيد الحضور</h2>
-      <p class="rsvp-sub">ننتظر مشاركتكم فرحتنا — نرجو تأكيد الحضور قبل ١٥ أيلول</p>
+      <p class="rsvp-sub">ننتظر مشاركتكم فرحتنا، ونرجو تأكيد الحضور</p>
 
       <form id="rsvpForm" class="form" name="rsvp" method="POST" novalidate
             data-netlify="true" netlify-honeypot="bot-field">
@@ -1728,6 +1717,14 @@
           <input class="f-in" type="text" id="rsvpName" name="name" autocomplete="name"
                  enterkeyhint="next" maxlength="80" required aria-describedby="nameErr">
           <p class="f-err" id="nameErr" role="alert" hidden></p>
+        </div>
+
+        <div class="field">
+          <label class="f-label" for="rsvpPhone">رقم الهاتف</label>
+          <input class="f-in" type="tel" id="rsvpPhone" name="phone" autocomplete="tel"
+                 inputmode="tel" enterkeyhint="next" maxlength="24" required
+                 aria-describedby="phoneErr">
+          <p class="f-err" id="phoneErr" role="alert" hidden></p>
         </div>
 
         <fieldset class="field">
@@ -1804,12 +1801,12 @@
     <use href="#pg" class="pg" transform="translate(100 20) scale(.44)"/>
     <use href="#olv" class="lf" transform="translate(118 20) rotate(-20) scale(.8)"/>
   </svg>
-  <p class="foot-names">إبراهيم &amp; أسيل</p>
-  <p class="foot-date" dir="ltr">25 · 09 · 2026</p>
+  <p class="foot-names">إبراهيم وأسيل</p>
+  <p class="foot-date">٢٥ · ٠٩ · ٢٠٢٦</p>
 </footer>
 
 </main>
 
-<script src="script.js?v=11" defer></script>
+<script src="script.js?v=13" defer></script>
 </body>
 </html>

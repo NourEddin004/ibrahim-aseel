@@ -14,7 +14,7 @@ const CONFIG = {
      then the button runs a search for the hotel, which still lands the
      guest in the right place. */
   mapsLink : '',
-  mapsQuery: 'Amman Marriott Hotel',
+  mapsQuery: 'فندق ماريوت عمان',
 
   /* ── where the replies go ────────────────────────────────────────
      Fill in ONE of the three. Until you do, the form validates and
@@ -46,10 +46,10 @@ const calm = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const ar = (v) => String(v).replace(/[0-9]/g, (d) => '٠١٢٣٤٥٦٧٨٩'[d]);
 const pad = (n) => ar(String(n).padStart(2, '0'));
 
-/* ── 0 · the folded card ─────────────────────────────────────────
-   The whole cover is the target, not just the seal: a 100px medallion
-   is a small thing to ask someone to hit on a phone, and the seal is
-   there to say "touch me", not to be the only place that works.
+/* ── 0 · the curtain ─────────────────────────────────────────────
+   Closed over the window, held, then opened on the names. The whole
+   stage is the target — asking someone to find a small control on a
+   phone is the wrong way round when the entire screen is the door.
    ═════════════════════════════════════════════════════════════════ */
 {
   const gate  = $('#gate');
@@ -71,38 +71,27 @@ const pad = (n) => ar(String(n).padStart(2, '0'));
       going = true;
       cover.disabled = true;
 
-      /* press (.15s) → the seal lifts away (.28s) → the cover swings
-         (1.45s) while the light behind it opens up → the invitation
-         underneath comes up to full size → the layer dissolves */
-      gate.classList.add('is-pressed');
+      /* draw closed (1.35s) → hold (.25s) → sweep open (1.6s), with the
+         names coming up while the cloth is still travelling, so the
+         reveal lands on them rather than on an empty stage */
+      gate.classList.add('is-closing');
       setTimeout(() => {
-        gate.classList.remove('is-pressed');
-        gate.classList.add('is-lifting');
-      }, 150);
-      setTimeout(() => {
+        gate.classList.remove('is-closing');
         gate.classList.add('is-opening');
         sky && sky.burst();
-      }, 430);
-      setTimeout(() => gate.classList.add('is-revealing'), 900);
-      setTimeout(open, 1450);
-      setTimeout(() => gate.classList.add('is-gone'), 1700);
+      }, 1600);
+      setTimeout(() => gate.classList.add('is-naming'), 2100);
+      setTimeout(open, 3500);
+      setTimeout(() => gate.classList.add('is-gone'), 3700);
 
       /* a fixed full-screen layer keeps swallowing taps even at opacity
          0, so it has to leave the DOM either way */
       gate.addEventListener('transitionend', (e) => {
         if (e.target === gate && e.propertyName === 'opacity') gate.remove();
       });
-      setTimeout(() => gate.isConnected && gate.remove(), 3400);
+      setTimeout(() => gate.isConnected && gate.remove(), 5600);
     };
 
-    /* press feedback on the way down, so the card answers the finger
-       before anything else starts moving */
-    const press = () => !going && gate.classList.add('is-pressed');
-    const release = () => !going && gate.classList.remove('is-pressed');
-    cover.addEventListener('pointerdown', press);
-    cover.addEventListener('pointerup', release);
-    cover.addEventListener('pointercancel', release);
-    cover.addEventListener('pointerleave', release);
     cover.addEventListener('click', run);
   }
 }
@@ -150,11 +139,13 @@ $('#mapLink').href = CONFIG.mapsLink ||
 {
   const form  = $('#rsvpForm');
   const name  = $('#rsvpName');
+  const phone = $('#rsvpPhone');
   const note  = $('#rsvpNote');
   const seats = $('#seatsField');
   const sOut  = $('#sOut'), sVal = $('#sVal');
   const minus = $('#sMinus'), plus = $('#sPlus');
-  const errTop = $('#formErr'), errName = $('#nameErr'), errGo = $('#goErr');
+  const errTop = $('#formErr'), errName = $('#nameErr');
+  const errPhone = $('#phoneErr'), errGo = $('#goErr');
   const btn = $('#sendBtn'), ctaText = $('#ctaText');
   const done = $('#rsvpDone'), doneSub = $('#doneSub'), waLink = $('#waLink');
   let n = 1, sent = false;
@@ -167,12 +158,16 @@ $('#mapLink').href = CONFIG.mapsLink ||
     plus.disabled  = n === MAX_SEATS;
   };
   name.addEventListener('input', () => name.value.trim() && clear(errName, name));
+  phone.addEventListener('input', () => digits() && clear(errPhone, phone));
 
   minus.addEventListener('click', () => setSeats(n - 1));
   plus .addEventListener('click', () => setSeats(n + 1));
   setSeats(1);
 
   const coming = () => (form.attending.value || '').startsWith('نعم');
+  /* count digits rather than match a format: people write +962…, 07…,
+     with spaces, with dashes, and every one of those is a real number */
+  const digits = () => phone.value.replace(/\D/g, '');
 
   form.addEventListener('change', (e) => {
     if (e.target.name === 'attending') {
@@ -196,6 +191,7 @@ $('#mapLink').href = CONFIG.mapsLink ||
   const message = () => [
     `تأكيد حضور — زفاف ${CONFIG.couple}`,
     `الاسم: ${name.value.trim()}`,
+    `الهاتف: ${phone.value.trim()}`,
     `الحضور: ${form.attending.value}`,
     coming() ? `عدد الأشخاص: ${n}` : '',
     note.value.trim() ? `ملاحظات: ${note.value.trim()}` : '',
@@ -218,11 +214,23 @@ $('#mapLink').href = CONFIG.mapsLink ||
     if (sent) return;
     errTop.hidden = true;
     clear(errName, name);
+    clear(errPhone, phone);
     clear(errGo);
 
     if (!name.value.trim()) {
       flag(errName, 'يرجى كتابة الاسم الكامل', name);
       name.focus();
+      return;
+    }
+    const tel = digits();
+    if (!tel) {
+      flag(errPhone, 'يرجى كتابة رقم الهاتف', phone);
+      phone.focus();
+      return;
+    }
+    if (tel.length < 7) {
+      flag(errPhone, 'رقم الهاتف يبدو قصيرًا', phone);
+      phone.focus();
       return;
     }
     if (!form.attending.value) {
@@ -260,6 +268,7 @@ $('#mapLink').href = CONFIG.mapsLink ||
             },
             body: JSON.stringify({
               name: name.value.trim(),
+              phone: phone.value.trim(),
               attending: form.attending.value,
               guests: coming() ? n : 0,
               note: note.value.trim() || null,
@@ -307,27 +316,33 @@ const sky = calm ? null : (() => {
   addEventListener('resize', size, { passive: true });
 
   /* pomegranate red, a deeper rose, sage, olive, gold and cream — the
-     card's own palette, so what falls looks like it came off the page */
+     card's own palette, so what falls looks like it came off the page.
+     Second value is the shape: 0 petal, 1 leaf, 2 whole flower. */
+  const PETAL = 0, LEAF = 1, BLOOM = 2;
   const KIND = [
-    ['#9B2E20', 0], ['#7C241B', 0], ['#B4472F', 0],
-    ['#7C8467', 1], ['#626455', 1],
-    ['#A88755', 0], ['#DCC197', 0],
+    ['#9B2E20', PETAL], ['#7C241B', PETAL], ['#B4472F', PETAL],
+    ['#DCC197', PETAL], ['#A88755', PETAL],
+    ['#7C8467', LEAF],  ['#626455', LEAF],  ['#5C7050', LEAF],
+    ['#9B2E20', BLOOM], ['#B4472F', BLOOM], ['#C9A05A', BLOOM],
   ];
 
   const make = (fromTop) => {
-    const [c, leaf] = KIND[(Math.random() * KIND.length) | 0];
+    const [c, shape] = KIND[(Math.random() * KIND.length) | 0];
     return {
       x   : Math.random(),
-      y   : fromTop ? -0.08 - Math.random() * 0.25 : Math.random(),
-      r   : (4.5 + Math.random() * 6.5) * dpr,
-      vy  : (0.10 + Math.random() * 0.15) / 1000,
-      vx  : (Math.random() - 0.5) / 2800,
+      y   : fromTop ? -0.08 - Math.random() * 0.3 : Math.random(),
+      r   : (shape === BLOOM ? 5 + Math.random() * 4 : 4.5 + Math.random() * 6) * dpr,
+      /* roughly a third of what it was: a petal now takes the better part
+         of half a minute to cross the screen, which is the difference
+         between falling and being blown past */
+      vy  : (0.032 + Math.random() * 0.05) / 1000,
+      vx  : (Math.random() - 0.5) / 7000,
       rot : Math.random() * Math.PI * 2,
-      vr  : (Math.random() - 0.5) * 0.0009,
+      vr  : (Math.random() - 0.5) * 0.0004,
       p   : Math.random() * Math.PI * 2,
-      sway: 0.00016 + Math.random() * 0.0003,
-      a   : 0.2 + Math.random() * 0.3,
-      c, leaf,
+      sway: 0.00006 + Math.random() * 0.00013,
+      a   : 0.18 + Math.random() * 0.28,
+      c, shape,
     };
   };
 
@@ -347,6 +362,23 @@ const sky = calm ? null : (() => {
     ctx.quadraticCurveTo(r * 0.66, 0, 0, r * 1.2);
     ctx.quadraticCurveTo(-r * 0.66, 0, 0, -r * 1.2);
     ctx.closePath();
+  };
+  /* a whole five-petal bloom, the same flower that runs through the
+     borders — drawn petal by petal so it keeps a soft centre */
+  const bloom = (r, colour) => {
+    for (let i = 0; i < 5; i++) {
+      ctx.save();
+      ctx.rotate((i * Math.PI * 2) / 5);
+      ctx.beginPath();
+      ctx.ellipse(0, -r * 0.66, r * 0.36, r * 0.66, 0, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.restore();
+    }
+    ctx.fillStyle = '#C9A05A';
+    ctx.beginPath();
+    ctx.arc(0, 0, r * 0.27, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.fillStyle = colour;
   };
 
   let raf = 0, last = 0;
@@ -382,11 +414,14 @@ const sky = calm ? null : (() => {
       ctx.rotate(f.rot);
       /* the narrow axis is what sells it: a petal turning edge-on is the
          difference between falling and merely sliding down the screen */
-      ctx.scale(0.3 + 0.7 * Math.abs(Math.cos(f.p * 1.7)), 1);
+      /* a bloom read edge-on looks like a smear, so it keeps more of its
+         width than a single petal does */
+      const flat = Math.abs(Math.cos(f.p * 1.7));
+      ctx.scale(f.shape === BLOOM ? 0.62 + 0.38 * flat : 0.3 + 0.7 * flat, 1);
       ctx.globalAlpha = f.a;
       ctx.fillStyle = f.c;
-      f.leaf ? leafShape(f.r) : petal(f.r);
-      ctx.fill();
+      if (f.shape === BLOOM) { bloom(f.r, f.c); }
+      else { f.shape === LEAF ? leafShape(f.r) : petal(f.r); ctx.fill(); }
       ctx.restore();
     }
     if (drop) flakes = flakes.filter((f) => !f.dead);
@@ -410,9 +445,9 @@ const sky = calm ? null : (() => {
         f.x  = 0.5 + (Math.random() - 0.5) * 0.3;
         f.y  = 0.4 + (Math.random() - 0.5) * 0.16;
         f.vy = -(0.05 + Math.random() * 0.1) / 1000;
-        f.vx = (Math.random() - 0.5) / 700;
-        f.g  = (1.4 + Math.random() * 1.8) / 1e6;
-        f.vr = (Math.random() - 0.5) * 0.004;
+        f.vx = (Math.random() - 0.5) / 900;
+        f.g  = (0.7 + Math.random() * 0.9) / 1e6;
+        f.vr = (Math.random() - 0.5) * 0.0018;
         f.a  = 0.45 + Math.random() * 0.4;
         flakes.push(f);
       }

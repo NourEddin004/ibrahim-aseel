@@ -44,6 +44,7 @@ create table public.rsvp (
   id         bigint generated always as identity primary key,
   created_at timestamptz not null default now(),
   name       text   not null,
+  phone      text   not null,
   attending  text   not null,
   guests     int    not null default 1,
   note       text
@@ -70,7 +71,9 @@ create unique index rsvp_one_per_name on public.rsvp (lower(trim(name)));
 
 -- and cap the free text
 alter table public.rsvp add constraint rsvp_sane
-  check (length(name) between 2 and 80 and length(coalesce(note,'')) <= 500);
+  check (length(name) between 2 and 80
+     and length(phone) between 7 and 24
+     and length(coalesce(note,'')) <= 500);
 ```
 
 The unique index makes a repeat submission fail, which lands the guest on the
@@ -141,20 +144,19 @@ to plain `Aref Ruqaa` in `--f-disp` if you ever want them in flat burgundy.
 
 Everything is slow on purpose.
 
-* **The cover** is a real two-sided card hinged on the right, the edge an
-  Arabic book opens from, and it opens **towards the reader** — out of the
-  screen, not away into it. That is the sign of the rotation: with the hinge
-  on the right, a positive `rotateY` brings the free edge forward and a
-  negative one sends it back through the glass. Press → the seal lifts away →
-  the cover swings out through 162°, passing edge-on and standing open like a
-  card on a table → the invitation underneath comes up to full size → the
-  layer dissolves. The whole card is the tap target, not just the seal; the
-  seal is there to say *touch me*, not to be the only place that works.
-* **Petals** fall the length of the page — pomegranate red, rose, sage, olive,
-  gold and cream, the card's own palette. Drawn on a canvas rather than as
-  elements, and each one narrows as it turns edge-on, which is the difference
-  between falling and merely sliding down the screen. A handful is thrown up
-  when the cover opens.
+* **The curtain.** A lit arched window with the cloth drawn back either
+  side. One tap and the curtains sweep closed over it, hold, then open the
+  way a theatre curtain opens — slow off the mark, quick through the middle
+  — on the couple's names, and the stage dissolves into the invitation.
+  About three and a half seconds end to end. The whole stage is the tap
+  target; asking someone to find a small control is the wrong way round
+  when the entire screen is the door.
+* **Petals, leaves and whole blossoms** fall the length of the page —
+  pomegranate red, rose, sage, olive, gold and cream, the card's own palette.
+  Drawn on a canvas rather than as elements, and each one narrows as it turns
+  edge-on, which is the difference between falling and merely sliding down the
+  screen. A petal takes the better part of half a minute to cross. A handful
+  is thrown up as the curtains open.
 * **The boughs breathe.** Only 15 groups animate; the other 80 ride along
   inside them, which keeps a canopy of a thousand leaves off the phone's main
   thread. The birds shift their weight, the arch draws itself in once, and the
