@@ -3,7 +3,7 @@
    here.  The wording the guest reads is in index.html.
    ═══════════════════════════════════════════════════════════════════ */
 const CONFIG = {
-  couple : 'أسيل وإبراهيم',
+  couple : 'إبراهيم وأسيل',
 
   /* Pinned to Amman's offset, not the phone's. new Date(2026, 8, 25, 19, 30)
      would mean 7:30pm wherever the guest happens to be standing, so a

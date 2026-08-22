@@ -295,6 +295,9 @@ img,svg{ max-width:100%; display:block }
   font-size:.86rem !important; color:var(--ink-soft); opacity:.9;
   font-family:var(--f-lat); letter-spacing:.06em;
 }
+/* Cormorant carries no Arabic, so a sub-line in Arabic has to stay in the
+   body face or it drops to whatever the system happens to supply */
+.fact-sub--ar{ font-family:var(--f-body); letter-spacing:0 }
 .fact-div{ width:min(74%,13rem); margin:clamp(.9rem,3.6vw,1.3rem) auto }
 
 /* ── the countdown, set as printed numerals rather than a widget ── */

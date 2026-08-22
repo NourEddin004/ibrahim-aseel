@@ -1,6 +1,6 @@
-# أسيل & إبراهيم — دعوة زفاف
+# إبراهيم & أسيل — دعوة زفاف
 
-A single-page Arabic wedding invitation for **أسيل هياجنة** and **إبراهيم زريق**,
+A single-page Arabic wedding invitation for **إبراهيم زريق** and **أسيل هياجنة**,
 Friday 25 September 2026, Summer Garden — Marriott Hotel.
 
 Built to look like an antique Moroccan/Arabic wedding card that was printed
@@ -104,6 +104,7 @@ from the brief; two were inferred and are worth confirming:
 | city | **عمّان — الأردن** | assumed from the couple's names and the venue; change in `index.html` and `CONFIG.city` |
 | map  | a Google Maps *search* for "Amman Marriott Hotel" | drop the real pin into `CONFIG.mapsLink` and the button uses it instead |
 | RSVP deadline | ١٥ أيلول | in `index.html`, under `.rsvp-sub` |
+| name order | the groom leads | swap the two `.nm` spans in the hero, and the pairings in the title, the cover, the dedication and the footer |
 
 The event time is pinned to Amman (`+03:00`), so the countdown is correct even
 for a guest whose phone is set to another timezone.
