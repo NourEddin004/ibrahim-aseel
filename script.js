@@ -46,10 +46,10 @@ const calm = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const ar = (v) => String(v).replace(/[0-9]/g, (d) => '٠١٢٣٤٥٦٧٨٩'[d]);
 const pad = (n) => ar(String(n).padStart(2, '0'));
 
-/* ── 0 · the curtain ─────────────────────────────────────────────
-   Closed over the window, held, then opened on the names. The whole
-   stage is the target — asking someone to find a small control on a
-   phone is the wrong way round when the entire screen is the door.
+/* ── 0 · the doors ───────────────────────────────────────────────
+   The whole doorway is the target — asking someone to find a small
+   control on a phone is the wrong way round when the entire screen is
+   the door.
    ═════════════════════════════════════════════════════════════════ */
 {
   const gate  = $('#gate');
@@ -71,27 +71,37 @@ const pad = (n) => ar(String(n).padStart(2, '0'));
       going = true;
       cover.disabled = true;
 
-      /* draw closed (1.35s) → hold (.25s) → sweep open (1.6s), with the
-         names coming up while the cloth is still travelling, so the
-         reveal lands on them rather than on an empty stage */
-      gate.classList.add('is-closing');
+      /* press (.16s) → the rings drop away (.3s) → the leaves swing out
+         towards the reader (1.55s), with the names coming up behind
+         while they are still travelling, so the reveal lands on the
+         names rather than on an empty hall */
+      gate.classList.add('is-pressed');
       setTimeout(() => {
-        gate.classList.remove('is-closing');
+        gate.classList.remove('is-pressed');
+        gate.classList.add('is-lifting');
+      }, 160);
+      setTimeout(() => {
         gate.classList.add('is-opening');
         sky && sky.burst();
-      }, 1600);
-      setTimeout(() => gate.classList.add('is-naming'), 2100);
-      setTimeout(open, 3500);
-      setTimeout(() => gate.classList.add('is-gone'), 3700);
+      }, 440);
+      setTimeout(() => gate.classList.add('is-naming'), 1000);
+      setTimeout(open, 1900);
+      setTimeout(() => gate.classList.add('is-gone'), 2150);
 
       /* a fixed full-screen layer keeps swallowing taps even at opacity
          0, so it has to leave the DOM either way */
       gate.addEventListener('transitionend', (e) => {
         if (e.target === gate && e.propertyName === 'opacity') gate.remove();
       });
-      setTimeout(() => gate.isConnected && gate.remove(), 5600);
+      setTimeout(() => gate.isConnected && gate.remove(), 4200);
     };
 
+    const press   = () => !going && gate.classList.add('is-pressed');
+    const release = () => !going && gate.classList.remove('is-pressed');
+    cover.addEventListener('pointerdown', press);
+    cover.addEventListener('pointerup', release);
+    cover.addEventListener('pointercancel', release);
+    cover.addEventListener('pointerleave', release);
     cover.addEventListener('click', run);
   }
 }
@@ -140,7 +150,6 @@ $('#mapLink').href = CONFIG.mapsLink ||
   const form  = $('#rsvpForm');
   const name  = $('#rsvpName');
   const phone = $('#rsvpPhone');
-  const note  = $('#rsvpNote');
   const seats = $('#seatsField');
   const sOut  = $('#sOut'), sVal = $('#sVal');
   const minus = $('#sMinus'), plus = $('#sPlus');
@@ -194,7 +203,6 @@ $('#mapLink').href = CONFIG.mapsLink ||
     `الهاتف: ${phone.value.trim()}`,
     `الحضور: ${form.attending.value}`,
     coming() ? `عدد الأشخاص: ${n}` : '',
-    note.value.trim() ? `ملاحظات: ${note.value.trim()}` : '',
   ].filter(Boolean).join('\n');
 
   const waHref = () => 'https://wa.me/' + CONFIG.whatsapp +
@@ -271,7 +279,6 @@ $('#mapLink').href = CONFIG.mapsLink ||
               phone: phone.value.trim(),
               attending: form.attending.value,
               guests: coming() ? n : 0,
-              note: note.value.trim() || null,
             }),
           })
         : await fetch(CONFIG.endpoint, {
