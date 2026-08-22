@@ -144,12 +144,15 @@ to plain `Aref Ruqaa` in `--f-disp` if you ever want them in flat burgundy.
 
 Everything is slow on purpose.
 
-* **The curtain.** Two drapes that draw apart the way a theatre curtain
-  does, under a fixed scalloped valance. Each gathers towards its *own*
-  outer edge, which is what `scaleX` from that origin gives you: the folds
-  compress into a bunch at the side rather than the panel sliding off like
-  a shutter. It is also the one property the compositor can animate without
-  touching layout. The whole proscenium is the tap target.
+* **The doors.** Two leaves that slide apart in their own plane — the
+  right one right, the left one left — under a fixed lintel, with the
+  opening's `overflow:hidden` as the thing they disappear into. No hinge
+  and no rotation: `translateX` only, which is the one property the
+  compositor can move without ever touching layout, and the reason it
+  stays smooth on a phone. The slide has weight — the latch lets go and
+  each leaf eases back a few pixels before it travels, then runs out and
+  settles. Behind them is a card, not a blank panel: the same ornamental
+  band frame as the invitation, the names, and the date.
 * **The arch draws itself in** once the curtain is up — `stroke-dashoffset`
   on the cusped head, measured from the path at load.
 * **Petals** fall the length of the page in the card's own palette, on a
