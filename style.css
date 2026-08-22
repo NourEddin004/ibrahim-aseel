@@ -250,6 +250,40 @@ img,svg{ max-width:100%; display:block }
   margin:1.05rem auto .95rem; background:var(--gold); opacity:.7;
 }
 
+/* ── the rail in the gutter ────────────────────────────────────────
+   The column between the border band and the text is the only part of
+   the card that is not spoken for, and it runs the height of the names —
+   which is where the eye already is. A rail, a pomegranate falling down
+   it, and three chevrons cascading after. Solid, not dashed, and big
+   enough to be seen rather than found.
+   ═══════════════════════════════════════════════════════════════════ */
+.rail{
+  position:absolute; inset-inline-start:calc(var(--fw) + .45rem); top:36%;
+  width:26px; height:auto; pointer-events:none; z-index:2;
+}
+.rail-line{ stroke:var(--gold); stroke-width:1.6; opacity:.8 }
+.rail-fruit{ animation:railFall 3s var(--ease) infinite }
+@keyframes railFall{
+  0%      { transform:translateY(0);    opacity:0 }
+  12%     { opacity:1 }
+  52%     { transform:translateY(62px); opacity:1 }
+  66%,100%{ transform:translateY(70px); opacity:0 }
+}
+/* the three answer the fruit in order, which is what turns a column of
+   marks into a direction */
+/* they never go to nothing: a mark that is invisible half the time is a
+   mark a reader has to catch rather than simply see */
+.rail-v{ stroke:var(--pom); stroke-width:3.4; stroke-linecap:round; stroke-linejoin:round;
+  opacity:.34 }
+.rail-v1{ animation:railChev 3s var(--ease) infinite .40s }
+.rail-v2{ animation:railChev 3s var(--ease) infinite .52s }
+.rail-v3{ animation:railChev 3s var(--ease) infinite .64s }
+@keyframes railChev{
+  0%,34%,100%{ opacity:.34 }
+  50%        { opacity:1 }
+}
+.has-scrolled .rail{ opacity:0; transition:opacity .9s var(--ease) }
+
 /* ── the scroll cue ────────────────────────────────────────────────
    Centred under the card, because that is where a reader looks for what
    comes next; large enough to be seen without hunting; and worded,
@@ -276,12 +310,13 @@ img,svg{ max-width:100%; display:block }
   56%     { transform:translateY(30px); opacity:1 }
   72%,100%{ transform:translateY(36px); opacity:0 }
 }
-.cue-v{ stroke:var(--pom); stroke-width:3.4; stroke-linecap:round; stroke-linejoin:round; opacity:0 }
+.cue-v{ stroke:var(--pom); stroke-width:3.4; stroke-linecap:round; stroke-linejoin:round;
+  opacity:.34 }
 .cue-v1{ animation:cueChev 3s var(--ease) infinite }
 .cue-v2{ animation:cueChev 3s var(--ease) infinite .12s }
 @keyframes cueChev{
-  0%,50%,100%{ opacity:0; transform:translateY(-4px) }
-  66%        { opacity:1; transform:translateY(0) }
+  0%,50%,100%{ opacity:.34; transform:translateY(-3px) }
+  66%        { opacity:1;   transform:translateY(0) }
 }
 
 .cue-txt{

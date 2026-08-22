@@ -34,7 +34,7 @@
 <!-- ⚠️ Bump ?v= on BOTH of these whenever you edit style.css or script.js.
      Browsers cache them hard; without a new URL a guest who has already
      opened the invitation keeps seeing the old design. -->
-<link rel="stylesheet" href="style.css?v=47">
+<link rel="stylesheet" href="style.css?v=50">
 
 <!-- The cover and the scroll lock are opt-in: with JavaScript off the
      guest lands straight on the invitation instead of a dead layer. -->
@@ -372,7 +372,21 @@
                 </svg>
       </div>
 
-      <p class="hero-phrase reveal">بِكُلِّ الحُبِّ نَدْعُوكُم<br>لِتُشَارِكُونَا فَرْحَةَ بِدَايَةِ حَيَاتِنَا</p>      <h1 class="names reveal">
+      <p class="hero-phrase reveal">بِكُلِّ الحُبِّ نَدْعُوكُم<br>لِتُشَارِكُونَا فَرْحَةَ بِدَايَةِ حَيَاتِنَا</p><!-- In the gutter between the border band and the text, running the
+           full height of the names: a rail, a pomegranate falling down it,
+           and three chevrons cascading after it. This is the one a reader
+           catches while they are still looking at the card. -->
+      <svg class="rail" viewBox="0 0 26 146" aria-hidden="true">
+        <path class="rail-line" fill="none" d="M13 4v74"/>
+        <g class="rail-fruit">
+          <use href="#pg" class="pg" transform="translate(13 12) scale(.62)"/>
+        </g>
+        <path class="rail-v rail-v1" fill="none" d="M4 88 13 97l9-9"/>
+        <path class="rail-v rail-v2" fill="none" d="M4 105 13 114l9-9"/>
+        <path class="rail-v rail-v3" fill="none" d="M4 122 13 131l9-9"/>
+      </svg>
+
+      <h1 class="names reveal">
         <span class="nm">إبراهيم زريق</span>
         <span class="amp" aria-hidden="true">
           <svg class="amp-art" viewBox="0 0 180 34">
@@ -1830,6 +1844,6 @@
 
 </main>
 
-<script src="script.js?v=47" defer></script>
+<script src="script.js?v=50" defer></script>
 </body>
 </html>
