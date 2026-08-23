@@ -258,19 +258,21 @@ img,svg{ max-width:100%; display:block }
    enough to be seen rather than found.
    ═══════════════════════════════════════════════════════════════════ */
 .rail{
-  position:absolute; inset-inline-start:calc(var(--fw) + .45rem); top:36%;
-  width:26px; height:auto; pointer-events:none; z-index:2;
+  position:absolute; inset-inline-start:calc(var(--fw) + .1rem); top:33%;
+  width:38px; height:auto; pointer-events:none; z-index:2;
 }
-.rail-line{ stroke:var(--gold); stroke-width:1.6; opacity:.8 }
-.rail-fruit{ animation:railFall 3s var(--ease) infinite }
-@keyframes railFall{
+.rail-line{ stroke:var(--gold); stroke-width:1.6; opacity:.55 }
+
+/* the hand travels the rail the way a finger travels a screen */
+.hd-p{ fill:var(--cream-lt); stroke:var(--burg); stroke-width:2.2; stroke-linejoin:round }
+.rail-hand{ animation:railSwipe 3s var(--ease) infinite }
+@keyframes railSwipe{
   0%      { transform:translateY(0);    opacity:0 }
   12%     { opacity:1 }
-  52%     { transform:translateY(62px); opacity:1 }
-  66%,100%{ transform:translateY(70px); opacity:0 }
+  52%     { transform:translateY(56px); opacity:1 }
+  68%,100%{ transform:translateY(64px); opacity:0 }
 }
-/* the three answer the fruit in order, which is what turns a column of
-   marks into a direction */
+
 /* they never go to nothing: a mark that is invisible half the time is a
    mark a reader has to catch rather than simply see */
 .rail-v{ stroke:var(--pom); stroke-width:3.4; stroke-linecap:round; stroke-linejoin:round;
@@ -298,7 +300,15 @@ img,svg{ max-width:100%; display:block }
 .cue-txt{
   font-family:var(--f-body); font-size:1.02rem; letter-spacing:.02em;
   color:var(--burg); transition:color .4s var(--ease);
+  /* a breath, in step with the chevron beneath it — enough to catch the
+     eye, not enough to ask to be watched */
+  animation:cueBreathe 2.4s var(--ease) infinite;
 }
+@keyframes cueBreathe{
+  0%,68%,100%{ opacity:.78; transform:translateY(0) }
+  84%        { opacity:1;   transform:translateY(2px) }
+}
+.has-scrolled .cue-txt{ animation:none; opacity:.78 }
 .cue-art{ width:26px; height:auto; overflow:visible }
 .cue-v{
   stroke:var(--pom); stroke-width:2.8; stroke-linecap:round; stroke-linejoin:round;
@@ -404,13 +414,12 @@ img,svg{ max-width:100%; display:block }
   box-shadow:0 0 0 1px rgba(155,46,32,.3) inset;
   background:rgba(155,46,32,.05);
 }
-.note-mark{ flex:none; width:2.7rem; height:2.7rem }
-/* the children in ink, the bar over them in red — the way the sign is
-   drawn everywhere, and the way the couple sent it through */
-.nk-fig{ fill:var(--walnut) }
-.nk-hair{ stroke:var(--walnut); stroke-width:2.2; stroke-linecap:round }
-.nk-ring{ stroke:var(--pom); stroke-width:3.4 }
-.nk-slash{ stroke:var(--pom); stroke-width:3.4; stroke-linecap:round }
+/* the supplied mark. The <picture> is the flex item, not the <img>, so
+   it is the one that has to refuse to shrink — otherwise the row squashes
+   it and the icon comes out half size. width/height stay on the <img> so
+   the note reserves its space and never reflows once it loads. */
+.note picture{ flex:none; display:block; width:2.8rem }
+.note-mark{ width:100%; height:auto; display:block }
 
 /* ── the pomegranate plate ─────────────────────────────────────── */
 /* the same max-width as every other card, so the plate does not sit

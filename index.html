@@ -34,7 +34,7 @@
 <!-- ⚠️ Bump ?v= on BOTH of these whenever you edit style.css or script.js.
      Browsers cache them hard; without a new URL a guest who has already
      opened the invitation keeps seeing the old design. -->
-<link rel="stylesheet" href="style.css?v=52">
+<link rel="stylesheet" href="style.css?v=56">
 
 <!-- The cover and the scroll lock are opt-in: with JavaScript off the
      guest lands straight on the invitation instead of a dead layer. -->
@@ -376,14 +376,19 @@
            full height of the names: a rail, a pomegranate falling down it,
            and three chevrons cascading after it. This is the one a reader
            catches while they are still looking at the card. -->
-      <svg class="rail" viewBox="0 0 26 146" aria-hidden="true">
-        <path class="rail-line" fill="none" d="M13 4v74"/>
-        <g class="rail-fruit">
-          <use href="#pg" class="pg" transform="translate(13 12) scale(.62)"/>
+      <svg class="rail" viewBox="0 0 48 176" aria-hidden="true">
+        <path class="rail-line" fill="none" d="M24 6v68"/>
+        <g class="rail-hand">
+            <rect class="hd-p" x="33.0" y="11.0" width="10" height="4.5" rx="2.2"/>
+            <rect class="hd-p" x="33.0" y="17.0" width="10" height="4.5" rx="2.2"/>
+            <rect class="hd-p" x="33.0" y="23.0" width="10" height="4.5" rx="2.2"/>
+            <rect class="hd-p" x="2.0" y="17" width="15" height="9.5" rx="4.75" transform="rotate(-26 2.0 21.75)"/>
+            <rect class="hd-p" x="10.0" y="8" width="28.0" height="26.0" rx="8.5"/>
+            <rect class="hd-p" x="19.0" y="25.0" width="10.0" height="34" rx="5.0"/>
         </g>
-        <path class="rail-v rail-v1" fill="none" d="M4 88 13 97l9-9"/>
-        <path class="rail-v rail-v2" fill="none" d="M4 105 13 114l9-9"/>
-        <path class="rail-v rail-v3" fill="none" d="M4 122 13 131l9-9"/>
+        <path class="rail-v rail-v1" fill="none" d="M13 96 24 106l11-10"/>
+        <path class="rail-v rail-v2" fill="none" d="M13 116 24 126l11-10"/>
+        <path class="rail-v rail-v3" fill="none" d="M13 136 24 146l11-10"/>
       </svg>
 
       <h1 class="names reveal">
@@ -513,19 +518,13 @@
       </div>
 
       <p class="note">
-        <svg class="note-mark" viewBox="0 0 52 52" role="img" aria-label="نعتذر عن اصطحاب الأطفال">
-          <!-- two children, a boy and a girl, under the bar — drawn rather
-               than borrowed, so it sits in the same ink as everything else -->
-          <g class="nk-fig">
-            <circle cx="19" cy="17.5" r="4.6"/>
-            <path d="M19 23.2c-3.6 0-6 2.1-6.6 5.4l-1.5 7.6 3.3.7 1.2-6.1v3.3l-1.5 9.4h3.2l1.9-7.8 1.9 7.8h3.2l-1.5-9.4v-3.3l1.2 6.1 3.3-.7-1.5-7.6c-.6-3.3-3-5.4-6.6-5.4Z"/>
-            <circle cx="34" cy="17.5" r="4.6"/>
-            <path class="nk-hair" fill="none" d="M29.6 13.2c-2-.9-3.6-.4-3.6-.4M38.4 13.2c2-.9 3.6-.4 3.6-.4"/>
-            <path d="M34 23.2c-3.4 0-5.7 1.9-6.4 5l-1.6 7.6h3.2l1.4-5.6-2.4 12h3.5l1.9-6.6h.8l1.9 6.6h3.5l-2.4-12 1.4 5.6h3.2l-1.6-7.6c-.7-3.1-3-5-6.4-5Z"/>
-          </g>
-          <circle class="nk-ring" cx="26" cy="26" r="23" fill="none"/>
-          <path class="nk-slash" d="M9.7 42.3 42.3 9.7" fill="none"/>
-        </svg>
+        <!-- the couple's own sign, not a drawn stand-in. webp first for the
+             weight, png behind it for anything that cannot read webp -->
+        <picture>
+          <source srcset="no-kids.webp" type="image/webp">
+          <img class="note-mark" src="no-kids.png" width="120" height="118"
+               alt="نعتذر عن اصطحاب الأطفال" decoding="async">
+        </picture>
         نعتذر عن اصطحاب الأطفال، شاكرين لكم تفهّمكم ومحبتكم
       </p>
     </div>
@@ -1838,6 +1837,6 @@
 
 </main>
 
-<script src="script.js?v=52" defer></script>
+<script src="script.js?v=56" defer></script>
 </body>
 </html>
