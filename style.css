@@ -263,24 +263,20 @@ img,svg{ max-width:100%; display:block }
   position:absolute; inset-inline-start:calc(var(--fw) + .3rem); top:40%;
   width:46px; pointer-events:none; z-index:2;
 }
-/* the icon does the swipe on a loop and stays put between them — a
-   gesture cue that vanishes half the time is one a reader has to catch */
-.rail-hand{ display:block; animation:railSwipe 3s var(--ease) infinite }
+.rail-hand{ display:block; animation:swipe 2.8s var(--ease) infinite }
 .rail-hand img{ width:100%; height:auto; display:block }
-@keyframes railSwipe{
-  0%,62%,100%{ transform:translateY(0) }
-  28%        { transform:translateY(14px) }
-}
 
-.rail-vs{ display:block; width:100%; height:auto; margin-top:2px }
-.rail-v{ stroke:var(--pom); stroke-width:3.4; stroke-linecap:round; stroke-linejoin:round;
-  opacity:.34 }
-.rail-v1{ animation:railChev 3s var(--ease) infinite .30s }
-.rail-v2{ animation:railChev 3s var(--ease) infinite .42s }
-.rail-v3{ animation:railChev 3s var(--ease) infinite .54s }
-@keyframes railChev{
-  0%,34%,100%{ opacity:.34 }
-  50%        { opacity:1 }
+/* The whole cue is this one gesture now. It is a stroke, not a drift:
+   the hand arrives, presses, draws down, lifts away, and comes back —
+   which is the shape of the thing a reader is being asked to do. The
+   pause at the end is what keeps a loop from reading as a twitch. */
+@keyframes swipe{
+  0%      { transform:translateY(0)    scale(.92); opacity:0 }
+  10%     { transform:translateY(0)    scale(1);   opacity:1 }
+  20%     { transform:translateY(1px)  scale(.97); opacity:1 }
+  52%     { transform:translateY(26px) scale(1);   opacity:1 }
+  68%     { transform:translateY(34px) scale(.98); opacity:0 }
+  100%    { transform:translateY(0)    scale(.92); opacity:0 }
 }
 .has-scrolled .rail{ opacity:0; transition:opacity .9s var(--ease) }
 
