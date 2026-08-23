@@ -258,10 +258,11 @@ img,svg{ max-width:100%; display:block }
    enough to be seen rather than found.
    ═══════════════════════════════════════════════════════════════════ */
 .rail{
-  /* clear of the arch above it and level with the names, so it reads as
-     a gesture beside the couple rather than as part of the ornament */
-  position:absolute; inset-inline-start:calc(var(--fw) + .3rem); top:40%;
-  width:46px; pointer-events:none; z-index:2;
+  /* down in the gutter beside the date and the venue, where the column
+     is widest and nothing is competing for it — and small, because at
+     this size it is a hint sitting in the margin, not an illustration */
+  position:absolute; inset-inline-start:calc(var(--fw) + .5rem); top:74%;
+  width:32px; pointer-events:none; z-index:2;
 }
 .rail-hand{ display:block; animation:swipe 2.8s var(--ease) infinite }
 .rail-hand img{ width:100%; height:auto; display:block }
@@ -274,8 +275,8 @@ img,svg{ max-width:100%; display:block }
   0%      { transform:translateY(0)    scale(.92); opacity:0 }
   10%     { transform:translateY(0)    scale(1);   opacity:1 }
   20%     { transform:translateY(1px)  scale(.97); opacity:1 }
-  52%     { transform:translateY(26px) scale(1);   opacity:1 }
-  68%     { transform:translateY(34px) scale(.98); opacity:0 }
+  52%     { transform:translateY(19px) scale(1);   opacity:1 }
+  68%     { transform:translateY(25px) scale(.98); opacity:0 }
   100%    { transform:translateY(0)    scale(.92); opacity:0 }
 }
 .has-scrolled .rail{ opacity:0; transition:opacity .9s var(--ease) }
