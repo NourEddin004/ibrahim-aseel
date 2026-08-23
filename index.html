@@ -34,7 +34,7 @@
 <!-- ⚠️ Bump ?v= on BOTH of these whenever you edit style.css or script.js.
      Browsers cache them hard; without a new URL a guest who has already
      opened the invitation keeps seeing the old design. -->
-<link rel="stylesheet" href="style.css?v=74">
+<link rel="stylesheet" href="style.css?v=79">
 
 <!-- The cover and the scroll lock are opt-in: with JavaScript off the
      guest lands straight on the invitation instead of a dead layer. -->
@@ -335,19 +335,29 @@
 <!-- ════════════════════════════════════════════════════════════════
      1 · THE INVITATION ITSELF
      ════════════════════════════════════════════════════════════════ -->
+<!-- ════════════════════════════════════════════════════════════════
+     THE CARD ITSELF
+     One sheet of paper from the greeting to the reply. The band runs
+     the whole way down both sides and only closes under the RSVP, so
+     the hero and the form are the top and bottom of a single card
+     rather than two cards that happen to share a palette.
+     ════════════════════════════════════════════════════════════════ -->
+<div class="scroll">
+
+  <div class="frm frm--scroll" aria-hidden="true">
+    <svg class="fe ft"><rect width="100%" height="100%" fill="url(#bandH)"/></svg>
+    <svg class="fe fb"><rect width="100%" height="100%" fill="url(#bandH)"/></svg>
+    <svg class="fe fl"><rect width="100%" height="100%" fill="url(#bandV)"/></svg>
+    <svg class="fe fr"><rect width="100%" height="100%" fill="url(#bandV)"/></svg>
+    <svg class="fc fc1" viewBox="0 0 26 26"><use href="#corn"/></svg>
+    <svg class="fc fc2" viewBox="0 0 26 26"><use href="#corn"/></svg>
+    <svg class="fc fc3" viewBox="0 0 26 26"><use href="#corn"/></svg>
+    <svg class="fc fc4" viewBox="0 0 26 26"><use href="#corn"/></svg>
+  </div>
+
 <section class="sec sec--hero" id="top">
   <article class="sheet">
 
-    <div class="frm frm--sheet" aria-hidden="true">
-      <svg class="fe ft"><rect width="100%" height="100%" fill="url(#bandH)"/></svg>
-      <svg class="fe fb"><rect width="100%" height="100%" fill="url(#bandH)"/></svg>
-      <svg class="fe fl"><rect width="100%" height="100%" fill="url(#bandV)"/></svg>
-      <svg class="fe fr"><rect width="100%" height="100%" fill="url(#bandV)"/></svg>
-      <svg class="fc fc1" viewBox="0 0 26 26"><use href="#corn"/></svg>
-      <svg class="fc fc2" viewBox="0 0 26 26"><use href="#corn"/></svg>
-      <svg class="fc fc3" viewBox="0 0 26 26"><use href="#corn"/></svg>
-      <svg class="fc fc4" viewBox="0 0 26 26"><use href="#corn"/></svg>
-    </div>
 
     <div class="sheet-in">
 
@@ -441,16 +451,6 @@
 <section class="sec sec--details" id="details">
   <article class="plate reveal">
 
-    <div class="frm frm--plate" aria-hidden="true">
-      <svg class="fe ft"><rect width="100%" height="100%" fill="url(#starband)"/></svg>
-      <svg class="fe fb"><rect width="100%" height="100%" fill="url(#starband)"/></svg>
-      <svg class="fe fl"><rect width="100%" height="100%" fill="url(#starband)"/></svg>
-      <svg class="fe fr"><rect width="100%" height="100%" fill="url(#starband)"/></svg>
-      <svg class="fc fc1" viewBox="0 0 34 34"><use href="#corn2"/></svg>
-      <svg class="fc fc2" viewBox="0 0 34 34"><use href="#corn2"/></svg>
-      <svg class="fc fc3" viewBox="0 0 34 34"><use href="#corn2"/></svg>
-      <svg class="fc fc4" viewBox="0 0 34 34"><use href="#corn2"/></svg>
-    </div>
 
     <div class="plate-in">
       <h2 class="sec-title">تفاصيل الحفل</h2>
@@ -544,16 +544,6 @@
 <section class="sec sec--rsvp" id="rsvp">
   <article class="sheet sheet--rsvp reveal">
 
-    <div class="frm frm--sheet" aria-hidden="true">
-      <svg class="fe ft"><rect width="100%" height="100%" fill="url(#bandH)"/></svg>
-      <svg class="fe fb"><rect width="100%" height="100%" fill="url(#bandH)"/></svg>
-      <svg class="fe fl"><rect width="100%" height="100%" fill="url(#bandV)"/></svg>
-      <svg class="fe fr"><rect width="100%" height="100%" fill="url(#bandV)"/></svg>
-      <svg class="fc fc1" viewBox="0 0 26 26"><use href="#corn"/></svg>
-      <svg class="fc fc2" viewBox="0 0 26 26"><use href="#corn"/></svg>
-      <svg class="fc fc3" viewBox="0 0 26 26"><use href="#corn"/></svg>
-      <svg class="fc fc4" viewBox="0 0 26 26"><use href="#corn"/></svg>
-    </div>
 
     <div class="sheet-in">
       <svg class="rsvp-crest" viewBox="0 0 220 112" aria-hidden="true">
@@ -651,6 +641,8 @@
     </div>
   </article>
 </section>
+
+</div><!-- /.scroll -->
 
 
 <!-- ════════════════════════════════════════════════════════════════
@@ -1841,6 +1833,6 @@
 
 </main>
 
-<script src="script.js?v=74" defer></script>
+<script src="script.js?v=79" defer></script>
 </body>
 </html>

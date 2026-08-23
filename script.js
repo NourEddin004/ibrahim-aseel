@@ -539,26 +539,3 @@ const sky = calm ? null : (() => {
     move();
   }
 }
-
-/* ── 9 · the card tilts to the pointer ───────────────────────────── */
-{
-  const sec = $('.sec--hero'), sheet = $('.sec--hero .sheet');
-  const fine = matchMedia('(hover:hover) and (pointer:fine)').matches;
-  if (sec && sheet && fine && !calm) {
-    let queued = 0, ry = 0, rx = 0;
-    const apply = () => {
-      queued = 0;
-      sheet.style.transform = `rotateX(${rx.toFixed(2)}deg) rotateY(${ry.toFixed(2)}deg)`;
-    };
-    sec.addEventListener('pointermove', (e) => {
-      const r = sec.getBoundingClientRect();
-      ry = ((e.clientX - r.left) / r.width - 0.5) * 3;
-      rx = -((e.clientY - r.top) / r.height - 0.5) * 2;
-      if (!queued) queued = requestAnimationFrame(apply);
-    });
-    sec.addEventListener('pointerleave', () => {
-      ry = rx = 0;
-      if (!queued) queued = requestAnimationFrame(apply);
-    });
-  }
-}
