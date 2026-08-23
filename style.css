@@ -240,7 +240,9 @@ img,svg{ max-width:100%; display:block }
    two — so they are a mark, not a panel with rules either side */
 .hw-date i{
   font-style:normal; font-size:clamp(1rem,4vw,1.2rem);
-  color:var(--gold); transform:translateY(-.25em);
+  /* olive, not gold: gold reads at 2.4:1 on parchment, which is right
+     for a hairline and too faint for a character */
+  color:var(--olive); transform:translateY(-.25em);
 }
 .hw-place{
   margin:0; font-family:var(--f-body); font-size:1.12rem; line-height:1.9; color:var(--ink);
@@ -261,23 +263,24 @@ img,svg{ max-width:100%; display:block }
   /* down in the gutter beside the date and the venue, where the column
      is widest and nothing is competing for it — and small, because at
      this size it is a hint sitting in the margin, not an illustration */
-  position:absolute; inset-inline-start:calc(var(--fw) + .5rem); top:74%;
+  position:absolute; inset-inline-start:calc(var(--fw) + 1.5rem); top:74%;
   width:32px; pointer-events:none; z-index:2;
 }
 .rail-hand{ display:block; animation:swipe 2.8s var(--ease) infinite }
 .rail-hand img{ width:100%; height:auto; display:block }
 
-/* The whole cue is this one gesture now. It is a stroke, not a drift:
-   the hand arrives, presses, draws down, lifts away, and comes back —
-   which is the shape of the thing a reader is being asked to do. The
-   pause at the end is what keeps a loop from reading as a twitch. */
+/* The stroke runs UP, because that is the finger's direction when a
+   page goes down — a hand drawing downwards is the gesture for scrolling
+   back to the top, which is the opposite of what is being asked. It
+   arrives low, presses, draws up, lifts away, and returns unseen. The
+   dwell at the end keeps a loop from reading as a twitch. */
 @keyframes swipe{
-  0%      { transform:translateY(0)    scale(.92); opacity:0 }
-  10%     { transform:translateY(0)    scale(1);   opacity:1 }
-  20%     { transform:translateY(1px)  scale(.97); opacity:1 }
-  52%     { transform:translateY(19px) scale(1);   opacity:1 }
-  68%     { transform:translateY(25px) scale(.98); opacity:0 }
-  100%    { transform:translateY(0)    scale(.92); opacity:0 }
+  0%      { transform:translateY(19px) scale(.92); opacity:0 }
+  10%     { transform:translateY(19px) scale(1);   opacity:1 }
+  20%     { transform:translateY(20px) scale(.97); opacity:1 }
+  52%     { transform:translateY(0)    scale(1);   opacity:1 }
+  68%     { transform:translateY(-6px) scale(.98); opacity:0 }
+  100%    { transform:translateY(19px) scale(.92); opacity:0 }
 }
 .has-scrolled .rail{ opacity:0; transition:opacity .9s var(--ease) }
 
@@ -416,6 +419,56 @@ img,svg{ max-width:100%; display:block }
 .note picture{ flex:none; display:block; width:2.8rem }
 .note-mark{ width:100%; height:auto; display:block }
 
+/* ── the dress ─────────────────────────────────────────────────────
+   Swatches under a hairline, each one named in words as well as shown.
+   A circle of colour on its own tells a guest nothing they can act on,
+   and it tells a guest who cannot see colour nothing at all — so the
+   name is the message and the swatch is the illustration, never the
+   other way round.
+   ═══════════════════════════════════════════════════════════════════ */
+.dress-crest{ width:min(58%,12rem); margin:0 auto clamp(.6rem,2.4vw,1rem) }
+.dress-lead{
+  margin:1rem auto 0; max-width:34ch; font-size:1.02rem; line-height:2;
+  color:var(--ink-soft);
+}
+.dress-head{
+  margin:clamp(1.5rem,5.5vw,2rem) 0 0; font-family:var(--f-body); font-weight:700;
+  font-size:1.02rem; color:var(--burg); letter-spacing:.01em;
+}
+.dress-head--no{ color:var(--pom) }
+
+.swatches{
+  display:flex; flex-wrap:wrap; justify-content:center;
+  /* three per row has to survive a 320px card: at a 3vw gap the third
+     item misses by four pixels and the set breaks into three rows */
+  gap:clamp(.45rem,2.1vw,1.1rem);
+  margin:clamp(.9rem,3.4vw,1.2rem) 0 0; padding:0; list-style:none;
+}
+/* fluid, so five swatches fall into two tidy rows at 320 instead of
+   fragmenting into three */
+.swatches li{ display:grid; justify-items:center; gap:.4rem;
+  width:clamp(3.5rem,19vw,4.4rem) }
+.sw{
+  display:block; width:clamp(2.1rem,11vw,2.5rem); aspect-ratio:1; border-radius:50%;
+  background:var(--c);
+  /* a hairline and a ring of paper, so a dark swatch does not read as a
+     hole punched in the card */
+  box-shadow:0 0 0 1px rgba(97,38,24,.35), 0 0 0 4px var(--cream-lt),
+             0 0 0 5px rgba(168,135,85,.5), 0 2px 4px -2px rgba(45,33,25,.4);
+}
+.swatches i{
+  font-style:normal; font-size:.86rem; line-height:1.5; color:var(--ink-soft);
+}
+.sw--no{ position:relative }
+.sw--no svg{ position:absolute; inset:0; width:100%; height:100% }
+.sw--no svg path{ stroke:var(--pom); stroke-width:4; stroke-linecap:round }
+.dress-strict{
+  margin:clamp(.9rem,3.4vw,1.2rem) auto 0; max-width:32ch;
+  font-size:.96rem; line-height:1.9; color:var(--pom);
+}
+.dress-men{ margin:.5rem 0 0; font-size:1.02rem; color:var(--ink) }
+.sec--dress .fact-div{ margin-block:clamp(1.4rem,5vw,1.9rem) }
+
 /* ── the pomegranate plate ─────────────────────────────────────── */
 /* the same max-width as every other card, so the plate does not sit
    proud of the sections above and below it */
@@ -482,7 +535,13 @@ img,svg{ max-width:100%; display:block }
    an essay nobody needs to write */
 .f-area{ min-height:0; height:3.5rem; line-height:1.6; padding-block:.55rem; resize:vertical }
 
-.f-in:focus{ outline:0; background:#FFFCF3; box-shadow:0 0 0 1px var(--gold) inset, 0 0 0 3px rgba(168,135,85,.2) }
+/* No outline:0 here. It sits after the :focus-visible rule above and
+   carries the same specificity, so it was winning and leaving keyboard
+   users with nothing but a 1px inset line to find the caret by. The
+   shadow is the "this field is live" treatment; the outline is the
+   focus indicator, and they are not the same job. */
+.f-in:focus{ background:#FFFCF3;
+  box-shadow:0 0 0 1px var(--gold) inset, 0 0 0 3px rgba(168,135,85,.28) }
 
 /* grid-auto-rows:1fr and the two height:100% below are what make the two
    answers the same size. Without them the shorter one is a shorter box,
@@ -612,6 +671,10 @@ img,svg{ max-width:100%; display:block }
   }
   .reveal{ opacity:1; transform:none }
   .arch-line{ stroke-dashoffset:0 }
+  /* the swipe's first keyframe is opacity 0, so stilling the animation
+     would delete the scroll cue for exactly the people least likely to
+     guess the page continues. Park it visible instead. */
+  .rail-hand{ opacity:1 !important; transform:none !important }
 }
 
 /* ═══ SHORT SCREENS ══════════════════════════════════════════════════

@@ -34,7 +34,7 @@
 <!-- ⚠️ Bump ?v= on BOTH of these whenever you edit style.css or script.js.
      Browsers cache them hard; without a new URL a guest who has already
      opened the invitation keeps seeing the old design. -->
-<link rel="stylesheet" href="style.css?v=64">
+<link rel="stylesheet" href="style.css?v=70">
 
 <!-- The cover and the scroll lock are opt-in: with JavaScript off the
      guest lands straight on the invitation instead of a dead layer. -->
@@ -256,19 +256,12 @@
 </svg>
 
 <!-- ════════════════════════════════════════════════════════════════
-     0 · THE FOLDED CARD
-     The invitation arrives closed. One tap on the wax medallion and
-     the two leaves fold back. Removed from the DOM once it is open,
-     because a fixed full-screen layer keeps swallowing taps even at
-     opacity 0.
-     ════════════════════════════════════════════════════════════════ -->
-<!-- ════════════════════════════════════════════════════════════════
      0 · THE DOORS
-     A Moorish doorway, closed. One tap and the two leaves swing OUT of
-     the screen towards the reader, on the couple's names waiting behind
-     them. Then the whole thing dissolves into the invitation. The ground
-     is the same parchment as the card, so nothing changes colour when it
-     goes — the doors belong to the invitation, they are not a lightbox
+     A Moorish doorway, closed. One tap and the two leaves slide apart —
+     right one right, left one left — on the card waiting behind them.
+     Then the whole thing dissolves into the invitation. The ground is
+     the same parchment as the card, so nothing changes colour when it
+     goes: the doorway belongs to the invitation, it is not a lightbox
      standing in front of it.
      ════════════════════════════════════════════════════════════════ -->
 <div class="gate" id="gate">
@@ -1694,7 +1687,76 @@
 
 
 <!-- ════════════════════════════════════════════════════════════════
-     5 · THE LAST PAGE — RSVP
+     5 · THE DRESS
+     Set as part of the printed card, not as a modern colour picker:
+     swatches under a hairline, named in words as well as shown, because
+     a circle of colour on its own tells a guest nothing they can act on.
+     ════════════════════════════════════════════════════════════════ -->
+<section class="sec sec--dress" id="dress">
+  <article class="plate reveal">
+
+    <div class="frm frm--plate" aria-hidden="true">
+      <svg class="fe ft"><rect width="100%" height="100%" fill="url(#starband)"/></svg>
+      <svg class="fe fb"><rect width="100%" height="100%" fill="url(#starband)"/></svg>
+      <svg class="fe fl"><rect width="100%" height="100%" fill="url(#starband)"/></svg>
+      <svg class="fe fr"><rect width="100%" height="100%" fill="url(#starband)"/></svg>
+      <svg class="fc fc1" viewBox="0 0 34 34"><use href="#corn2"/></svg>
+      <svg class="fc fc2" viewBox="0 0 34 34"><use href="#corn2"/></svg>
+      <svg class="fc fc3" viewBox="0 0 34 34"><use href="#corn2"/></svg>
+      <svg class="fc fc4" viewBox="0 0 34 34"><use href="#corn2"/></svg>
+    </div>
+
+    <div class="plate-in">
+      <svg class="dress-crest" viewBox="0 0 200 54" aria-hidden="true">
+        <use href="#olv" class="lf" transform="translate(86 30) rotate(202) scale(1.15)"/>
+        <use href="#olv" class="lf" transform="translate(114 30) rotate(-22) scale(1.15)"/>
+        <use href="#flr" class="fl" transform="translate(100 26) scale(1.05)"/>
+        <path class="dv-rule" fill="none" d="M22 40h48M130 40h48"/>
+      </svg>
+
+      <h2 class="sec-title">قواعد اللباس</h2>
+      <p class="dress-lead">يسعدنا أن نراكم بأبهى حُلّة، وأن تكون ألوانكم جزءًا من لوحة المساء</p>
+
+      <p class="dress-head">للسيدات — ألوان نرحّب بها</p>
+      <ul class="swatches">
+        <li><span class="sw" style="--c:#3E4A33"></span><i>أخضر داكن</i></li>
+        <li><span class="sw" style="--c:#6B6E3F"></span><i>أخضر زيتيّ</i></li>
+        <li><span class="sw" style="--c:#9B2E20"></span><i>أحمر رمّانيّ</i></li>
+        <li><span class="sw" style="--c:#7C241B"></span><i>أحمر داكن</i></li>
+        <li><span class="sw" style="--c:#612618"></span><i>عنّابيّ</i></li>
+      </ul>
+
+      <p class="dress-head dress-head--no">غير مسموح إطلاقًا</p>
+      <ul class="swatches swatches--no">
+        <li>
+          <span class="sw sw--no" style="--c:#FFFFFF">
+            <svg viewBox="0 0 40 40" aria-hidden="true"><path d="M7 33 33 7"/></svg>
+          </span><i>الأبيض</i>
+        </li>
+        <li>
+          <span class="sw sw--no" style="--c:#F1E9D7">
+            <svg viewBox="0 0 40 40" aria-hidden="true"><path d="M7 33 33 7"/></svg>
+          </span><i>العاجيّ</i>
+        </li>
+      </ul>
+      <p class="dress-strict">الأبيض والعاجيّ للعروس وحدها — نشكر لكم التزامكم</p>
+
+      <svg class="fact-div" viewBox="0 0 200 22" aria-hidden="true">
+        <path class="dv-rule" d="M6 11H82M118 11H194" fill="none"/>
+        <use href="#flr" class="fl" transform="translate(100 11) scale(.78)"/>
+        <use href="#olv" class="lf" transform="translate(88 11) rotate(196) scale(.62)"/>
+        <use href="#olv" class="lf" transform="translate(112 11) rotate(-16) scale(.62)"/>
+      </svg>
+
+      <p class="dress-head">للسادة</p>
+      <p class="dress-men">بدلة رسميّة بألوان داكنة</p>
+    </div>
+  </article>
+</section>
+
+
+<!-- ════════════════════════════════════════════════════════════════
+     6 · THE LAST PAGE — RSVP
      ════════════════════════════════════════════════════════════════ -->
 <section class="sec sec--rsvp" id="rsvp">
   <article class="sheet sheet--rsvp reveal">
@@ -1829,6 +1891,6 @@
 
 </main>
 
-<script src="script.js?v=64" defer></script>
+<script src="script.js?v=70" defer></script>
 </body>
 </html>
