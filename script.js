@@ -156,13 +156,12 @@ $('#mapLink').href = CONFIG.mapsLink ||
 {
   const form  = $('#rsvpForm');
   const name  = $('#rsvpName');
-  const phone = $('#rsvpPhone');
   const note  = $('#rsvpNote');
   const seats = $('#seatsField');
   const sOut  = $('#sOut'), sVal = $('#sVal');
   const minus = $('#sMinus'), plus = $('#sPlus');
   const errTop = $('#formErr'), errName = $('#nameErr');
-  const errPhone = $('#phoneErr'), errGo = $('#goErr');
+  const errGo = $('#goErr');
   const btn = $('#sendBtn'), ctaText = $('#ctaText');
   const done = $('#rsvpDone'), doneSub = $('#doneSub'), waLink = $('#waLink');
   const doneEcho = $('#doneEcho');
@@ -176,16 +175,12 @@ $('#mapLink').href = CONFIG.mapsLink ||
     plus.disabled  = n === MAX_SEATS;
   };
   name.addEventListener('input', () => name.value.trim() && clear(errName, name));
-  phone.addEventListener('input', () => digits() && clear(errPhone, phone));
 
   minus.addEventListener('click', () => setSeats(n - 1));
   plus .addEventListener('click', () => setSeats(n + 1));
   setSeats(1);
 
   const coming = () => (form.attending.value || '').startsWith('نعم');
-  /* count digits rather than match a format: people write +962…, 07…,
-     with spaces, with dashes, and every one of those is a real number */
-  const digits = () => phone.value.replace(/\D/g, '');
 
   form.addEventListener('change', (e) => {
     if (e.target.name === 'attending') {
@@ -209,7 +204,6 @@ $('#mapLink').href = CONFIG.mapsLink ||
   const message = () => [
     `تأكيد حضور — زفاف ${CONFIG.couple}`,
     `الاسم: ${name.value.trim()}`,
-    phone.value.trim() ? `الهاتف: ${phone.value.trim()}` : '',
     `الحضور: ${form.attending.value}`,
     coming() ? `عدد الأشخاص: ${n}` : '',
     note.value.trim() ? `ملاحظات: ${note.value.trim()}` : '',
@@ -238,21 +232,11 @@ $('#mapLink').href = CONFIG.mapsLink ||
     if (sent) return;
     errTop.hidden = true;
     clear(errName, name);
-    clear(errPhone, phone);
     clear(errGo);
 
     if (!name.value.trim()) {
       flag(errName, 'يرجى كتابة الاسم الكامل', name);
       name.focus();
-      return;
-    }
-    /* blank is fine — the number is optional. Something too short to be
-       a number is still worth catching, since that is a typo rather than
-       a deliberate omission. */
-    const tel = digits();
-    if (tel && tel.length < 7) {
-      flag(errPhone, 'رقم الهاتف يبدو قصيرًا', phone);
-      phone.focus();
       return;
     }
     if (!form.attending.value) {
@@ -293,7 +277,6 @@ $('#mapLink').href = CONFIG.mapsLink ||
             },
             body: JSON.stringify({
               name: name.value.trim(),
-              phone: phone.value.trim() || null,
               attending: form.attending.value,
               guests: coming() ? n : 0,
               note: note.value.trim() || null,

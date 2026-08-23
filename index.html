@@ -34,7 +34,7 @@
 <!-- ⚠️ Bump ?v= on BOTH of these whenever you edit style.css or script.js.
      Browsers cache them hard; without a new URL a guest who has already
      opened the invitation keeps seeing the old design. -->
-<link rel="stylesheet" href="style.css?v=70">
+<link rel="stylesheet" href="style.css?v=72">
 
 <!-- The cover and the scroll lock are opt-in: with JavaScript off the
      guest lands straight on the invitation instead of a dead layer. -->
@@ -518,13 +518,161 @@
 
 
 <!-- ════════════════════════════════════════════════════════════════
-     4 · THE POMEGRANATE PLATE
-     Straight out of the bride's first reference: a navy field, a red
-     border, eight-point medallions at the corners, and a tree heavy
-     with fruit. The boughs breathe; the birds only ever tilt.
+     4 · THE DRESS
+     A printed note, not a panel. It carries no fill of its own — the
+     card stock shows through, ruled above and below the way a letterpress
+     aside is set. The dots illustrate; the line names the colours, so a
+     guest who cannot tell the greens apart still reads the rule.
+     ════════════════════════════════════════════════════════════════ -->
+<section class="sec sec--dress" id="dress">
+  <div class="dcode reveal">
+    <h2 class="dcode-t">قواعد اللباس</h2>
+
+    <ul class="dots" aria-hidden="true">
+      <li style="--c:#3E4A33"></li>
+      <li style="--c:#6B6E3F"></li>
+      <li style="--c:#9B2E20"></li>
+      <li style="--c:#7C241B"></li>
+      <li style="--c:#612618"></li>
+    </ul>
+
+    <p class="dcode-l"><b>للسيدات</b> — درجات الأخضر والأحمر والعنّابيّ</p>
+    <p class="dcode-l"><b>للسادة</b> — بدلة رسميّة داكنة</p>
+
+    <p class="dcode-no">يُرجى تجنّب اللون الأبيض ومشتقاته</p>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════════════════════════════
+     5 · THE LAST PAGE — RSVP
+     ════════════════════════════════════════════════════════════════ -->
+<section class="sec sec--rsvp" id="rsvp">
+  <article class="sheet sheet--rsvp reveal">
+
+    <div class="frm frm--sheet" aria-hidden="true">
+      <svg class="fe ft"><rect width="100%" height="100%" fill="url(#bandH)"/></svg>
+      <svg class="fe fb"><rect width="100%" height="100%" fill="url(#bandH)"/></svg>
+      <svg class="fe fl"><rect width="100%" height="100%" fill="url(#bandV)"/></svg>
+      <svg class="fe fr"><rect width="100%" height="100%" fill="url(#bandV)"/></svg>
+      <svg class="fc fc1" viewBox="0 0 26 26"><use href="#corn"/></svg>
+      <svg class="fc fc2" viewBox="0 0 26 26"><use href="#corn"/></svg>
+      <svg class="fc fc3" viewBox="0 0 26 26"><use href="#corn"/></svg>
+      <svg class="fc fc4" viewBox="0 0 26 26"><use href="#corn"/></svg>
+    </div>
+
+    <div class="sheet-in">
+      <svg class="rsvp-crest" viewBox="0 0 220 112" aria-hidden="true">
+        <use href="#olv" class="lf" transform="translate(84 68) rotate(198) scale(1.5)"/>
+        <use href="#olv" class="lf" transform="translate(80 54) rotate(224) scale(1.25)"/>
+        <use href="#olv" class="lf" transform="translate(92 84) rotate(166) scale(1.2)"/>
+        <use href="#olv" class="lf" transform="translate(136 68) rotate(-18) scale(1.5)"/>
+        <use href="#olv" class="lf" transform="translate(140 54) rotate(-44) scale(1.25)"/>
+        <use href="#olv" class="lf" transform="translate(128 84) rotate(14) scale(1.2)"/>
+        <use href="#pg" class="pg" transform="translate(110 50) scale(1.2)"/>
+        <use href="#flr" class="fl" transform="translate(66 84) scale(.95)"/>
+        <use href="#flr" class="fl" transform="translate(154 84) scale(.95)"/>
+        <path class="dv-rule" fill="none" d="M14 96h40M166 96h40"/>
+      </svg>
+
+      <h2 class="sec-title">تأكيد الحضور</h2>
+      <p class="rsvp-sub">ننتظر مشاركتكم فرحتنا، ونرجو تأكيد الحضور</p>
+
+      <form id="rsvpForm" class="form" name="rsvp" method="POST" novalidate
+            data-netlify="true" netlify-honeypot="bot-field">
+        <input type="hidden" name="form-name" value="rsvp">
+        <p class="hp" aria-hidden="true"><label>اتركه فارغًا <input name="bot-field" tabindex="-1" autocomplete="off"></label></p>
+
+        <div class="field">
+          <label class="f-label" for="rsvpName">الاسم الكامل</label>
+          <input class="f-in" type="text" id="rsvpName" name="name" autocomplete="name"
+                 enterkeyhint="next" maxlength="80" required aria-describedby="nameErr">
+          <p class="f-err" id="nameErr" role="alert" hidden></p>
+        </div>
+
+        <fieldset class="field">
+          <legend class="f-label">هل ستتمكن من الحضور؟</legend>
+          <div class="choices" role="radiogroup" aria-describedby="goErr">
+            <label class="pick">
+              <input type="radio" name="attending" value="نعم، بكل سرور" required>
+              <span class="pick-face">
+                <svg class="pick-mk" viewBox="0 0 22 22" aria-hidden="true"><circle class="pk-ring" cx="11" cy="11" r="8.6"/><use class="pk-star" href="#star8" transform="translate(11 11) scale(.26)"/></svg>
+                نعم، بكل سرور
+              </span>
+            </label>
+            <label class="pick">
+              <input type="radio" name="attending" value="للأسف لن أتمكن من الحضور">
+              <span class="pick-face">
+                <svg class="pick-mk" viewBox="0 0 22 22" aria-hidden="true"><circle class="pk-ring" cx="11" cy="11" r="8.6"/><use class="pk-star" href="#star8" transform="translate(11 11) scale(.26)"/></svg>
+                للأسف لن أتمكن من الحضور
+              </span>
+            </label>
+          </div>
+          <p class="f-err" id="goErr" role="alert" hidden></p>
+        </fieldset>
+
+        <div class="field" id="seatsField" hidden>
+          <span class="f-label" id="seatsLabel">عدد الأشخاص</span>
+          <div class="stepper" role="group" aria-labelledby="seatsLabel">
+            <button class="st-b" type="button" id="sMinus" aria-label="عدد أقل">&#8722;</button>
+            <output class="st-o" id="sOut" for="sVal" aria-live="polite">١</output>
+            <button class="st-b" type="button" id="sPlus" aria-label="عدد أكثر">+</button>
+          </div>
+          <input type="hidden" name="guests" id="sVal" value="1">
+          <p class="f-hint">شاملًا شخصكم الكريم</p>
+        </div>
+
+        <div class="field">
+          <label class="f-label" for="rsvpNote">ملاحظات <i>(اختياري)</i></label>
+          <textarea class="f-in f-area" id="rsvpNote" name="note" rows="2"
+                    maxlength="300" enterkeyhint="done"></textarea>
+        </div>
+
+        <p class="f-err f-err--top" id="formErr" role="alert" hidden></p>
+
+        <button class="cta" type="submit" id="sendBtn">
+          <!-- an ornament on both sides, not one: with a single leading mark
+               the label itself sits half a mark off centre, which on a page
+               built entirely out of symmetry reads as a mistake -->
+          <span class="cta-face">
+            <svg class="cta-orn" viewBox="0 0 24 24" aria-hidden="true"><use href="#star8" transform="translate(12 12) scale(.3)"/></svg>
+            <span id="ctaText">تأكيد الحضور</span>
+            <svg class="cta-orn" viewBox="0 0 24 24" aria-hidden="true"><use href="#star8" transform="translate(12 12) scale(.3)"/></svg>
+          </span>
+        </button>
+      </form>
+
+      <div class="done" id="rsvpDone" hidden tabindex="-1">
+        <svg class="done-art" viewBox="0 0 200 120" aria-hidden="true">
+          <use href="#arch" class="done-arch" fill="none" transform="translate(28 14) scale(.48)"/>
+          <use href="#pg" class="pg done-pg" transform="translate(100 72) scale(.9)"/>
+          <use href="#olv" class="lf" transform="translate(84 84) rotate(206) scale(1)"/>
+          <use href="#olv" class="lf" transform="translate(116 84) rotate(-26) scale(1)"/>
+        </svg>
+        <p class="done-lead">شكرًا لمشاركتنا هذه اللحظة الجميلة</p>
+        <p class="done-sub" id="doneSub">وجودكم يعني لنا الكثير</p>
+        <p class="done-echo" id="doneEcho"></p>
+        <a class="btn btn--wa" id="waLink" href="#" target="_blank" rel="noopener" hidden>أرسل ردّك عبر واتساب</a>
+      </div>
+    </div>
+  </article>
+</section>
+
+
+<!-- ════════════════════════════════════════════════════════════════
+     6 · THE CLOSING PLATE
+     The tree used to sit mid-page, where it was one more picture between
+     two blocks of text. It closes the invitation now: you read, you
+     reply, and then the two of them are standing under the pomegranate
+     waiting for you. The phrase hands off to the names in the footer.
      ════════════════════════════════════════════════════════════════ -->
 <section class="sec sec--night" id="garden">
   <div class="night reveal">
+
+    <svg class="night-orn" viewBox="0 0 200 20" aria-hidden="true">
+      <path class="dv-rule" fill="none" d="M4 10H80M120 10H196"/>
+      <use href="#pg" class="pg" transform="translate(100 10) scale(.42)"/>
+    </svg>
 
     <div class="np">
       <div class="np-field">
@@ -1686,198 +1834,6 @@
 </section>
 
 
-<!-- ════════════════════════════════════════════════════════════════
-     5 · THE DRESS
-     Set as part of the printed card, not as a modern colour picker:
-     swatches under a hairline, named in words as well as shown, because
-     a circle of colour on its own tells a guest nothing they can act on.
-     ════════════════════════════════════════════════════════════════ -->
-<section class="sec sec--dress" id="dress">
-  <article class="plate reveal">
-
-    <div class="frm frm--plate" aria-hidden="true">
-      <svg class="fe ft"><rect width="100%" height="100%" fill="url(#starband)"/></svg>
-      <svg class="fe fb"><rect width="100%" height="100%" fill="url(#starband)"/></svg>
-      <svg class="fe fl"><rect width="100%" height="100%" fill="url(#starband)"/></svg>
-      <svg class="fe fr"><rect width="100%" height="100%" fill="url(#starband)"/></svg>
-      <svg class="fc fc1" viewBox="0 0 34 34"><use href="#corn2"/></svg>
-      <svg class="fc fc2" viewBox="0 0 34 34"><use href="#corn2"/></svg>
-      <svg class="fc fc3" viewBox="0 0 34 34"><use href="#corn2"/></svg>
-      <svg class="fc fc4" viewBox="0 0 34 34"><use href="#corn2"/></svg>
-    </div>
-
-    <div class="plate-in">
-      <svg class="dress-crest" viewBox="0 0 200 54" aria-hidden="true">
-        <use href="#olv" class="lf" transform="translate(86 30) rotate(202) scale(1.15)"/>
-        <use href="#olv" class="lf" transform="translate(114 30) rotate(-22) scale(1.15)"/>
-        <use href="#flr" class="fl" transform="translate(100 26) scale(1.05)"/>
-        <path class="dv-rule" fill="none" d="M22 40h48M130 40h48"/>
-      </svg>
-
-      <h2 class="sec-title">قواعد اللباس</h2>
-      <p class="dress-lead">يسعدنا أن نراكم بأبهى حُلّة، وأن تكون ألوانكم جزءًا من لوحة المساء</p>
-
-      <p class="dress-head">للسيدات — ألوان نرحّب بها</p>
-      <ul class="swatches">
-        <li><span class="sw" style="--c:#3E4A33"></span><i>أخضر داكن</i></li>
-        <li><span class="sw" style="--c:#6B6E3F"></span><i>أخضر زيتيّ</i></li>
-        <li><span class="sw" style="--c:#9B2E20"></span><i>أحمر رمّانيّ</i></li>
-        <li><span class="sw" style="--c:#7C241B"></span><i>أحمر داكن</i></li>
-        <li><span class="sw" style="--c:#612618"></span><i>عنّابيّ</i></li>
-      </ul>
-
-      <p class="dress-head dress-head--no">غير مسموح إطلاقًا</p>
-      <ul class="swatches swatches--no">
-        <li>
-          <span class="sw sw--no" style="--c:#FFFFFF">
-            <svg viewBox="0 0 40 40" aria-hidden="true"><path d="M7 33 33 7"/></svg>
-          </span><i>الأبيض</i>
-        </li>
-        <li>
-          <span class="sw sw--no" style="--c:#F1E9D7">
-            <svg viewBox="0 0 40 40" aria-hidden="true"><path d="M7 33 33 7"/></svg>
-          </span><i>العاجيّ</i>
-        </li>
-      </ul>
-      <p class="dress-strict">الأبيض والعاجيّ للعروس وحدها — نشكر لكم التزامكم</p>
-
-      <svg class="fact-div" viewBox="0 0 200 22" aria-hidden="true">
-        <path class="dv-rule" d="M6 11H82M118 11H194" fill="none"/>
-        <use href="#flr" class="fl" transform="translate(100 11) scale(.78)"/>
-        <use href="#olv" class="lf" transform="translate(88 11) rotate(196) scale(.62)"/>
-        <use href="#olv" class="lf" transform="translate(112 11) rotate(-16) scale(.62)"/>
-      </svg>
-
-      <p class="dress-head">للسادة</p>
-      <p class="dress-men">بدلة رسميّة بألوان داكنة</p>
-    </div>
-  </article>
-</section>
-
-
-<!-- ════════════════════════════════════════════════════════════════
-     6 · THE LAST PAGE — RSVP
-     ════════════════════════════════════════════════════════════════ -->
-<section class="sec sec--rsvp" id="rsvp">
-  <article class="sheet sheet--rsvp reveal">
-
-    <div class="frm frm--sheet" aria-hidden="true">
-      <svg class="fe ft"><rect width="100%" height="100%" fill="url(#bandH)"/></svg>
-      <svg class="fe fb"><rect width="100%" height="100%" fill="url(#bandH)"/></svg>
-      <svg class="fe fl"><rect width="100%" height="100%" fill="url(#bandV)"/></svg>
-      <svg class="fe fr"><rect width="100%" height="100%" fill="url(#bandV)"/></svg>
-      <svg class="fc fc1" viewBox="0 0 26 26"><use href="#corn"/></svg>
-      <svg class="fc fc2" viewBox="0 0 26 26"><use href="#corn"/></svg>
-      <svg class="fc fc3" viewBox="0 0 26 26"><use href="#corn"/></svg>
-      <svg class="fc fc4" viewBox="0 0 26 26"><use href="#corn"/></svg>
-    </div>
-
-    <div class="sheet-in">
-      <svg class="rsvp-crest" viewBox="0 0 220 112" aria-hidden="true">
-        <use href="#olv" class="lf" transform="translate(84 68) rotate(198) scale(1.5)"/>
-        <use href="#olv" class="lf" transform="translate(80 54) rotate(224) scale(1.25)"/>
-        <use href="#olv" class="lf" transform="translate(92 84) rotate(166) scale(1.2)"/>
-        <use href="#olv" class="lf" transform="translate(136 68) rotate(-18) scale(1.5)"/>
-        <use href="#olv" class="lf" transform="translate(140 54) rotate(-44) scale(1.25)"/>
-        <use href="#olv" class="lf" transform="translate(128 84) rotate(14) scale(1.2)"/>
-        <use href="#pg" class="pg" transform="translate(110 50) scale(1.2)"/>
-        <use href="#flr" class="fl" transform="translate(66 84) scale(.95)"/>
-        <use href="#flr" class="fl" transform="translate(154 84) scale(.95)"/>
-        <path class="dv-rule" fill="none" d="M14 96h40M166 96h40"/>
-      </svg>
-
-      <h2 class="sec-title">تأكيد الحضور</h2>
-      <p class="rsvp-sub">ننتظر مشاركتكم فرحتنا، ونرجو تأكيد الحضور</p>
-
-      <form id="rsvpForm" class="form" name="rsvp" method="POST" novalidate
-            data-netlify="true" netlify-honeypot="bot-field">
-        <input type="hidden" name="form-name" value="rsvp">
-        <p class="hp" aria-hidden="true"><label>اتركه فارغًا <input name="bot-field" tabindex="-1" autocomplete="off"></label></p>
-
-        <div class="field">
-          <label class="f-label" for="rsvpName">الاسم الكامل</label>
-          <input class="f-in" type="text" id="rsvpName" name="name" autocomplete="name"
-                 enterkeyhint="next" maxlength="80" required aria-describedby="nameErr">
-          <p class="f-err" id="nameErr" role="alert" hidden></p>
-        </div>
-
-        <div class="field">
-          <label class="f-label" for="rsvpPhone">رقم الهاتف <i>(اختياري)</i></label>
-          <input class="f-in" type="tel" id="rsvpPhone" name="phone" autocomplete="tel"
-                 inputmode="tel" enterkeyhint="next" maxlength="24"
-                 aria-describedby="phoneErr">
-          <p class="f-err" id="phoneErr" role="alert" hidden></p>
-        </div>
-
-        <fieldset class="field">
-          <legend class="f-label">هل ستتمكن من الحضور؟</legend>
-          <div class="choices" role="radiogroup" aria-describedby="goErr">
-            <label class="pick">
-              <input type="radio" name="attending" value="نعم، بكل سرور" required>
-              <span class="pick-face">
-                <svg class="pick-mk" viewBox="0 0 22 22" aria-hidden="true"><circle class="pk-ring" cx="11" cy="11" r="8.6"/><use class="pk-star" href="#star8" transform="translate(11 11) scale(.26)"/></svg>
-                نعم، بكل سرور
-              </span>
-            </label>
-            <label class="pick">
-              <input type="radio" name="attending" value="للأسف لن أتمكن من الحضور">
-              <span class="pick-face">
-                <svg class="pick-mk" viewBox="0 0 22 22" aria-hidden="true"><circle class="pk-ring" cx="11" cy="11" r="8.6"/><use class="pk-star" href="#star8" transform="translate(11 11) scale(.26)"/></svg>
-                للأسف لن أتمكن من الحضور
-              </span>
-            </label>
-          </div>
-          <p class="f-err" id="goErr" role="alert" hidden></p>
-        </fieldset>
-
-        <div class="field" id="seatsField" hidden>
-          <span class="f-label" id="seatsLabel">عدد الأشخاص</span>
-          <div class="stepper" role="group" aria-labelledby="seatsLabel">
-            <button class="st-b" type="button" id="sMinus" aria-label="عدد أقل">&#8722;</button>
-            <output class="st-o" id="sOut" for="sVal" aria-live="polite">١</output>
-            <button class="st-b" type="button" id="sPlus" aria-label="عدد أكثر">+</button>
-          </div>
-          <input type="hidden" name="guests" id="sVal" value="1">
-          <p class="f-hint">شاملًا شخصكم الكريم</p>
-        </div>
-
-        <div class="field">
-          <label class="f-label" for="rsvpNote">ملاحظات <i>(اختياري)</i></label>
-          <textarea class="f-in f-area" id="rsvpNote" name="note" rows="2"
-                    maxlength="300" enterkeyhint="done"></textarea>
-        </div>
-
-        <p class="f-err f-err--top" id="formErr" role="alert" hidden></p>
-
-        <button class="cta" type="submit" id="sendBtn">
-          <!-- an ornament on both sides, not one: with a single leading mark
-               the label itself sits half a mark off centre, which on a page
-               built entirely out of symmetry reads as a mistake -->
-          <span class="cta-face">
-            <svg class="cta-orn" viewBox="0 0 24 24" aria-hidden="true"><use href="#star8" transform="translate(12 12) scale(.3)"/></svg>
-            <span id="ctaText">تأكيد الحضور</span>
-            <svg class="cta-orn" viewBox="0 0 24 24" aria-hidden="true"><use href="#star8" transform="translate(12 12) scale(.3)"/></svg>
-          </span>
-        </button>
-      </form>
-
-      <div class="done" id="rsvpDone" hidden tabindex="-1">
-        <svg class="done-art" viewBox="0 0 200 120" aria-hidden="true">
-          <use href="#arch" class="done-arch" fill="none" transform="translate(28 14) scale(.48)"/>
-          <use href="#pg" class="pg done-pg" transform="translate(100 72) scale(.9)"/>
-          <use href="#olv" class="lf" transform="translate(84 84) rotate(206) scale(1)"/>
-          <use href="#olv" class="lf" transform="translate(116 84) rotate(-26) scale(1)"/>
-        </svg>
-        <p class="done-lead">شكرًا لمشاركتنا هذه اللحظة الجميلة</p>
-        <p class="done-sub" id="doneSub">وجودكم يعني لنا الكثير</p>
-        <p class="done-echo" id="doneEcho"></p>
-        <a class="btn btn--wa" id="waLink" href="#" target="_blank" rel="noopener" hidden>أرسل ردّك عبر واتساب</a>
-      </div>
-    </div>
-  </article>
-</section>
-
-
 <footer class="foot">
   <svg class="foot-orn" viewBox="0 0 200 40" aria-hidden="true">
     <path class="dv-rule" d="M8 20H74M126 20H192" fill="none"/>
@@ -1891,6 +1847,6 @@
 
 </main>
 
-<script src="script.js?v=70" defer></script>
+<script src="script.js?v=72" defer></script>
 </body>
 </html>

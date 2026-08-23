@@ -420,59 +420,57 @@ img,svg{ max-width:100%; display:block }
 .note-mark{ width:100%; height:auto; display:block }
 
 /* ── the dress ─────────────────────────────────────────────────────
-   Swatches under a hairline, each one named in words as well as shown.
-   A circle of colour on its own tells a guest nothing they can act on,
-   and it tells a guest who cannot see colour nothing at all — so the
-   name is the message and the swatch is the illustration, never the
-   other way round.
+   A note, not a panel. Everything here is one step quieter than the
+   cards around it: no fill of its own, so the paper runs straight
+   through; a double rule top and bottom, the way a letterpress aside
+   is set off; and three short lines instead of a form to read. The
+   dots illustrate the palette, the line names it — so the rule still
+   holds for a guest who cannot tell the greens apart, which is why
+   the dots are aria-hidden rather than labelled twice.
    ═══════════════════════════════════════════════════════════════════ */
-.dress-crest{ width:min(58%,12rem); margin:0 auto clamp(.6rem,2.4vw,1rem) }
-.dress-lead{
-  margin:1rem auto 0; max-width:34ch; font-size:1.02rem; line-height:2;
+.dcode{
+  max-width:min(var(--card),27rem); margin-inline:auto; text-align:center;
+  padding-block:clamp(1.15rem,4.6vw,1.6rem);
+  /* 3px double resolves to two hairlines with a gap between them —
+     a printed rule, not a browser border */
+  border-top:3px double rgba(168,135,85,.5);
+  border-bottom:3px double rgba(168,135,85,.5);
+}
+.dcode-t{
+  margin:0; font-family:var(--f-head); font-weight:400;
+  font-size:clamp(1.2rem,5.2vw,1.45rem); line-height:1.6; color:var(--burg);
+}
+.dots{
+  display:flex; justify-content:center; gap:.55rem;
+  margin:clamp(.7rem,2.8vw,.95rem) 0 0; padding:0; list-style:none;
+}
+.dots li{
+  width:1.15rem; height:1.15rem; border-radius:50%; background:var(--c);
+  box-shadow:0 0 0 1px rgba(97,38,24,.3), 0 0 0 3px var(--cream),
+             0 0 0 4px rgba(168,135,85,.4);
+}
+.dcode-l{
+  margin:clamp(.65rem,2.6vw,.85rem) 0 0; font-size:1rem; line-height:1.75;
   color:var(--ink-soft);
 }
-.dress-head{
-  margin:clamp(1.5rem,5.5vw,2rem) 0 0; font-family:var(--f-body); font-weight:700;
-  font-size:1.02rem; color:var(--burg); letter-spacing:.01em;
+.dcode-l b{ font-weight:700; color:var(--burg) }
+.dcode-no{
+  margin:clamp(.7rem,2.8vw,.95rem) 0 0; font-size:.95rem; line-height:1.7;
+  color:var(--pom);
 }
-.dress-head--no{ color:var(--pom) }
-
-.swatches{
-  display:flex; flex-wrap:wrap; justify-content:center;
-  /* three per row has to survive a 320px card: at a 3vw gap the third
-     item misses by four pixels and the set breaks into three rows */
-  gap:clamp(.45rem,2.1vw,1.1rem);
-  margin:clamp(.9rem,3.4vw,1.2rem) 0 0; padding:0; list-style:none;
-}
-/* fluid, so five swatches fall into two tidy rows at 320 instead of
-   fragmenting into three */
-.swatches li{ display:grid; justify-items:center; gap:.4rem;
-  width:clamp(3.5rem,19vw,4.4rem) }
-.sw{
-  display:block; width:clamp(2.1rem,11vw,2.5rem); aspect-ratio:1; border-radius:50%;
-  background:var(--c);
-  /* a hairline and a ring of paper, so a dark swatch does not read as a
-     hole punched in the card */
-  box-shadow:0 0 0 1px rgba(97,38,24,.35), 0 0 0 4px var(--cream-lt),
-             0 0 0 5px rgba(168,135,85,.5), 0 2px 4px -2px rgba(45,33,25,.4);
-}
-.swatches i{
-  font-style:normal; font-size:.86rem; line-height:1.5; color:var(--ink-soft);
-}
-.sw--no{ position:relative }
-.sw--no svg{ position:absolute; inset:0; width:100%; height:100% }
-.sw--no svg path{ stroke:var(--pom); stroke-width:4; stroke-linecap:round }
-.dress-strict{
-  margin:clamp(.9rem,3.4vw,1.2rem) auto 0; max-width:32ch;
-  font-size:.96rem; line-height:1.9; color:var(--pom);
-}
-.dress-men{ margin:.5rem 0 0; font-size:1.02rem; color:var(--ink) }
-.sec--dress .fact-div{ margin-block:clamp(1.4rem,5vw,1.9rem) }
 
 /* ── the pomegranate plate ─────────────────────────────────────── */
 /* the same max-width as every other card, so the plate does not sit
    proud of the sections above and below it */
+/* the closing plate. It is the last thing on the page now, so it opens
+   with a rule of its own and gets room above it — a beat between the
+   reply and the picture, rather than one section butting into the next */
+.sec--night{ padding-top:clamp(2.4rem,9vw,4rem); padding-bottom:clamp(1rem,4vw,1.8rem) }
 .night{ max-width:var(--card); margin-inline:auto }
+.night-orn{
+  display:block; width:min(62%,13rem);
+  margin:0 auto clamp(1.1rem,4.4vw,1.7rem);
+}
 .np{
   position:relative; padding:clamp(1.1rem,5vw,1.9rem);
   background:
@@ -501,11 +499,17 @@ img,svg{ max-width:100%; display:block }
 .np-med--bl{ bottom:-4%; left:-3% } .np-med--br{ bottom:-4%; right:-3% }
 .np-med--ml{ top:50%; left:-3%; transform:translateY(-50%) }
 .np-med--mr{ top:50%; right:-3%; transform:translateY(-50%) }
+/* the phrase arrives after the plate, not with it. Half a second is
+   enough to read as a second beat — the picture lands, then the couple
+   say the line — without becoming a wait */
 .night-phrase{
-  margin:clamp(1.6rem,6vw,2.2rem) 0 0; text-align:center;
-  font-family:var(--f-head); font-size:clamp(1.34rem,5.8vw,1.7rem);
+  margin:clamp(1.7rem,6.4vw,2.4rem) 0 0; text-align:center;
+  font-family:var(--f-head); font-size:clamp(1.4rem,6vw,1.8rem);
   line-height:2; color:var(--burg);
+  transition:opacity 1.2s var(--ease) .5s, transform 1.2s var(--ease) .5s;
 }
+.js .night-phrase{ opacity:0; transform:translateY(14px) }
+.js .night.in .night-phrase{ opacity:1; transform:none }
 
 /* ── the last page ─────────────────────────────────────────────── */
 .rsvp-crest{ width:min(60%,11.5rem); margin:0 auto clamp(.9rem,3.6vw,1.3rem) }
@@ -640,8 +644,12 @@ img,svg{ max-width:100%; display:block }
 
 /* ═══ MOTION ════════════════════════════════════════════════════════
    Nothing here is faster than a breath. */
-.reveal{ opacity:0; transform:translateY(16px) }
-.reveal.in{ opacity:1; transform:none; transition:opacity 1.5s var(--ease), transform 1.5s var(--ease) }
+/* scoped to .js for the same reason the cover is: the inline head script
+   is what sets that class, so if scripting is off nothing here ever gets
+   the .in that brings it back — and an unscoped opacity:0 would serve a
+   blank cream page instead of the invitation */
+.js .reveal{ opacity:0; transform:translateY(16px) }
+.js .reveal.in{ opacity:1; transform:none; transition:opacity 1.5s var(--ease), transform 1.5s var(--ease) }
 
 /* the boughs breathe; each one on its own clock so the canopy never
    moves as a single sheet */
@@ -669,12 +677,15 @@ img,svg{ max-width:100%; display:block }
     animation-duration:.001ms !important; animation-iteration-count:1 !important;
     transition-duration:.001ms !important;
   }
-  .reveal{ opacity:1; transform:none }
+  /* .js-scoped now, so this has to match it or it loses on specificity
+     and reduced-motion guests wait on the observer for their content */
+  .js .reveal{ opacity:1; transform:none }
   .arch-line{ stroke-dashoffset:0 }
   /* the swipe's first keyframe is opacity 0, so stilling the animation
      would delete the scroll cue for exactly the people least likely to
      guess the page continues. Park it visible instead. */
   .rail-hand{ opacity:1 !important; transform:none !important }
+  .night-phrase{ opacity:1 !important; transform:none !important }
 }
 
 /* ═══ SHORT SCREENS ══════════════════════════════════════════════════
