@@ -562,3 +562,41 @@ const sky = calm ? null : (() => {
     });
   }
 }
+
+
+/* ── 10 · the tree fills when you reach it ───────────────────────────
+   The plate used to be finished before anyone had scrolled to it, and
+   the birds and fruit looped whether or not the guest was looking. It
+   plays once now, on arrival: fruit to the branches first, then the
+   birds in off the frame to land. The observer disconnects on the first
+   hit so scrolling back up does not replay it — an entrance that
+   happens twice is a loop with extra steps.
+   ══════════════════════════════════════════════════════════════════ */
+{
+  const tree = $('.tree');
+  if (tree) {
+    /* last bird is down at 2.45 + 7 x .2 + 1.3 = 5.15s */
+    const SETTLED = 5300;
+    /* tree--wait has to come off at the same moment tree--land goes on.
+       The entrance animations fill backwards, so they hold everything
+       hidden through their own delay anyway — but once tree--rest swaps
+       the birds back to perch, which never touches opacity, a lingering
+       wait rule would put them out again the instant they landed. */
+    const start = () => {
+      tree.classList.remove('tree--wait');
+      tree.classList.add('tree--land');
+      setTimeout(() => tree.classList.add('tree--rest'), SETTLED);
+    };
+    if (calm) {
+      tree.classList.remove('tree--wait');
+      tree.classList.add('tree--land', 'tree--rest');
+    } else {
+      const io = new IntersectionObserver((rows) => {
+        if (!rows[0].isIntersecting) return;
+        io.disconnect();
+        start();
+      }, { threshold: 0.25 });
+      io.observe(tree);
+    }
+  }
+}
