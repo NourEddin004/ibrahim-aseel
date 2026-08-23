@@ -213,7 +213,11 @@ img,svg{ max-width:100%; display:block }
   font-size:clamp(1.1rem,4.6vw,1.3rem); line-height:2.2;
   color:var(--burg);
 }
-.names{ margin:clamp(1.9rem,7vw,2.8rem) 0 0; font-weight:400 }
+/* the date block used to sit under the names and hold them off the
+   frame. With it gone the second name landed 24px from the border —
+   flush enough to read as a mistake. Text sits optically high, so the
+   bottom gap wants to be a little larger than the one above. */
+.names{ margin:clamp(1.9rem,7vw,2.8rem) 0 clamp(.9rem,3.4vw,1.4rem); font-weight:400 }
 .names .nm{
   display:block; font-family:var(--f-disp);
   font-size:clamp(2.15rem,10.4vw,3.5rem);
@@ -228,30 +232,6 @@ img,svg{ max-width:100%; display:block }
   font-family:var(--f-lat); font-style:normal; font-size:1.35rem;
   color:var(--gold); opacity:0;
 }
-.hero-when{ margin:clamp(2.1rem,8vw,3rem) 0 0 }
-.hw-day{ margin:0; font-family:var(--f-body); font-size:1.08rem; color:var(--ink-soft) }
-.hw-date{
-  margin:.35rem 0 0; display:flex; align-items:baseline; justify-content:center; gap:.6rem;
-  font-family:var(--f-head); color:var(--burg);
-}
-.hw-date{ gap:.5rem }
-.hw-date span{ font-size:clamp(1.7rem,7.6vw,2.3rem); line-height:1.2 }
-/* the separators are dots between three numerals now, not a word between
-   two — so they are a mark, not a panel with rules either side */
-.hw-date i{
-  font-style:normal; font-size:clamp(1rem,4vw,1.2rem);
-  /* olive, not gold: gold reads at 2.4:1 on parchment, which is right
-     for a hairline and too faint for a character */
-  color:var(--olive); transform:translateY(-.25em);
-}
-.hw-place{
-  margin:0; font-family:var(--f-body); font-size:1.12rem; line-height:1.9; color:var(--ink);
-}
-.hw-place::before{
-  content:''; display:block; width:2.6rem; height:1px;
-  margin:1.05rem auto .95rem; background:var(--gold); opacity:.7;
-}
-
 /* ── the rail in the gutter ────────────────────────────────────────
    The column between the border band and the text is the only part of
    the card that is not spoken for, and it runs the height of the names —
@@ -701,8 +681,6 @@ img,svg{ max-width:100%; display:block }
   .hero-phrase{ margin-top:35%; line-height:1.95 }
   .names .nm{ line-height:1.3; font-size:clamp(1.9rem,9vw,3rem) }
   .names{ margin-top:clamp(.9rem,3.4vw,1.4rem) }
-  .hero-when{ margin-top:clamp(.8rem,3vw,1.2rem) }
-  .hw-place::before{ margin-block:.5rem .45rem }
   .sec--hero .sheet-in{ padding-block:calc(var(--fw) + .6rem) }
   .cue{ margin-top:.5rem; padding:.4rem 1rem }
   .cue-txt{ font-size:.98rem }
