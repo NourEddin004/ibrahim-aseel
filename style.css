@@ -502,7 +502,10 @@ img,svg{ max-width:100%; display:block }
   margin:0 auto clamp(1.1rem,4.4vw,1.7rem);
 }
 .np{
-  position:relative; padding:clamp(1.1rem,5vw,1.9rem);
+  /* the band is a variable now because the medallions are positioned
+     against its centreline, not against the edge of the plate */
+  --band:clamp(1.5rem,7vw,2.4rem);
+  position:relative; padding:var(--band);
   background:
     repeating-linear-gradient(92deg,rgba(0,0,0,.11) 0 2px,transparent 2px 5px),
     linear-gradient(170deg,#8E2A1E,#7A2318 55%,#611B12);
@@ -524,11 +527,22 @@ img,svg{ max-width:100%; display:block }
 .limb{ fill:#7A5A3A; stroke:#4A3722; stroke-width:1; stroke-linejoin:round }
 .grd{ stroke:#6E5334; stroke-width:3; opacity:.7 }
 .tuft{ stroke:var(--sage-lt); stroke-width:2.4; stroke-linecap:round; opacity:.85 }
-.np-med{ position:absolute; width:clamp(38px,11vw,58px); height:auto }
-.np-med--tl{ top:-4%; left:-3% } .np-med--tr{ top:-4%; right:-3% }
-.np-med--bl{ bottom:-4%; left:-3% } .np-med--br{ bottom:-4%; right:-3% }
-.np-med--ml{ top:50%; left:-3%; transform:translateY(-50%) }
-.np-med--mr{ top:50%; right:-3%; transform:translateY(-50%) }
+/* Each medallion sits centred on the band's centreline — at a corner
+   that is where the two centrelines cross. They used to be pinned to the
+   plate edge at -3%/-4% and were 2.2x the band's width, so they hung off
+   into the cream and the frame never looked finished. At ~1.25x the band
+   they read as nodes on it instead of badges stuck over it. */
+.np-med{ position:absolute; width:clamp(28px,8.6vw,44px); height:auto;
+  transform:translate(-50%,-50%) }
+.np-med--tl{ top:calc(var(--band) / 2); left:calc(var(--band) / 2) }
+.np-med--tr{ top:calc(var(--band) / 2); right:calc(var(--band) / 2);
+  transform:translate(50%,-50%) }
+.np-med--bl{ bottom:calc(var(--band) / 2); left:calc(var(--band) / 2);
+  transform:translate(-50%,50%) }
+.np-med--br{ bottom:calc(var(--band) / 2); right:calc(var(--band) / 2);
+  transform:translate(50%,50%) }
+.np-med--ml{ top:50%; left:calc(var(--band) / 2) }
+.np-med--mr{ top:50%; right:calc(var(--band) / 2); transform:translate(50%,-50%) }
 /* the phrase arrives after the plate, not with it. Half a second is
    enough to read as a second beat — the picture lands, then the couple
    say the line — without becoming a wait */
@@ -691,10 +705,56 @@ img,svg{ max-width:100%; display:block }
 }
 @keyframes sway{ from{ transform:rotate(calc(var(--a) * -1)) } to{ transform:rotate(var(--a)) } }
 
-/* the birds only ever shift their weight */
+/* the twigs carry the wind. The boughs lean on a nine-second clock and
+   the twigs flutter under them on a six-second one, each staggered off
+   its own index — so the gust crosses the canopy instead of the whole
+   tree moving as one sheet. The 792 leaves ride their parent twig; not
+   one of them is animated on its own. */
+.twig{
+  transform-box:view-box;
+  animation:sway 6s ease-in-out infinite alternate;
+  animation-delay:calc(var(--b) * -.47s);
+  animation-duration:calc(5.4s + var(--b) * .13s);
+}
+
+/* most of the birds only ever shift their weight */
 .bd{ transform-box:view-box; animation:perch 7s ease-in-out infinite alternate;
      animation-delay:calc(var(--b) * -1.1s); animation-duration:calc(6.5s + var(--b) * .4s) }
 @keyframes perch{ from{ transform:rotate(-.9deg) } to{ transform:rotate(.9deg) } }
+
+/* two of them leave. Most of the cycle is spent sitting still, so this
+   reads as "every so often a bird goes up" rather than as a loop; the
+   climb eases out the way a real one does, slowest at the top. */
+.bd--fly{
+  animation:flyoff 21s cubic-bezier(.3,.05,.5,1) infinite;
+  animation-delay:var(--fd);
+}
+@keyframes flyoff{
+  0%,58%   { transform:none; opacity:1 }
+  61%      { transform:translate(0,-7px) rotate(calc(var(--fr) * .3)); opacity:1 }
+  70%      { transform:translate(calc(var(--fx) * .28),calc(var(--fy) * .34))
+             rotate(calc(var(--fr) * .8)); opacity:1 }
+  82%      { transform:translate(calc(var(--fx) * .68),calc(var(--fy) * .76))
+             rotate(var(--fr)); opacity:.9 }
+  91%      { transform:translate(var(--fx),var(--fy)) rotate(var(--fr)); opacity:0 }
+  92%,96%  { transform:none; opacity:0 }
+  100%     { transform:none; opacity:1 }
+}
+
+/* a pomegranate lets go and takes its time coming down — it hangs, dips
+   once as it detaches, then falls on an ease that accelerates the way
+   weight does, and is gone before it reaches the grass */
+.drop{ transform-box:view-box; opacity:0;
+  animation:fall 15s cubic-bezier(.45,0,.75,.9) infinite;
+  animation-delay:var(--d) }
+@keyframes fall{
+  0%,3%   { transform:none; opacity:0 }
+  5%      { transform:none; opacity:1 }
+  8%      { transform:translate(0,3px) rotate(4deg); opacity:1 }
+  36%     { transform:translate(var(--x),var(--h)) rotate(var(--r)); opacity:1 }
+  42%     { transform:translate(var(--x),calc(var(--h) + 12px)) rotate(var(--r)); opacity:0 }
+  100%    { transform:translate(var(--x),calc(var(--h) + 12px)) rotate(var(--r)); opacity:0 }
+}
 
 /* the arch draws itself once, when the card first arrives */
 .arch-line{ stroke-dasharray:var(--len); stroke-dashoffset:var(--len) }
