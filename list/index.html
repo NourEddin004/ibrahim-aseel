@@ -97,7 +97,7 @@ td.when{ color:var(--ink-soft); font-size:.88rem; white-space:nowrap }
   <h1>قائمة المدعوين</h1>
   <p class="sub">الردود على دعوة زفاف إبراهيم وأسيل</p>
 
-  <!-- No form. The link is the credential: guests.html#s=<secret>. -->
+  <!-- No form. The link is the credential: /list/#s=<secret>. -->
   <section class="card gate" id="gate">
     <p class="msg" id="msg">جارٍ فتح القائمة…</p>
   </section>
@@ -139,13 +139,15 @@ td.when{ color:var(--ink-soft); font-size:.88rem; white-space:nowrap }
 
 </div>
 
-<script src="config.js?v=3"></script>
+<!-- one level up: this page lives in /list/, config.js sits at the root
+     so the invitation and the list share exactly one copy of it -->
+<script src="../config.js?v=3"></script>
 <script>
 /* ═══════════════════════════════════════════════════════════════════
    The couple's list. Opened by a link and nothing else — no account, no
    password, no form.
 
-   The secret rides in the URL fragment (guests.html#s=...) rather than
+   The secret rides in the URL fragment (/list/#s=...) rather than
    the query string on purpose: a fragment is never sent to the server,
    so it stays out of access logs, out of the Referer header on any link
    clicked from here, and out of anything a proxy records.

@@ -37,7 +37,7 @@ whatsapp : '',
 ## Where the replies go
 
 `config.js` is the only file with your Supabase details in it. Both pages
-read it: the invitation writes replies, `guests.html` reads them back.
+read it: the invitation writes replies, `list/index.html` reads them back.
 
 **1. Pick a secret and put it in the SQL.** `sql/setup.sql` has
 `PUT_YOUR_SECRET_HERE` in it twice — replace both with one long random
@@ -60,7 +60,7 @@ anon key, a plain read returns nothing.
 
 **3. Fill in `config.js`.** Project Settings → Data API gives the Project
 URL; the API keys section on that page gives the **anon / public** key.
-Then bump `?v=` on the two `<script src="config.js">` tags, or returning
+Then bump `?v=` on the two `<script>` tags that load `config.js`, or returning
 browsers keep the old empty copy.
 
 The anon key is meant to be public — it ships inside the page. What it is
@@ -71,7 +71,7 @@ every policy.
 **4. The couple's link** is
 
 ```
-.../guests.html#s=YOUR_SECRET
+.../list/#s=YOUR_SECRET
 ```
 
 Opening it shows the tally, the replies newest first, and a CSV button.

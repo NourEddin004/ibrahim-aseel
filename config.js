@@ -2,10 +2,10 @@
    The only file with your Supabase details in it.
 
    Both pages read this one: the invitation writes replies here, and
-   guests.html reads them back. Fill it in once.
+   the list at /list/ reads them back. Fill it in once.
 
    After you edit this file, bump the ?v= number on the two <script>
-   tags that load it — one in index.html, one in guests.html — or a
+   tags that load it — one in index.html, one in list/index.html — or a
    browser that has already been to the page will keep the old, empty
    copy and the form will silently go nowhere.
 
