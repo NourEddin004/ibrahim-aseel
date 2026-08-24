@@ -22,7 +22,7 @@
    one on that same settings page. That key ignores every policy.
    ═══════════════════════════════════════════════════════════════════ */
 window.INVITE_DB = {
-  url  : '',
+  url  : 'https://gwcvghjolpxvsudxklun.supabase.co',
   key  : '',
   table: 'rsvp',
 };
