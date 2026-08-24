@@ -49,7 +49,17 @@ behind.
 `door.py` emits four pieces. The leaf is drawn once with its meeting edge
 on the right, which is what the left-hand door needs; the right-hand one is
 that same drawing mirrored in CSS, so the ironwork meets itself down the
-centre line while the doors are shut. The stone head and the pilasters are
+centre line while the doors are shut.
+
+**A leaf is a rectangle.** It was cut to its own arched silhouette once,
+and that was the whole trouble: the shape travelled with the leaf, so
+drawing the doors back slid two door-shaped arches out from under the
+stone one. A leaf is masked by the doorway it sits in, not by a copy of
+the doorway it carries with it — so the arch is a clip on a stationary
+wrapper and the leaves underneath are the rectangles doors actually are.
+They disappear into the jambs like pocket doors. The arched hairline just
+inside the opening moved to the surround for the same reason: a reveal
+belongs to the doorway, and it used to slide away with the door. The stone head and the pilasters are
 a separate piece because they belong to the frame, not to the leaves — a
 doorway does not slide open with its own doorway — The fourth piece is the
 opening as a clip path: the leaves are clipped to the arch and cover

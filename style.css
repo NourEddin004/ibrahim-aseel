@@ -1007,6 +1007,9 @@ img,svg{ max-width:100%; display:block }
    ═══════════════════════════════════════════════════════════════════ */
 .dr-field{ fill:var(--burg) }
 .dr-stile{ stroke:rgba(220,193,151,.5); stroke-width:1.7 }
+/* the arched hairline inside the opening — the reveal. It was on the leaf
+   and slid away with it; a reveal is part of the doorway. */
+.dr-reveal{ stroke:rgba(220,193,151,.55); stroke-width:1.7 }
 .dr-rail{ stroke:rgba(220,193,151,.42); stroke-width:1.5 }
 .dr-pnl{ stroke:var(--cream-dk); stroke-width:1.9; stroke-linejoin:round; opacity:.8 }
 .dr-pnl--in{ stroke:rgba(220,193,151,.4); stroke-width:1.2 }
@@ -1024,7 +1027,14 @@ img,svg{ max-width:100%; display:block }
 /* ── the stone head ─────────────────────────────────────────────── */
 /* the card is seen through the doorway and nowhere else — this is what
    the wall used to do by covering everything that was not the opening */
-.opening{ position:absolute; inset:0; clip-path:url(#openClip) }
+/* Both of these are masked by the doorway, and the mask does not move.
+   That is the whole point: the leaves used to be cut to an arch they
+   carried with them, so drawing back slid a door-shaped arch out from
+   under the stone one. Now they are plain rectangles behind a stationary
+   opening, and they disappear into the jambs like pocket doors. */
+.opening,
+.leaves{ position:absolute; inset:0; clip-path:url(#openClip) }
+.leaves{ z-index:2 }
 .dr-sur{ position:absolute; inset:0; width:100%; height:100%; z-index:3 }
 .dr-arch{ fill:#5A2216 }
 .dr-pier{ fill:#5A2216 }

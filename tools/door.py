@@ -96,25 +96,30 @@ def scroll(cx, cy, size, phase, turns=1.45, flip=False):
 # the leaf's right-hand edge and the head is a quarter circle here.
 
 def leaf():
-    out = []
-    cx, cy = 150.0, SPRING
+    """One leaf, and it is a plain rectangle.
 
-    # the silhouette: up the jamb, round the quarter, down the meeting edge
-    sil = (f'M{pt(JAMB, H - 6)}L{pt(JAMB, SPRING)}'
-           f'A{f(R)} {f(R)} 0 0 1 {pt(cx, SPRING - R)}'
-           f'L{pt(150, H - 6)}Z')
-    out.append(f'<path id="drLeaf" d="{sil}"/>')
+    It used to be cut to its own arched silhouette, which was the whole
+    trouble: that shape travelled with the leaf, so as the doors drew
+    back you watched two door-shaped arches slide out from under the
+    stone one. A leaf is masked by the doorway it sits in, not by a copy
+    of the doorway it carries with it — so the arch is a clip on the
+    stationary wrapper now (see `opening`), and the leaf underneath is
+    the rectangle a door actually is. It slides behind the stone the way
+    a pocket door does."""
+    out = []
+    cx = 150.0
+
+    sil = f'M{pt(JAMB, 0)}H{f(cx)}V{f(H - 6)}H{f(JAMB)}Z'
 
     body = []
     body.append(f'<path class="dr-field" d="{sil}"/>')
 
-    # the stile just inside the silhouette, and the muntin down the middle
+    # The stile runs straight up. Its head sits above the crown of the
+    # opening, so the mask takes it and no rail ever shows across the arch.
     inset = 9.0
-    ri = R - inset
     body.append('<path class="dr-stile" fill="none" d="'
-                f'M{pt(JAMB + inset, H - 6 - inset)}L{pt(JAMB + inset, SPRING)}'
-                f'A{f(ri)} {f(ri)} 0 0 1 {pt(cx, SPRING - ri)}'
-                f'L{pt(150, H - 6 - inset)}" />')
+                f'M{pt(JAMB + inset, H - 6 - inset)}L{pt(JAMB + inset, 12)}'
+                f'L{pt(cx, 12)}" />')
 
     # the lock rail: the line the arch panel sits on
     rail = 236.0
@@ -147,7 +152,7 @@ def leaf():
     iron.append('<use href="#flr" class="dr-fl" transform="'
                 f'translate(146 {f(rail - 22)}) scale(1.15)"/>')
 
-    body.append('<g clip-path="url(#drClip)">' + ''.join(iron) + '</g>')
+    body.append('<g>' + ''.join(iron) + '</g>')
 
     # ── the panelled foot ───────────────────────────────────────────
     px0, px1 = JAMB + 14, 140.0
@@ -161,9 +166,7 @@ def leaf():
         x = px0 + 7 + (px1 - px0 - 14) * i / n
         body.append(f'<path class="dr-board" fill="none" d="M{pt(x, py0 + 12)}V{f(py1 - 12)}"/>')
 
-    out.append('<clipPath id="drClip"><path d="' + sil + '"/></clipPath>')
-    return ('<clipPath id="drClip"><path d="' + sil + '"/></clipPath>\n'
-            + '\n'.join(body))
+    return '\n'.join(body)
 
 
 # ── the stone head and the pilasters ────────────────────────────────
@@ -172,6 +175,15 @@ def surround():
     cx, cy = W / 2, SPRING
     r0, r1 = R + 1.0, R + BAND
     out = []
+
+    # The reveal: a hairline just inside the opening. This used to be
+    # drawn on the leaf, arching with it — so it slid away with the door.
+    # It belongs to the doorway.
+    rv = R - 8
+    out.append('<path class="dr-reveal" fill="none" d="'
+               f'M{pt(cx - rv, H - 10)}L{pt(cx - rv, cy)}'
+               f'A{f(rv)} {f(rv)} 0 0 1 {pt(cx + rv, cy)}'
+               f'L{pt(cx + rv, H - 10)}"/>')
 
     # the band itself
     out.append('<path class="dr-arch" d="'
