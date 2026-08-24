@@ -423,12 +423,16 @@ img,svg{ max-width:100%; display:block }
   font-size:clamp(1.2rem,5.2vw,1.45rem); line-height:1.6; color:var(--burg);
 }
 .dots{
-  /* Each disc carries a 4px ring of paper and gold outside its box, and a
-     box-shadow takes no space in the layout — so at the old .55rem gap the
-     rings of neighbouring discs came within a pixel of each other and the
-     row read as one chain. .75rem leaves four clear pixels between them
-     and nine still hold a single line at 320. */
-  display:flex; justify-content:center; gap:.75rem;
+  /* A grid, not a wrapping row. Thirteen discs left to flow would break
+     wherever the width happened to run out — nine and four at 320, twelve
+     and one at 375 — and the palette would regroup itself every time the
+     screen changed. Six columns puts the twelve colours in two even rows
+     at every width, and the struck white spans the lot on a line of its
+     own: it is not a thirteenth choice. */
+  display:grid; grid-template-columns:repeat(6,auto); justify-content:center;
+  /* each disc carries a 4px ring outside its box and a box-shadow takes no
+     space in the layout, so the gap has to clear two of them */
+  gap:.72rem;
   margin:clamp(.7rem,2.8vw,.95rem) 0 0; padding:0; list-style:none;
 }
 .dots li{
@@ -439,7 +443,8 @@ img,svg{ max-width:100%; display:block }
 }
 /* A little air before the white one, so the row reads as five colours and
    then a sixth thing being said about colour, rather than six choices. */
-.dot--no{ margin-inline-start:clamp(.5rem,2.2vw,.85rem) }
+/* its own line, centred under the twelve */
+.dot--no{ grid-column:1 / -1; justify-self:center; margin-top:.2rem }
 /* white on parchment needs a darker hairline than the others or the disc
    has no edge at all */
 .dot--no{ box-shadow:0 0 0 1px rgba(97,38,24,.5), 0 0 0 3px var(--cream),
