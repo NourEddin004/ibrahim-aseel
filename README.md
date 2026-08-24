@@ -34,51 +34,38 @@ endpoint : '',
 whatsapp : '',
 ```
 
-#### Supabase
+## Where the replies go
 
-Paste the project URL and the **anon** key. The form posts straight to
-PostgREST — no functions, no server:
+`config.js` is the only file with your Supabase details in it. Both pages
+read it: the invitation writes replies, `guests.html` reads them back.
 
-```sql
-create table public.rsvp (
-  id         bigint generated always as identity primary key,
-  created_at timestamptz not null default now(),
-  name       text   not null,
-  phone      text,                 -- optional on the form
-  attending  text   not null,
-  guests     int    not null default 1,
-  note       text
-);
+**1. Make the table.** Supabase dashboard → SQL Editor → New query, paste
+`sql/setup.sql`, run it. It creates `rsvp` and turns on row-level security
+with two policies: the public key may INSERT and nothing else; SELECT
+requires a signed-in user.
 
-alter table public.rsvp enable row level security;
+**2. Make the couple's account.** Authentication → Users → Add user. Give
+it an email and password and tick *Auto Confirm User*, or Supabase will
+send a confirmation mail that has to be clicked before sign-in works.
 
--- anon may add a reply and nothing else
-create policy "anon inserts rsvp"
-  on public.rsvp for insert to anon with check (true);
-```
+**3. Fill in `config.js`.** Project Settings → Data API gives you the
+Project URL; the API keys section on the same page gives you the
+**anon / public** key. Those two go in `config.js`.
 
-**Give it the insert policy and no select policy.** The anon key ships inside
-this page — that is what it is for, and it is safe *provided* the table cannot
-be read back with it. With only the insert policy above, a guest can leave a
-reply and cannot list anyone else's. Read the replies from the Supabase table
-editor, or with the service key from somewhere that is not a web page.
+The anon key is meant to be public — it ships inside the page and anyone
+can read it. What it is *allowed to do* is decided by the policies, not by
+hiding it. The key that must never go in this repo is `service_role` on
+that same page: it ignores every policy.
 
-Two optional hardening steps, worth it if the link circulates widely:
+**4. Open `guests.html`.** Sign in with the account from step 2. It shows
+the tally (confirmed / total heads / apologies), the full list newest
+first, and a CSV button. The session is kept in `sessionStorage`, so
+closing the tab signs out.
 
-```sql
--- keep a stray double-tap from making two rows
-create unique index rsvp_one_per_name on public.rsvp (lower(trim(name)));
-
--- and cap the free text
-alter table public.rsvp add constraint rsvp_sane
-  check (length(name) between 2 and 80
-     and (phone is null or length(phone) between 7 and 24)
-     and length(coalesce(note,'')) <= 300);
-```
-
-The unique index makes a repeat submission fail, which lands the guest on the
-WhatsApp fallback rather than silently duplicating — if you would rather they
-just succeed quietly, leave it out.
+Until `config.js` is filled in, the form still validates and thanks the
+guest but the reply goes nowhere — so do this before the link is sent to
+anybody. `CONFIG.whatsapp` in `script.js` is worth filling in as well: it
+is what catches a reply when the network call fails.
 
 #### Or a plain form service
 

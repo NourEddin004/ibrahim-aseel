@@ -1,0 +1,301 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>قائمة المدعوين — إبراهيم & أسيل</title>
+<!-- this page is for the couple, not for guests: keep it out of search -->
+<meta name="robots" content="noindex,nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Aref+Ruqaa:wght@400;700&family=Amiri:wght@400;700&display=swap">
+<style>
+:root{
+  --cream:#E6DAC1; --cream-lt:#EFE6D3; --burg:#612618; --pom:#9B2E20;
+  --gold:#A88755; --ink:#34281D; --ink-soft:#55442F; --sage:#626455;
+  --ease:cubic-bezier(.22,.61,.36,1);
+}
+*,*::before,*::after{ box-sizing:border-box }
+[hidden]{ display:none !important }
+body{
+  margin:0; padding:clamp(1rem,4vw,2.5rem) clamp(.8rem,4vw,2rem);
+  font-family:'Amiri',serif; font-size:1rem; line-height:1.9;
+  color:var(--ink); background:var(--cream);
+}
+.wrap{ max-width:56rem; margin-inline:auto }
+
+h1{
+  margin:0 0 .2rem; text-align:center; font-family:'Aref Ruqaa',serif;
+  font-weight:400; font-size:clamp(1.4rem,6vw,1.9rem); color:var(--burg);
+}
+.sub{ margin:0 0 clamp(1.2rem,5vw,2rem); text-align:center;
+  font-size:.98rem; color:var(--ink-soft) }
+
+.card{
+  background:var(--cream-lt); border-radius:2px;
+  box-shadow:0 0 0 1px rgba(97,38,24,.35), 0 0 0 4px var(--cream),
+             0 0 0 5px rgba(168,135,85,.45), 0 10px 30px -22px rgba(45,33,25,.6);
+  padding:clamp(1.1rem,4.4vw,1.9rem);
+}
+
+/* ── sign in ─────────────────────────────────────────────────────── */
+.gate{ max-width:24rem; margin-inline:auto }
+label{ display:block; margin-top:.9rem; font-size:.95rem; color:var(--ink-soft) }
+input{
+  width:100%; min-height:48px; margin-top:.35rem; padding:.55rem .9rem;
+  font:inherit; font-size:1rem; color:var(--ink);
+  background:#FFFCF3; border:1px solid rgba(107,93,61,.45); border-radius:2px;
+}
+input:focus-visible{ outline:2px solid var(--gold); outline-offset:2px }
+button{
+  font:inherit; cursor:pointer; border:0; border-radius:2px;
+  background:var(--burg); color:var(--cream-lt);
+  min-height:48px; padding:.55rem 1.4rem; margin-top:1.2rem; width:100%;
+  transition:background .3s var(--ease);
+}
+button:hover{ background:#71301E }
+button:focus-visible{ outline:2px solid var(--gold); outline-offset:3px }
+button[disabled]{ opacity:.6; cursor:default }
+.err{ margin:.9rem 0 0; color:var(--pom); font-size:.95rem; min-height:1.4em }
+
+/* ── the tallies ─────────────────────────────────────────────────── */
+.tally{
+  display:grid; grid-template-columns:repeat(auto-fit,minmax(7.5rem,1fr));
+  gap:.7rem; margin:0 0 clamp(1rem,4vw,1.5rem);
+}
+.tally div{
+  background:var(--cream-lt); border-radius:2px; padding:.8rem .6rem;
+  text-align:center; box-shadow:0 0 0 1px rgba(168,135,85,.45);
+}
+.tally b{ display:block; font-family:'Aref Ruqaa',serif; font-weight:400;
+  font-size:1.7rem; line-height:1.3; color:var(--burg) }
+.tally i{ font-style:normal; font-size:.88rem; color:var(--ink-soft) }
+
+/* ── the list ────────────────────────────────────────────────────── */
+.bar{ display:flex; flex-wrap:wrap; gap:.6rem; align-items:center;
+  margin:0 0 .9rem }
+.bar button{ width:auto; margin:0; min-height:40px; padding:.35rem 1rem;
+  font-size:.94rem }
+.bar .ghost{ background:none; color:var(--burg);
+  box-shadow:inset 0 0 0 1px rgba(97,38,24,.4) }
+.bar .ghost:hover{ background:rgba(97,38,24,.07) }
+.spacer{ flex:1 }
+
+.scroll{ overflow-x:auto }
+table{ width:100%; border-collapse:collapse; font-size:.96rem }
+th,td{ padding:.6rem .7rem; text-align:start; vertical-align:top;
+  border-bottom:1px solid rgba(168,135,85,.4) }
+th{ font-weight:700; color:var(--burg); white-space:nowrap;
+  border-bottom-width:2px }
+tbody tr:last-child td{ border-bottom:0 }
+td.num{ font-variant-numeric:tabular-nums; white-space:nowrap }
+td.when{ color:var(--ink-soft); font-size:.88rem; white-space:nowrap }
+.no{ color:var(--sage) }
+.note{ color:var(--ink-soft); max-width:22rem }
+.empty{ padding:2rem 0; text-align:center; color:var(--ink-soft) }
+</style>
+</head>
+
+<body>
+<div class="wrap">
+
+  <h1>قائمة المدعوين</h1>
+  <p class="sub">الردود على دعوة زفاف إبراهيم وأسيل</p>
+
+  <!-- ── sign in ──────────────────────────────────────────────────── -->
+  <section class="card gate" id="gate">
+    <form id="signin" novalidate>
+      <label for="email">البريد الإلكتروني</label>
+      <input id="email" type="email" autocomplete="username" required>
+
+      <label for="pass">كلمة المرور</label>
+      <input id="pass" type="password" autocomplete="current-password" required>
+
+      <button type="submit" id="go">دخول</button>
+      <p class="err" id="err" role="alert"></p>
+    </form>
+  </section>
+
+  <!-- ── the list ─────────────────────────────────────────────────── -->
+  <section id="list" hidden>
+    <div class="tally">
+      <div><b id="tYes">٠</b><i>مؤكِّد</i></div>
+      <div><b id="tHeads">٠</b><i>إجمالي الأشخاص</i></div>
+      <div><b id="tNo">٠</b><i>اعتذار</i></div>
+      <div><b id="tAll">٠</b><i>مجموع الردود</i></div>
+    </div>
+
+    <div class="card">
+      <div class="bar">
+        <button type="button" id="refresh">تحديث</button>
+        <button type="button" class="ghost" id="csv">تنزيل CSV</button>
+        <span class="spacer"></span>
+        <button type="button" class="ghost" id="out">خروج</button>
+      </div>
+
+      <div class="scroll">
+        <table>
+          <thead>
+            <tr>
+              <th>الاسم</th>
+              <th>الحضور</th>
+              <th>العدد</th>
+              <th>ملاحظات</th>
+              <th>وصل في</th>
+            </tr>
+          </thead>
+          <tbody id="rows"></tbody>
+        </table>
+      </div>
+      <p class="empty" id="empty" hidden>لا توجد ردود بعد.</p>
+      <p class="err" id="err2" role="alert"></p>
+    </div>
+  </section>
+
+</div>
+
+<script src="config.js?v=1"></script>
+<script>
+/* ═══════════════════════════════════════════════════════════════════
+   The couple's list. No framework and no Supabase SDK — two REST calls
+   is the whole thing, and a page with no build step is a page that
+   still works in two years.
+
+   Reading the table requires a signed-in session: the RLS policy grants
+   SELECT to `authenticated` only, so the public key alone gets nothing.
+   The token lives in sessionStorage, which the browser drops when the
+   tab closes.
+   ══════════════════════════════════════════════════════════════════ */
+const DB = window.INVITE_DB || {};
+const $ = (s) => document.querySelector(s);
+const KEY = 'inviteToken';
+
+const ar = (n) => String(n).replace(/\d/g, (d) => '٠١٢٣٤٥٦٧٨٩'[d]);
+
+const gate = $('#gate'), list = $('#list');
+const err = $('#err'), err2 = $('#err2');
+
+if (!DB.url || !DB.key) {
+  err.textContent = 'config.js لم يُملأ بعد — أضف رابط المشروع والمفتاح العام.';
+  $('#go').disabled = true;
+}
+
+/* ── sign in ─────────────────────────────────────────────────────── */
+$('#signin').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  err.textContent = '';
+  const btn = $('#go');
+  btn.disabled = true; btn.textContent = 'جارٍ الدخول…';
+  try {
+    const r = await fetch(`${DB.url.replace(/\/$/, '')}/auth/v1/token?grant_type=password`, {
+      method: 'POST',
+      headers: { apikey: DB.key, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: $('#email').value.trim(), password: $('#pass').value }),
+    });
+    const data = await r.json();
+    if (!r.ok) throw new Error(data.error_description || data.msg || r.status);
+    sessionStorage.setItem(KEY, data.access_token);
+    $('#pass').value = '';
+    show();
+  } catch (e) {
+    err.textContent = 'تعذّر الدخول. تأكّد من البريد وكلمة المرور.';
+  } finally {
+    btn.disabled = false; btn.textContent = 'دخول';
+  }
+});
+
+$('#out').addEventListener('click', () => {
+  sessionStorage.removeItem(KEY);
+  list.hidden = true; gate.hidden = false;
+});
+
+$('#refresh').addEventListener('click', load);
+
+/* ── the rows ────────────────────────────────────────────────────── */
+let rows = [];
+
+async function load() {
+  const token = sessionStorage.getItem(KEY);
+  if (!token) return;
+  err2.textContent = '';
+  try {
+    const url = `${DB.url.replace(/\/$/, '')}/rest/v1/${DB.table || 'rsvp'}`
+              + '?select=name,attending,guests,note,created_at&order=created_at.desc';
+    const r = await fetch(url, {
+      headers: { apikey: DB.key, Authorization: `Bearer ${token}` },
+    });
+    if (r.status === 401) { sessionStorage.removeItem(KEY); gate.hidden = false; list.hidden = true; return; }
+    if (!r.ok) throw new Error(r.status);
+    rows = await r.json();
+    paint();
+  } catch {
+    err2.textContent = 'تعذّر تحميل القائمة. حاول مرة أخرى.';
+  }
+}
+
+/* a reply counts as attendance when it starts with نعم — the same test
+   the invitation itself makes when it decides to ask for a headcount */
+const coming = (r) => (r.attending || '').startsWith('نعم');
+
+function paint() {
+  const yes = rows.filter(coming);
+  const heads = yes.reduce((s, r) => s + (r.guests || 0), 0);
+  $('#tYes').textContent   = ar(yes.length);
+  $('#tHeads').textContent = ar(heads);
+  $('#tNo').textContent    = ar(rows.length - yes.length);
+  $('#tAll').textContent   = ar(rows.length);
+
+  const body = $('#rows');
+  body.textContent = '';
+  $('#empty').hidden = rows.length > 0;
+
+  for (const r of rows) {
+    const tr = document.createElement('tr');
+    const add = (text, cls) => {
+      const td = document.createElement('td');
+      if (cls) td.className = cls;
+      td.textContent = text;          // textContent, never innerHTML: the
+      tr.appendChild(td);             // name and note are typed by guests
+      return td;
+    };
+    add(r.name || '—');
+    add(coming(r) ? 'نعم' : 'اعتذار', coming(r) ? '' : 'no');
+    add(coming(r) ? ar(r.guests || 0) : '—', 'num');
+    add(r.note || '', 'note');
+    add(when(r.created_at), 'when');
+    body.appendChild(tr);
+  }
+}
+
+function when(iso) {
+  if (!iso) return '';
+  try {
+    return new Intl.DateTimeFormat('ar-JO', {
+      dateStyle: 'short', timeStyle: 'short', timeZone: 'Asia/Amman',
+    }).format(new Date(iso));
+  } catch { return iso.slice(0, 16).replace('T', ' '); }
+}
+
+/* ── CSV ─────────────────────────────────────────────────────────── */
+$('#csv').addEventListener('click', () => {
+  const esc = (v) => `"${String(v ?? '').replace(/"/g, '""')}"`;
+  const lines = [['الاسم', 'الحضور', 'العدد', 'ملاحظات', 'وصل في'].map(esc).join(',')];
+  for (const r of rows) {
+    lines.push([r.name, coming(r) ? 'نعم' : 'اعتذار',
+                coming(r) ? (r.guests || 0) : '', r.note || '',
+                when(r.created_at)].map(esc).join(','));
+  }
+  /* the BOM is what makes Excel open Arabic as Arabic instead of mojibake */
+  const blob = new Blob(['﻿' + lines.join('\r\n')], { type: 'text/csv;charset=utf-8' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'rsvp.csv';
+  a.click();
+  URL.revokeObjectURL(a.href);
+});
+
+function show() { gate.hidden = true; list.hidden = false; load(); }
+if (sessionStorage.getItem(KEY)) show();
+</script>
+</body>
+</html>

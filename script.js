@@ -31,7 +31,9 @@ const CONFIG = {
                 guest's WhatsApp with the reply already written out.
                 Worth filling in even alongside the other two: it is
                 what catches a reply when the network call fails. */
-  supabase : { url: '', key: '', table: 'rsvp' },
+  /* filled in config.js, which guests.html reads too — one place to
+     paste, so the invitation and the list can never drift apart */
+  supabase : window.INVITE_DB || { url: '', key: '', table: 'rsvp' },
   endpoint : '',
   whatsapp : '',
 };
