@@ -576,7 +576,7 @@ const sky = calm ? null : (() => {
   const tree = $('.tree');
   if (tree) {
     /* last bird is down at 2.45 + 7 x .2 + 1.3 = 5.15s */
-    const SETTLED = 5300;
+    const SETTLED = 5800;   /* 2.95 + 7 x .2 + 1.3 = 5.65s */
     /* tree--wait has to come off at the same moment tree--land goes on.
        The entrance animations fill backwards, so they hold everything
        hidden through their own delay anyway — but once tree--rest swaps
