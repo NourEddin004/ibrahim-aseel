@@ -174,9 +174,14 @@ def bird(x, y, sc, face, idx, order, ground=False):
     ex = away * (reach + rnd.r(-30, 40))
     ey = -(rise + rnd.r(-25, 45))
     er = away * rnd.r(9, 17)
+    # the <use> sits inside a group of its own so the wingbeat and the
+    # flight path can be two simple animations instead of one keyframe
+    # list carrying both
     return ('<g class="bd" style="--b:%d;--ex:%.0fpx;--ey:%.0fpx;--er:%.0fdeg;--o:%d;'
             'transform-origin:%.0fpx %.0fpx">'
-            '<use href="#bird" transform="translate(%.0f %.0f) scale(%.2f %.2f)"/></g>'
+            '<g class="wing">'
+            '<use href="#bird" transform="translate(%.0f %.0f) scale(%.2f %.2f)"/>'
+            '</g></g>'
             % (idx, ex, ey, er, order, x, y + 26, x, y, sc * face, sc))
 
 perch.sort(key=lambda p: p[0])
@@ -213,7 +218,11 @@ dx = HALF * (B - A) / (A + B)        # the shift that balances the two
 dx = max(-DXMAX, min(DXMAX, dx))
 k = min((HALF - dx) / A, (HALF + dx) / B, (BASE[1] - TOP) / (BASE[1] - ys0))
 
-head = ('<g class="tree-body" transform="translate(%.1f 0) translate(%.1f %.1f) '
+# .gust is the one group the whole canopy leans in — the wind is a
+# rotation on this, plus a sway on each bough inside it. Animating the
+# twigs as well meant forty groups re-rasterising their own subtree every
+# frame, which is what made it stutter.
+head = ('<g class="gust"><g class="tree-body" transform="translate(%.1f 0) translate(%.1f %.1f) '
         'scale(%.4f) translate(%.1f %.1f)">'
         % (dx, BASE[0], BASE[1], k, -BASE[0], -BASE[1]))
 
@@ -236,7 +245,7 @@ floor = ['<g class="tree-floor" transform="translate(%.1f 0)">' % dx,
          '<use href="#bride" class="fig" transform="translate(%.0f %.0f)"/>' % (FOOT + 34, SOIL),
          '</g>']
 
-open('tree.svgfrag', 'w').write(head + "\n" + "\n".join(out) + "\n</g>\n" + "\n".join(floor))
+open('tree.svgfrag', 'w').write(head + "\n" + "\n".join(out) + "\n</g></g>\n" + "\n".join(floor))
 print('viewBox 900x%.0f  fit %.3f  raw %.0fx%.0f  filled %.0f%% wide %.0f%% tall'
       % (VB_H, k, xs1 - xs0, BASE[1] - ys0,
          100 * (xs1 - xs0) * k / 900.0, 100 * (BASE[1] - ys0) * k / (BASE[1] - TOP)))

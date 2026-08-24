@@ -704,27 +704,30 @@ img,svg{ max-width:100%; display:block }
    94 concurrent transform animations on top of the 59 the arrival needs,
    and the birds were the ones that showed it — they land last, into the
    worst of it. It starts when they are down. */
+/* ── the wind ──────────────────────────────────────────────────────
+   Two layers, both continuous, and between them seventeen animated
+   nodes instead of fifty-five. The forty twigs that used to flutter
+   were the lag: an animated <g> re-rasterises its whole subtree every
+   frame, and each of those carried a dozen leaves, so the canopy was
+   being repainted in forty separate pieces at once. The same movement
+   comes from one group that leans and fifteen boughs that sway inside
+   it — fewer nodes, each doing more.
+
+   Both run on ease-in-out alternate, which has no seam: the motion
+   arrives at each end at zero speed and turns round. A loop that
+   restarts is what reads as a stutter, and neither of these restarts.
+   ═══════════════════════════════════════════════════════════════════ */
+.gust{ transform-box:view-box; transform-origin:450px 908px }
+.tree--rest .gust{ animation:gust 19s ease-in-out infinite alternate }
+@keyframes gust{ from{ transform:rotate(-.42deg) } to{ transform:rotate(.42deg) } }
+
 .tree--rest .bough{
   transform-box:view-box;
-  animation:sway 9s ease-in-out infinite alternate;
-  animation-delay:calc(var(--b) * -.83s);
-  animation-duration:calc(8.5s + var(--b) * .21s);
+  animation:sway 11s ease-in-out infinite alternate;
+  animation-delay:calc(var(--b) * -1.07s);
+  animation-duration:calc(10.5s + var(--b) * .29s);
 }
 @keyframes sway{ from{ transform:rotate(calc(var(--a) * -1)) } to{ transform:rotate(var(--a)) } }
-
-/* the twigs carry the wind. The boughs lean on a nine-second clock and
-   the twigs flutter under them on a six-second one, each staggered off
-   its own index — so the gust crosses the canopy instead of the whole
-   tree moving as one sheet. The 792 leaves ride their parent twig; not
-   one of them is animated on its own. */
-/* every other twig, not all 79 — half of them moving is indistinguishable
-   from all of them moving, and costs half as much */
-.tree--rest .twig--w{
-  transform-box:view-box;
-  animation:sway 6s ease-in-out infinite alternate;
-  animation-delay:calc(var(--b) * -.47s);
-  animation-duration:calc(5.4s + var(--b) * .13s);
-}
 
 /* most of the birds only ever shift their weight */
 .bd{ transform-box:view-box; animation:perch 7s ease-in-out infinite alternate;
@@ -752,30 +755,51 @@ img,svg{ max-width:100%; display:block }
   100% { transform:translateY(0); opacity:1 }
 }
 
+/* Once the fruit is on the tree its animation holds a fill value identical
+   to its natural state, so 45 finished animations were being retained for
+   nothing. Dropping them leaves the fruit exactly where it is. */
+.tree--rest .fruit{ animation:none }
+
 /* --ex/--ey put each bird off its own nearest edge. The canopy birds
    live inside .tree-body, which is scaled 0.6267, so their offsets are
    in that smaller space and have to be bigger to clear the frame than
    the ones for the birds standing on the floor. */
 .tree--land .bd{
-  animation:birdIn 1.3s cubic-bezier(.24,.72,.32,1) both;
+  animation:birdIn 1.55s cubic-bezier(.2,.62,.3,1) both;
   will-change:transform, opacity;
-  animation-delay:calc(2.95s + var(--o) * .2s);
+  animation-delay:calc(2.95s + var(--o) * .24s);
 }
+/* A bird does not travel in a straight line to a branch. It comes in
+   high and fast, loses speed as it closes, drops the last stretch, then
+   flares — nose up, almost stopped — and settles. The stops below are
+   that shape: most of the ground is covered in the first third. */
 @keyframes birdIn{
   0%   { transform:translate(var(--ex),var(--ey)) rotate(var(--er)); opacity:0 }
-  14%  { opacity:1 }
-  70%  { transform:translate(calc(var(--ex) * .12),calc(var(--ey) * .1))
-         rotate(calc(var(--er) * .35)); opacity:1 }
-  /* the last thing a landing bird does is stall, then drop the last inch */
-  88%  { transform:translate(0,-5px) rotate(calc(var(--er) * .12)); opacity:1 }
+  10%  { opacity:1 }
+  32%  { transform:translate(calc(var(--ex) * .52),calc(var(--ey) * .78))
+         rotate(calc(var(--er) * .92)); opacity:1 }
+  58%  { transform:translate(calc(var(--ex) * .22),calc(var(--ey) * .46))
+         rotate(calc(var(--er) * .6)); opacity:1 }
+  78%  { transform:translate(calc(var(--ex) * .07),calc(var(--ey) * .19))
+         rotate(calc(var(--er) * .3)); opacity:1 }
+  /* the flare: it rises a touch and tips the other way to brake */
+  91%  { transform:translate(0,-7px) rotate(calc(var(--er) * -.3)); opacity:1 }
   100% { transform:none; opacity:1 }
 }
 
-/* Once the fruit is on the tree its animation is holding a fill value
-   identical to its natural state, so 51 finished animations were being
-   retained for nothing. Dropping them leaves the fruit exactly where it
-   is and takes the steady-state count down with it. */
-.tree--rest .fruit{ animation:none }
+/* The wings. They are a group of their own inside the bird so the beat
+   and the flight path are two simple animations instead of one keyframe
+   list carrying both. fill-box puts the origin on the bird's own body,
+   so one rule serves all eight wherever they sit.
+   Eight iterations of an alternating half-beat land back at rest, so the
+   wings are already folded when the feet touch — no need to cut the
+   animation off mid-stroke. */
+.wing{ transform-box:fill-box; transform-origin:50% 42% }
+.tree--land .wing{
+  animation:flap .19s ease-in-out 8 alternate;
+  animation-delay:calc(2.95s + var(--o) * .24s);
+}
+@keyframes flap{ from{ transform:scaleY(1) } to{ transform:scaleY(.82) } }
 
 /* down, and back to shifting their weight. Two classes so it outranks
    the entrance rule whichever order they end up in. */
@@ -797,6 +821,12 @@ img,svg{ max-width:100%; display:block }
     animation-duration:.001ms !important; animation-iteration-count:1 !important;
     transition-duration:.001ms !important;
   }
+  /* Killing the duration does not park an alternating animation at its
+     start — it lands on its `to` frame. That would leave the canopy and
+     every bough permanently tilted, and every bird's wings squashed to
+     82%. Park them all at rest instead. */
+  .gust, .bough, .twig, .wing{ transform:none !important }
+
   /* .js-scoped now, so this has to match it or it loses on specificity
      and reduced-motion guests wait on the observer for their content */
   .js .reveal{ opacity:1; transform:none }
