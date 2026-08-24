@@ -439,10 +439,22 @@ img,svg{ max-width:100%; display:block }
    has no edge at all */
 .dot--no{ box-shadow:0 0 0 1px rgba(97,38,24,.5), 0 0 0 3px var(--cream),
                      0 0 0 4px rgba(168,135,85,.55) }
+/* Anchored from one corner and centred with a transform, not with inset.
+   `inset:-2px` plus an explicit width over-constrains the box, and in an
+   RTL document it is the horizontal side that loses — the strike came out
+   4px narrow and sitting 2px right of the disc it was meant to cross. The
+   same trap the border bands fell into. `left` is physical, so it means
+   the same thing in both directions. */
 .dot--no svg{
-  position:absolute; inset:-2px; width:calc(100% + 4px); height:calc(100% + 4px);
+  position:absolute; top:50%; left:50%;
+  width:calc(100% + 5px); height:calc(100% + 5px);
+  transform:translate(-50%,-50%);
   overflow:visible;
 }
+/* The viewBox is 24 and the disc fills it, so its radius is 12 units. The
+   ends sit at r = 11.2 — right across the disc, stopping a cap's width
+   inside the ring. At the old r = 9.3 the mark covered a bit over half the
+   width and read as a tick rather than a strike. */
 .dot--no svg path{
   stroke:var(--pom); stroke-width:2.6; stroke-linecap:round; fill:none;
 }
