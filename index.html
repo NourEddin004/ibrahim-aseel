@@ -34,7 +34,7 @@
 <!-- ⚠️ Bump ?v= on BOTH of these whenever you edit style.css or script.js.
      Browsers cache them hard; without a new URL a guest who has already
      opened the invitation keeps seeing the old design. -->
-<link rel="stylesheet" href="style.css?v=111">
+<link rel="stylesheet" href="style.css?v=113">
 
 <!-- The cover and the scroll lock are opt-in: with JavaScript off the
      guest lands straight on the invitation instead of a dead layer. -->
@@ -614,37 +614,41 @@
   <div class="dcode reveal">
     <h2 class="dcode-t">ألوان الحفل</h2>
 
-    <!-- The palette is the whole message — the two lines that used to name
-         it are gone. So the list carries an aria-label: a guest who cannot
-         see the discs still hears what the evening's colours are. The discs
-         themselves stay hidden, or the label would be read twice over.
+    <!-- Three ramps, after the reference the bride sent: five shades of a
+         family, each disc lapping the one beside it with a rim of paper
+         between, so the family reads as one thing rather than five. No
+         names beside them — the colours are the whole message, so the
+         group is one role="img" with the families said in its label, and
+         the discs themselves are hidden rather than read out one by one.
 
-         Twelve run as one ramp, wrapping: greens, then the dusty pinks,
-         then the dark reds into black. The struck-through white sits on a
-         line of its own underneath, because it is not one of the choices —
-         it is the one thing being asked. -->
-    <ul class="dots" aria-label="ألوان الحفل: درجات الأخضر الداكن، ثمّ الورديّ الباهت، ثمّ الأحمر الداكن والعنّابيّ، وصولًا إلى الأسود">
-      <li aria-hidden="true" style="--c:#2F3A28"></li>
-      <li aria-hidden="true" style="--c:#3E4A33"></li>
-      <li aria-hidden="true" style="--c:#56603F"></li>
-      <li aria-hidden="true" style="--c:#6B6E3F"></li>
-      <li aria-hidden="true" style="--c:#D9B3AE"></li>
-      <li aria-hidden="true" style="--c:#C08C8C"></li>
+         Darkest first: in RTL that puts it on the right, where the eye
+         starts, and each disc laps the lighter one after it. -->
+    <div class="ramps" role="img"
+         aria-label="ألوان الحفل: درجات الورديّ الباهت، ودرجات الأحمر الداكن، ودرجات الأخضر الداكن">
+      <span class="ramp">
+        <i style="--c:#8C5560"></i><i style="--c:#A66F73"></i><i style="--c:#C08C8C"></i>
+        <i style="--c:#D3A8A4"></i><i style="--c:#E4C6C0"></i>
+      </span>
+      <span class="ramp">
+        <i style="--c:#3E1710"></i><i style="--c:#4A1C12"></i><i style="--c:#612618"></i>
+        <i style="--c:#7C241B"></i><i style="--c:#9B2E20"></i>
+      </span>
+      <span class="ramp">
+        <i style="--c:#232B1E"></i><i style="--c:#2F3A28"></i><i style="--c:#3E4A33"></i>
+        <i style="--c:#56603F"></i><i style="--c:#6B6E3F"></i>
+      </span>
+    </div>
 
-      <li aria-hidden="true" style="--c:#A66F73"></li>
-      <li aria-hidden="true" style="--c:#8C5560"></li>
-      <li aria-hidden="true" style="--c:#9B2E20"></li>
-      <li aria-hidden="true" style="--c:#7C241B"></li>
-      <li aria-hidden="true" style="--c:#612618"></li>
-      <li aria-hidden="true" style="--c:#211C1A"></li>
-
-      <li class="dot--no" style="--c:#FFFFFF">
+    <!-- The one thing being asked, said the only way it can be said without
+         a sentence: the colour, struck through. -->
+    <span class="ramp ramp--no">
+      <i class="dot--no" style="--c:#FFFFFF">
         <svg viewBox="0 0 24 24" role="img" aria-labelledby="noWhite">
           <title id="noWhite">نرجو تجنّب الأبيض ودرجاته</title>
           <path d="M4.1 19.9 19.9 4.1"/>
         </svg>
-      </li>
-    </ul>
+      </i>
+    </span>
 
   </div>
 </section>
@@ -2526,6 +2530,6 @@
 
 </main>
 
-<script src="script.js?v=111" defer></script>
+<script src="script.js?v=113" defer></script>
 </body>
 </html>

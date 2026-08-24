@@ -422,49 +422,55 @@ img,svg{ max-width:100%; display:block }
   margin:0; font-family:var(--f-head); font-weight:400;
   font-size:clamp(1.2rem,5.2vw,1.45rem); line-height:1.6; color:var(--burg);
 }
-.dots{
-  /* A grid, not a wrapping row. Thirteen discs left to flow would break
-     wherever the width happened to run out — nine and four at 320, twelve
-     and one at 375 — and the palette would regroup itself every time the
-     screen changed. Six columns puts the twelve colours in two even rows
-     at every width, and the struck white spans the lot on a line of its
-     own: it is not a thirteenth choice. */
-  display:grid; grid-template-columns:repeat(6,auto); justify-content:center;
-  /* each disc carries a 4px ring outside its box and a box-shadow takes no
-     space in the layout, so the gap has to clear two of them */
-  gap:.72rem;
-  margin:clamp(.7rem,2.8vw,.95rem) 0 0; padding:0; list-style:none;
+/* ── the ramps ─────────────────────────────────────────────────────
+   Five shades of a family, each disc lapping the next with a rim of paper
+   between them, so a family reads as one object instead of five swatches.
+   The rim is a box-shadow, which takes no room in the layout — that is
+   what lets the discs overlap and still show a clean edge against each
+   other.
+   ═══════════════════════════════════════════════════════════════════ */
+.ramps{ display:grid; gap:clamp(.5rem,2.2vw,.8rem); justify-items:center;
+  margin:clamp(.85rem,3.4vw,1.15rem) 0 0 }
+.ramp{
+  --d:clamp(2.5rem,11.8vw,3.1rem);       /* one disc */
+  display:flex; justify-content:center;
 }
-.dots li{
+.ramp i{
   position:relative;
-  width:1.15rem; height:1.15rem; border-radius:50%; background:var(--c);
-  box-shadow:0 0 0 1px rgba(97,38,24,.3), 0 0 0 3px var(--cream),
+  width:var(--d); height:var(--d); border-radius:50%;
+  background:var(--c);
+  box-shadow:0 0 0 1px rgba(97,38,24,.22), 0 0 0 3px var(--cream),
              0 0 0 4px rgba(168,135,85,.4);
 }
-/* A little air before the white one, so the row reads as five colours and
-   then a sixth thing being said about colour, rather than six choices. */
-/* its own line, centred under the twelve */
-.dot--no{ grid-column:1 / -1; justify-self:center; margin-top:.2rem }
-/* white on parchment needs a darker hairline than the others or the disc
-   has no edge at all */
-.dot--no{ box-shadow:0 0 0 1px rgba(97,38,24,.5), 0 0 0 3px var(--cream),
-                     0 0 0 4px rgba(168,135,85,.55) }
+/* each one tucks a third of its width under the disc before it */
+.ramp i + i{ margin-inline-start:calc(var(--d) * -.34) }
+/* darkest on top, the rest cascading under it to the light end — without
+   this the pale end would sit over the dark and the ramp would read
+   backwards */
+.ramp i:nth-child(1){ z-index:5 }
+.ramp i:nth-child(2){ z-index:4 }
+.ramp i:nth-child(3){ z-index:3 }
+.ramp i:nth-child(4){ z-index:2 }
+.ramp i:nth-child(5){ z-index:1 }
+
+/* the white sits on its own, a little below the three, and slightly
+   larger — it is not a fourth family, it is the one request */
+.ramp--no{ margin-top:clamp(.85rem,3.4vw,1.2rem) }
+.dot--no{
+  position:relative; display:block;
+  width:var(--d); height:var(--d); border-radius:50%; background:var(--c);
+  box-shadow:0 0 0 1px rgba(97,38,24,.5), 0 0 0 3px var(--cream),
+             0 0 0 4px rgba(168,135,85,.55);
+}
 /* Anchored from one corner and centred with a transform, not with inset.
-   `inset:-2px` plus an explicit width over-constrains the box, and in an
-   RTL document it is the horizontal side that loses — the strike came out
-   4px narrow and sitting 2px right of the disc it was meant to cross. The
-   same trap the border bands fell into. `left` is physical, so it means
-   the same thing in both directions. */
+   `inset` plus an explicit width over-constrains the box, and in an RTL
+   document it is the horizontal side that loses. */
 .dot--no svg{
   position:absolute; top:50%; left:50%;
   width:calc(100% + 5px); height:calc(100% + 5px);
   transform:translate(-50%,-50%);
   overflow:visible;
 }
-/* The viewBox is 24 and the disc fills it, so its radius is 12 units. The
-   ends sit at r = 11.2 — right across the disc, stopping a cap's width
-   inside the ring. At the old r = 9.3 the mark covered a bit over half the
-   width and read as a tick rather than a strike. */
 .dot--no svg path{
   stroke:var(--pom); stroke-width:2.6; stroke-linecap:round; fill:none;
 }
