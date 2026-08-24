@@ -939,6 +939,9 @@ img,svg{ max-width:100%; display:block }
 .door--l{ left:0 }
 .door--r{ right:0 }
 .dr-art{ position:absolute; inset:0; width:100%; height:100% }
+/* the leaf is drawn with its meeting edge on the right, which is what the
+   left-hand door needs; the right-hand one is the same drawing flipped */
+.door--r .dr-art{ transform:scaleX(-1) }
 
 /* A slide with weight: the latch lets go and the leaf eases back a few
    pixels before it travels, then runs out and settles. A plain A-to-B
@@ -967,7 +970,7 @@ img,svg{ max-width:100%; display:block }
 
 /* the ring pull, near the meeting edge */
 .door-pull{
-  position:absolute; top:47%; width:19px; height:19px; border-radius:50%;
+  position:absolute; top:58%; width:19px; height:19px; border-radius:50%;
   border:2.6px solid var(--cream-dk);
   box-shadow:0 1px 2px rgba(40,22,10,.5), 0 0 0 3px rgba(97,38,24,.25);
   transition:transform .5s var(--ease), opacity .5s var(--ease);
@@ -977,24 +980,60 @@ img,svg{ max-width:100%; display:block }
 .gate.is-pressed .door-pull{ transform:translateY(3px); transition-duration:.14s }
 .gate.is-lifting .door-pull{ opacity:0 }
 
-/* ── the door's own drawing ─────────────────────────────────────── */
+/* ── the door's own drawing ─────────────────────────────────────
+   An arched pair under a stone head, after the reference: voussoirs
+   radiating off the arc with a keystone at the crown, wrought scrolls
+   in the heads of the leaves, boarded panels below the lock rail, and
+   ivy up both jambs. The leaf is drawn once, with its meeting edge on
+   the right, and the right-hand leaf is that drawing mirrored — so the
+   ironwork meets itself down the centre line while the doors are shut.
+
+   The stone belongs to the frame, not to the leaves: a doorway does not
+   slide open with its own doorway. Its inner edge overlaps the leaves,
+   which is also what hides the pixel the 50.4% overlap costs.
+   ═══════════════════════════════════════════════════════════════════ */
 .dr-field{ fill:var(--burg) }
-.dr-stile{ stroke:rgba(220,193,151,.55); stroke-width:1.6 }
-.dr-rail{ stroke:rgba(220,193,151,.4); stroke-width:1.4 }
-.dr-pnl{ stroke:var(--cream-dk); stroke-width:2; stroke-linejoin:round; opacity:.85 }
-.dr-star{ fill:none; stroke:var(--cream-dk); stroke-width:2; opacity:.8 }
-.dr-star2{ fill:none; stroke:rgba(220,193,151,.45); stroke-width:1.4 }
-.dr-fl .fl-petals{ fill:var(--cream-dk); stroke:none; opacity:.8 }
+.dr-stile{ stroke:rgba(220,193,151,.5); stroke-width:1.7 }
+.dr-rail{ stroke:rgba(220,193,151,.42); stroke-width:1.5 }
+.dr-pnl{ stroke:var(--cream-dk); stroke-width:1.9; stroke-linejoin:round; opacity:.8 }
+.dr-pnl--in{ stroke:rgba(220,193,151,.4); stroke-width:1.2 }
+.dr-board{ stroke:rgba(220,193,151,.26); stroke-width:1.1 }
+
+/* the ironwork reads as one weight of bar, lit from the left */
+.dr-iron{
+  stroke:var(--cream-dk); stroke-width:2.5;
+  stroke-linecap:round; stroke-linejoin:round; opacity:.9;
+}
+.dr-iron--thin{ stroke-width:1.5; opacity:.6 }
+.dr-fl .fl-petals{ fill:var(--cream-dk); stroke:none; opacity:.85 }
 .dr-fl .fl-eye{ fill:var(--gold); stroke:none }
 
-/* the head of the opening, over the leaves so they vanish under it */
-.lintel{
-  position:absolute; top:0; left:0; right:0; height:7%; z-index:3;
-  background:linear-gradient(180deg,#5A2216,var(--burg));
-  box-shadow:0 2px 0 rgba(220,193,151,.5), 0 6px 12px -4px rgba(50,28,12,.5);
+/* ── the stone head ─────────────────────────────────────────────── */
+.dr-sur{ position:absolute; inset:0; width:100%; height:100%; z-index:3 }
+/* the wall the doorway is set into; it hides the card until the leaves
+   move, since they are clipped to the arch and cover nothing above it */
+.dr-wall{ fill:#E3D6B8 }
+.dr-arch{ fill:#5A2216 }
+.dr-pier{ fill:#5A2216 }
+.dr-key{ fill:#6B2A1B }
+.dr-joint{ stroke:rgba(220,193,151,.34); stroke-width:1.2 }
+.dr-keymark{ fill:none; stroke:var(--cream-dk); stroke-width:2; opacity:.75 }
+.dr-sill{ fill:#4A1C12 }
+
+/* ── the ivy at the jambs ───────────────────────────────────────── */
+.ivy{
+  position:absolute; bottom:0; width:21%; height:auto; z-index:4;
+  pointer-events:none; opacity:.92;
 }
+.ivy--l{ left:-2% }
+.ivy--r{ right:-2%; transform:scaleX(-1) }
+.iv-stem{ stroke:#4A3A22; stroke-width:2.4; stroke-linecap:round }
+.iv-stem--thin{ stroke-width:1.6; opacity:.85 }
+.iv-lf{ fill:var(--sage-dk) }
+.iv-lf .vein{ stroke:var(--sage-lt); stroke-width:1; opacity:.5 }
+
 .jamb{
-  position:absolute; inset:0; pointer-events:none; z-index:4;
+  position:absolute; inset:0; pointer-events:none; z-index:5;
   box-shadow:
     0 0 0 1px rgba(97,38,24,.55),
     0 0 0 7px var(--cream-lt),
