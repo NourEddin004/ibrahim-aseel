@@ -23,6 +23,6 @@
    ═══════════════════════════════════════════════════════════════════ */
 window.INVITE_DB = {
   url  : 'https://gwcvghjolpxvsudxklun.supabase.co',
-  key  : '',
+  key  : 'sb_publishable_FAp_twWBBbIRr5skJkbcWw_alzvGOjK',
   table: 'rsvp',
 };

@@ -194,9 +194,14 @@ async function load() {
       body: JSON.stringify({ pass: secret }),
     });
     if (!r.ok) {
-      /* the function raises for a bad secret, so a 4xx here means the
-         link is wrong far more often than the database is down */
-      fail(r.status >= 400 && r.status < 500
+      /* A rejected secret is the function raising, and PostgREST returns
+         a raise as 500 — the same status a database that is genuinely
+         down would give. So the status alone cannot tell the two apart;
+         the body can. Anything carrying the function's own error is a
+         bad link, everything else is a bad moment. */
+      let raised = false;
+      try { raised = (await r.json()).code === 'P0002'; } catch {}
+      fail(raised
         ? 'هذا الرابط غير صالح.'
         : 'تعذّر الوصول إلى القائمة. حاول بعد قليل.');
       return;
