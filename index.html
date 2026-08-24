@@ -34,7 +34,7 @@
 <!-- ⚠️ Bump ?v= on BOTH of these whenever you edit style.css or script.js.
      Browsers cache them hard; without a new URL a guest who has already
      opened the invitation keeps seeing the old design. -->
-<link rel="stylesheet" href="style.css?v=114">
+<link rel="stylesheet" href="style.css?v=115">
 
 <!-- The cover and the scroll lock are opt-in: with JavaScript off the
      guest lands straight on the invitation instead of a dead layer. -->
@@ -639,20 +639,18 @@
       </span>
     </div>
 
-    <!-- White gets a ramp of its own rather than a single disc. One circle
-         under three full rows read as something left over; five shades of
-         white, every one struck, is the same statement made in the same
-         shape as the three above it — and "white and its shades" is what
-         is actually being asked. Its own role="img" carries the words, so
-         the five strikes are not read out one at a time. -->
-    <div class="ramps ramps--no" role="img" aria-label="نرجو تجنّب الأبيض ودرجاته">
-      <span class="ramp">
-        <i class="no" style="--c:#FFFFFF"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4.1 19.9 19.9 4.1"/></svg></i>
-        <i class="no" style="--c:#FBF8F3"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4.1 19.9 19.9 4.1"/></svg></i>
-        <i class="no" style="--c:#F6F1E8"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4.1 19.9 19.9 4.1"/></svg></i>
-        <i class="no" style="--c:#F0E9DC"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4.1 19.9 19.9 4.1"/></svg></i>
-        <i class="no" style="--c:#E9E0CE"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4.1 19.9 19.9 4.1"/></svg></i>
-      </span>
+    <!-- Not a swatch — a sign. A lone disc among swatches read as one that
+         had been left over, and a whole ramp of near-whites washed out
+         against paper this colour. This is the same mark the page already
+         uses for the children: a ring and a bar, in the red the rest of
+         the card is printed in. A sign is allowed to stand on its own,
+         which a swatch is not. -->
+    <div class="nowhite" role="img" aria-label="نرجو تجنّب الأبيض ودرجاته">
+      <svg viewBox="0 0 44 44" aria-hidden="true">
+        <circle class="nw-face" cx="22" cy="22" r="15.4"/>
+        <circle class="nw-ring" cx="22" cy="22" r="15.4"/>
+        <path class="nw-bar" d="M11.1 32.9 32.9 11.1"/>
+      </svg>
     </div>
 
   </div>
@@ -2535,6 +2533,6 @@
 
 </main>
 
-<script src="script.js?v=114" defer></script>
+<script src="script.js?v=115" defer></script>
 </body>
 </html>

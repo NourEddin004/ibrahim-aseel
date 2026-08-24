@@ -432,7 +432,7 @@ img,svg{ max-width:100%; display:block }
 .ramps{ display:grid; gap:clamp(.5rem,2.2vw,.8rem); justify-items:center;
   margin:clamp(.85rem,3.4vw,1.15rem) 0 0 }
 .ramp{
-  --d:clamp(1.85rem,8.4vw,2.35rem);      /* one disc */
+  --d:clamp(1.6rem,7.3vw,2.05rem);       /* one disc */
   display:flex; justify-content:center;
 }
 .ramp i{
@@ -453,29 +453,22 @@ img,svg{ max-width:100%; display:block }
 .ramp i:nth-child(4){ z-index:2 }
 .ramp i:nth-child(5){ z-index:1 }
 
-/* The white ramp: the same shape as the three above it, struck. It sits a
-   little lower than the gap between the others, which is what separates a
-   statement from a choice without needing a rule or a word. */
-.ramps--no{ margin-top:clamp(.75rem,3vw,1.05rem) }
-.ramp i.no{
-  /* a paler disc needs a firmer hairline or it has no edge on parchment */
-  box-shadow:0 0 0 1px rgba(97,38,24,.42), 0 0 0 3px var(--cream),
-             0 0 0 4px rgba(168,135,85,.5);
-}
-/* Anchored from one corner and centred with a transform, not with inset:
-   `inset` plus an explicit width over-constrains the box, and in an RTL
-   document it is the horizontal side that loses. */
-.ramp i.no svg{
-  position:absolute; top:50%; left:50%;
-  width:calc(100% + 4px); height:calc(100% + 4px);
-  transform:translate(-50%,-50%);
-  overflow:visible;
-}
-/* the viewBox is 24 and the disc fills it, so its radius is 12 units; the
-   ends sit at 11.2 — right across the disc, stopping a cap inside the ring */
-.ramp i.no svg path{
-  stroke:var(--pom); stroke-width:2.4; stroke-linecap:round; fill:none;
-}
+/* ── the one request ──────────────────────────────────────────────
+   White is said as a sign rather than as a swatch. As a swatch it had
+   nowhere to stand: alone it read as a colour left over from the rows
+   above, and given a ramp of its own the near-whites washed out against
+   paper this colour and the five strikes turned into noise. A ring and a
+   bar is a mark the page already makes — it is what sits beside the note
+   about the children — and a mark is allowed to stand on its own.
+   ═══════════════════════════════════════════════════════════════════ */
+.nowhite{ margin-top:clamp(1rem,4vw,1.5rem); line-height:0 }
+.nowhite svg{ width:clamp(2.1rem,9.4vw,2.7rem); height:auto; display:block; margin-inline:auto }
+.nw-face{ fill:#FFF }
+/* the ring is drawn on the same circle as the face, so half its width
+   falls inside and half outside — the white keeps its full diameter and
+   the mark still reads at 34px */
+.nw-ring{ fill:none; stroke:var(--pom); stroke-width:3.4 }
+.nw-bar{ stroke:var(--pom); stroke-width:3.4; stroke-linecap:round; fill:none }
 
 /* ── the pomegranate plate ─────────────────────────────────────── */
 /* the same max-width as every other card, so the plate does not sit
