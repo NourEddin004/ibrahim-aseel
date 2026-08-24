@@ -41,6 +41,11 @@ def pt(x, y):
     return f'{f(x)} {f(y)}'
 
 
+def n(x):
+    """Four places, for the normalised numbers a clip path wants."""
+    return f'{x:.4f}'.rstrip('0').rstrip('.')
+
+
 # ── the spiral ──────────────────────────────────────────────────────
 # A wrought scroll is a logarithmic spiral: it turns tighter as it goes,
 # which is what stops it reading as a coil of wire. Sampled and joined
@@ -168,16 +173,6 @@ def surround():
     r0, r1 = R + 1.0, R + BAND
     out = []
 
-    # The wall, with the opening cut out of it. Without this the card
-    # waiting behind the doors shows through everywhere the leaves are
-    # not — they are clipped to the arch, so above the crown there was
-    # nothing between the viewer and the invitation.
-    out.append('<path class="dr-wall" fill-rule="evenodd" d="'
-               f'M0 0H{f(W)}V{f(H)}H0Z'
-               f'M{pt(JAMB, H)}L{pt(JAMB, cy)}'
-               f'A{f(R)} {f(R)} 0 0 1 {pt(W - JAMB, cy)}'
-               f'L{pt(W - JAMB, H)}Z"/>')
-
     # the band itself
     out.append('<path class="dr-arch" d="'
                f'M{pt(cx - r1, cy)}A{f(r1)} {f(r1)} 0 0 1 {pt(cx + r1, cy)}'
@@ -197,15 +192,21 @@ def surround():
                    f'M{pt(cx + r0 * math.cos(a), cy + r0 * math.sin(a))}'
                    f'L{pt(cx + r1 * math.cos(a), cy + r1 * math.sin(a))}"/>')
 
-    # the keystone, standing a little proud of the band
-    kw, kr = 0.055, r1 + 9
-    a0, a1 = math.pi + math.pi / 2 - kw, math.pi + math.pi / 2 + kw
+    # The keystone. Its sides used to run at a constant angle, which in a
+    # radial band means parallel — so it came out a rectangle sitting on
+    # top of the arch like a tab. A keystone is a wedge: narrow where it
+    # bites the opening, wide where it shows. Widening the half-angle with
+    # the radius is what gives it the taper, and it stands only a little
+    # proud of the band rather than perching above it.
+    kr = r1 + 6
+    top = math.pi + math.pi / 2
+    kw0, kw1 = 0.038, 0.082          # half-angle at the inner and outer edge
     out.append('<path class="dr-key" d="'
-               f'M{pt(cx + r0 * math.cos(a0), cy + r0 * math.sin(a0))}'
-               f'A{f(r0)} {f(r0)} 0 0 1 {pt(cx + r0 * math.cos(a1), cy + r0 * math.sin(a1))}'
-               f'L{pt(cx + kr * math.cos(a1 + .012), cy + kr * math.sin(a1 + .012))}'
-               f'L{pt(cx + kr * math.cos(a0 - .012), cy + kr * math.sin(a0 - .012))}Z"/>')
-    out.append(f'<use href="#star8" class="dr-keymark" transform="translate({f(cx)} {f(cy - r1 + 6)}) scale(.62)"/>')
+               f'M{pt(cx + r0 * math.cos(top - kw0), cy + r0 * math.sin(top - kw0))}'
+               f'A{f(r0)} {f(r0)} 0 0 1 {pt(cx + r0 * math.cos(top + kw0), cy + r0 * math.sin(top + kw0))}'
+               f'L{pt(cx + kr * math.cos(top + kw1), cy + kr * math.sin(top + kw1))}'
+               f'A{f(kr)} {f(kr)} 0 0 0 {pt(cx + kr * math.cos(top - kw1), cy + kr * math.sin(top - kw1))}Z"/>')
+    out.append(f'<use href="#star8" class="dr-keymark" transform="translate({f(cx)} {f(cy - r1 - 1)}) scale(.58)"/>')
 
     # the pilasters, from the springing to the floor, exactly as wide as
     # the stone head so the two read as one piece of masonry
@@ -217,6 +218,20 @@ def surround():
     # the threshold
     out.append(f'<path class="dr-sill" d="M0 {f(H - 14)}h{f(W)}v14H0Z"/>')
     return '\n'.join(out)
+
+
+def opening():
+    """The doorway as a clip path in objectBoundingBox units, so the card
+    behind is seen through the arch and nowhere else.
+
+    There used to be a wall here — a rectangle with this shape cut out of
+    it — but painting it meant painting flat cream over a page whose
+    parchment is not flat, and the doorway ended up sitting on a visible
+    panel. Clipping what is behind is the same result with nothing drawn."""
+    return ('<clipPath id="openClip" clipPathUnits="objectBoundingBox">'
+            f'<path d="M{n(JAMB / W)} 1L{n(JAMB / W)} {n(SPRING / H)}'
+            f'A{n(R / W)} {n(R / H)} 0 0 1 {n((W - JAMB) / W)} {n(SPRING / H)}'
+            f'L{n((W - JAMB) / W)} 1Z"/></clipPath>')
 
 
 # ── the ivy at the jamb ─────────────────────────────────────────────
@@ -263,6 +278,9 @@ if __name__ == '__main__':
     if which in ('leaf', 'all'):
         print('<!-- LEAF -->')
         print(leaf())
+    if which in ('opening', 'all'):
+        print('<!-- OPENING -->')
+        print(opening())
     if which in ('surround', 'all'):
         print('<!-- SURROUND -->')
         print(surround())

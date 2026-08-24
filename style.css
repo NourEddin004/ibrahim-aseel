@@ -905,7 +905,10 @@ img,svg{ max-width:100%; display:block }
 /* the opening. overflow:hidden is what the leaves disappear into */
 .frame{
   position:absolute; inset:0; display:block; overflow:hidden;
-  background:linear-gradient(180deg,#E8DCC2,#DFD1B0);
+  /* No background at all. It was a pale gradient of its own, then flat
+     cream — and flat cream over a page whose parchment is not flat is
+     still a visible rectangle. The page shows through now; the only
+     things drawn are the doorway, the leaves and the ivy. */
 }
 
 /* ── the card waiting behind ────────────────────────────────────── */
@@ -968,11 +971,18 @@ img,svg{ max-width:100%; display:block }
 .gate.is-opening .door--r{ animation:slideR 1.6s cubic-bezier(.6,.02,.2,1) forwards;
   animation-delay:.07s }                /* never quite together */
 
-/* the leading edge throws a shadow onto the card as it draws back */
+/* The leading edge throws a shadow onto the card as it draws back — so
+   it has no business existing before the leaves move, and none above the
+   crown of the arch either. It used to run top:0 to bottom:0 of the
+   leaf's box, which is a rectangle; the leaf is not. Once the wall came
+   out from behind it, that overhang was left painting a band straight
+   onto the page above the doorway. Starts at the crown, and only while
+   the doors are actually travelling. */
 .door::after{
-  content:''; position:absolute; top:0; bottom:0; width:26px;
-  pointer-events:none;
+  content:''; position:absolute; top:12%; bottom:0; width:26px;
+  pointer-events:none; opacity:0; transition:opacity .25s var(--ease);
 }
+.gate.is-opening .door::after{ opacity:1 }
 .door--l::after{ right:-26px; background:linear-gradient(270deg,rgba(64,42,20,.3),transparent) }
 .door--r::after{ left:-26px;  background:linear-gradient(90deg,rgba(64,42,20,.3),transparent) }
 
@@ -1017,10 +1027,10 @@ img,svg{ max-width:100%; display:block }
 .dr-fl .fl-eye{ fill:var(--gold); stroke:none }
 
 /* ── the stone head ─────────────────────────────────────────────── */
+/* the card is seen through the doorway and nowhere else — this is what
+   the wall used to do by covering everything that was not the opening */
+.opening{ position:absolute; inset:0; clip-path:url(#openClip) }
 .dr-sur{ position:absolute; inset:0; width:100%; height:100%; z-index:3 }
-/* the wall the doorway is set into; it hides the card until the leaves
-   move, since they are clipped to the arch and cover nothing above it */
-.dr-wall{ fill:#E3D6B8 }
 .dr-arch{ fill:#5A2216 }
 .dr-pier{ fill:#5A2216 }
 .dr-key{ fill:#6B2A1B }
@@ -1040,14 +1050,11 @@ img,svg{ max-width:100%; display:block }
 .iv-lf{ fill:var(--sage-dk) }
 .iv-lf .vein{ stroke:var(--sage-lt); stroke-width:1; opacity:.5 }
 
-.jamb{
-  position:absolute; inset:0; pointer-events:none; z-index:5;
-  box-shadow:
-    0 0 0 1px rgba(97,38,24,.55),
-    0 0 0 7px var(--cream-lt),
-    0 0 0 8px rgba(168,135,85,.6),
-    0 0 26px -4px rgba(70,48,24,.45) inset;
-}
+/* .jamb is gone. .frame clips to its own box, so the ring it drew outside
+   itself — the 7px of paper and the gold hairline — was never visible at
+   all; the only thing that survived the clip was its inset vignette, and
+   that was the dark rim that made the doorway look pasted onto a panel
+   instead of standing in the page. */
 
 .gate-hint{
   position:absolute; top:calc(100% + 1.4rem); left:0; right:0; margin:0;

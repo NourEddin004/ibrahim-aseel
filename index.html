@@ -34,7 +34,7 @@
 <!-- ⚠️ Bump ?v= on BOTH of these whenever you edit style.css or script.js.
      Browsers cache them hard; without a new URL a guest who has already
      opened the invitation keeps seeing the old design. -->
-<link rel="stylesheet" href="style.css?v=99">
+<link rel="stylesheet" href="style.css?v=103">
 
 <!-- The cover and the scroll lock are opt-in: with JavaScript off the
      guest lands straight on the invitation instead of a dead layer. -->
@@ -58,6 +58,8 @@
 <defs>
 
   <!-- ── a single leaf, pointing along +x from the origin ─────────── -->
+  <clipPath id="openClip" clipPathUnits="objectBoundingBox"><path d="M0.08 1L0.08 0.419A0.42 0.3 0 0 1 0.92 0.419L0.92 1Z"/></clipPath>
+
   <clipPath id="drClip"><path d="M24 414L24 176A126 126 0 0 1 150 50L150 414Z"/></clipPath>
 
   <g id="lf">
@@ -269,7 +271,8 @@
 
     <span class="frame" aria-hidden="true">
 
-      <!-- the card waiting behind the doors -->
+      <!-- the card waiting behind the doors, seen through the opening -->
+      <span class="opening">
       <span class="card">
         <span class="frm frm--card">
           <svg class="fe ft"><rect width="100%" height="100%" fill="url(#bandH)"/></svg>
@@ -293,6 +296,7 @@
           <span class="card-nm">أسيل</span>
           <span class="card-date">٢٥ · ٩ · ٢٠٢٦</span>
         </span>
+      </span>
       </span>
 
       <!-- Two leaves that SLIDE apart in their own plane — the right one
@@ -323,7 +327,6 @@
           </svg><span class="door-pull"></span></span>
 
       <svg class="dr-sur" viewBox="0 0 300 420" preserveAspectRatio="none" aria-hidden="true">
-<path class="dr-wall" fill-rule="evenodd" d="M0 0H300V420H0ZM24 420L24 176A126 126 0 0 1 276 176L276 420Z"/>
 <path class="dr-arch" d="M0 176A150 150 0 0 1 300 176L277 176A127 127 0 0 0 23 176Z"/>
 <path class="dr-joint" fill="none" d="M25.8 149.6L3.3 144.8"/>
 <path class="dr-joint" fill="none" d="M34 124.3L13 115"/>
@@ -339,8 +342,8 @@
 <path class="dr-joint" fill="none" d="M252.7 101.4L271.4 87.8"/>
 <path class="dr-joint" fill="none" d="M266 124.3L287 115"/>
 <path class="dr-joint" fill="none" d="M274.2 149.6L296.7 144.8"/>
-<path class="dr-key" d="M143 49.2A127 127 0 0 1 157 49.2L160.6 17.4L139.4 17.4Z"/>
-<use href="#star8" class="dr-keymark" transform="translate(150 32) scale(.62)"/>
+<path class="dr-key" d="M145.2 49.1A127 127 0 0 1 154.8 49.1L162.8 20.5A156 156 0 0 0 137.2 20.5Z"/>
+<use href="#star8" class="dr-keymark" transform="translate(150 25) scale(.58)"/>
 <path class="dr-pier" d="M0 170h24v250h-24Z"/>
 <path class="dr-joint" fill="none" d="M5 180v234"/>
 <path class="dr-pier" d="M276 170h24v250h-24Z"/>
@@ -413,7 +416,6 @@
 <use href="#lf" class="iv-lf" transform="translate(37 62) rotate(214.6) scale(0.8)"/>
       </svg>
 
-      <span class="jamb"></span>
     </span>
 
   </button>
@@ -2561,6 +2563,6 @@
 
 </main>
 
-<script src="script.js?v=99" defer></script>
+<script src="script.js?v=103" defer></script>
 </body>
 </html>

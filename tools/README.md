@@ -46,14 +46,18 @@ whole group — the fragments contain nested `<g>` elements, so a lazy
 regex that stops at the first `</g>` will leave half the old drawing
 behind.
 
-`door.py` emits three pieces. The leaf is drawn once with its meeting edge
+`door.py` emits four pieces. The leaf is drawn once with its meeting edge
 on the right, which is what the left-hand door needs; the right-hand one is
 that same drawing mirrored in CSS, so the ironwork meets itself down the
 centre line while the doors are shut. The stone head and the pilasters are
 a separate piece because they belong to the frame, not to the leaves — a
-doorway does not slide open with its own doorway — and that piece also
-carries the wall, with the opening cut out of it, because the leaves are
-clipped to the arch and cover nothing above the crown.
+doorway does not slide open with its own doorway — The fourth piece is the
+opening as a clip path: the leaves are clipped to the arch and cover
+nothing above the crown, so something has to keep the card behind them out
+of sight. That used to be a wall — a rectangle with the opening cut out of
+it — but painting it meant painting flat cream over a page whose parchment
+is not flat, and the doorway ended up sitting on a visible panel. Clipping
+what is behind is the same result with nothing drawn at all.
 
 The scrolls are logarithmic spirals rather than arcs: a wrought scroll
 turns tighter as it goes, and that is the thing that stops it reading as
