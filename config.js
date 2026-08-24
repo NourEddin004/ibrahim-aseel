@@ -4,6 +4,11 @@
    Both pages read this one: the invitation writes replies here, and
    guests.html reads them back. Fill it in once.
 
+   After you edit this file, bump the ?v= number on the two <script>
+   tags that load it — one in index.html, one in guests.html — or a
+   browser that has already been to the page will keep the old, empty
+   copy and the form will silently go nowhere.
+
      url  — Supabase → Project Settings → Data API → Project URL
      key  — the same page → Project API keys → anon / public
 

@@ -39,73 +39,55 @@ whatsapp : '',
 `config.js` is the only file with your Supabase details in it. Both pages
 read it: the invitation writes replies, `guests.html` reads them back.
 
-**1. Make the table.** Supabase dashboard → SQL Editor → New query, paste
-`sql/setup.sql`, run it. It creates `rsvp` and turns on row-level security
-with two policies: the public key may INSERT and nothing else; SELECT
-requires a signed-in user.
+**1. Pick a secret and put it in the SQL.** `sql/setup.sql` has
+`PUT_YOUR_SECRET_HERE` in it twice — replace both with one long random
+string. Generate one with:
 
-**2. Make the couple's account.** Authentication → Users → Add user. Give
-it an email and password and tick *Auto Confirm User*, or Supabase will
-send a confirmation mail that has to be clicked before sign-in works.
+```
+python3 -c "import secrets; print(secrets.token_urlsafe(24))"
+```
 
-**3. Fill in `config.js`.** Project Settings → Data API gives you the
-Project URL; the API keys section on the same page gives you the
-**anon / public** key. Those two go in `config.js`.
+Do not commit the real value. This repo is public, and the secret *is* the
+lock.
 
-The anon key is meant to be public — it ships inside the page and anyone
-can read it. What it is *allowed to do* is decided by the policies, not by
-hiding it. The key that must never go in this repo is `service_role` on
-that same page: it ignores every policy.
+**2. Run the SQL.** Supabase dashboard → SQL Editor → New query, paste the
+edited `sql/setup.sql`, Run. It creates `rsvp`, turns on row-level
+security so the public key may only INSERT, and adds `guest_list(pass)` —
+the one function that can read the table, and only when handed the secret.
 
-**4. Open `guests.html`.** Sign in with the account from step 2. It shows
-the tally (confirmed / total heads / apologies), the full list newest
-first, and a CSV button. The session is kept in `sessionStorage`, so
-closing the tab signs out.
+There is deliberately **no** select policy on the table. Even holding the
+anon key, a plain read returns nothing.
 
-Until `config.js` is filled in, the form still validates and thanks the
-guest but the reply goes nowhere — so do this before the link is sent to
-anybody. `CONFIG.whatsapp` in `script.js` is worth filling in as well: it
-is what catches a reply when the network call fails.
+**3. Fill in `config.js`.** Project Settings → Data API gives the Project
+URL; the API keys section on that page gives the **anon / public** key.
+Then bump `?v=` on the two `<script src="config.js">` tags, or returning
+browsers keep the old empty copy.
 
-#### Or a plain form service
+The anon key is meant to be public — it ships inside the page. What it is
+*allowed to do* is decided by the policies, not by hiding it. The key that
+must never enter this repo is `service_role` on that same page: it ignores
+every policy.
 
-`endpoint` takes any Formspree / Getform / Apps Script URL and posts the form
-urlencoded instead.
+**4. The couple's link** is
 
-#### Either way, set `whatsapp` too
+```
+.../guests.html#s=YOUR_SECRET
+```
 
-Digits and country code, e.g. `'962791234567'`. It is the safety net: if the
-network call fails, the thank-you screen turns into a WhatsApp button with the
-reply already written out, so nobody's answer is silently lost. With *nothing*
-else configured it becomes the primary path — the guest's WhatsApp opens on
-submit and they press send.
+Opening it shows the tally, the replies newest first, and a CSV button.
+No account, no password. The secret sits in the URL *fragment*, which
+browsers never send to a server — so it stays out of access logs and out
+of the `Referer` header.
 
-The Netlify-style markup on the `<form>` does nothing on GitHub Pages; it is
-left in place only so the same file can be dropped on Netlify unchanged.
+Whoever holds that link can read the list; that is what a link with no
+password means. Send it to the couple directly, not in a group chat. To
+kill every existing link, re-run the `guest_list` function with a new
+secret.
 
-### 2 · Check the details that were assumed
-
-Everything the guest reads lives in two places — `CONFIG` at the top of
-`script.js`, and the corresponding text in `index.html`. These were filled in
-from the brief; two were inferred and are worth confirming:
-
-| item | current value | note |
-|------|---------------|------|
-| city | **عمّان — الأردن** | assumed from the couple's names and the venue; change in `index.html` and `CONFIG.city` |
-| map  | a Google Maps *search* for "Amman Marriott Hotel" | drop the real pin into `CONFIG.mapsLink` and the button uses it instead |
-| RSVP deadline | ١٥ أيلول | in `index.html`, under `.rsvp-sub` |
-| name order | the groom leads | swap the two `.nm` spans in the hero, and the pairings in the title, the cover, the dedication and the footer |
-
-The event time is pinned to Amman (`+03:00`), so the countdown is correct even
-for a guest whose phone is set to another timezone.
-
-### 3 · Bump the cache buster
-
-`index.html` links `style.css?v=2` and `script.js?v=2`. **Increment both
-numbers whenever you edit either file.** Browsers cache them hard, and a guest
-who already opened the invitation will otherwise keep seeing the old one.
-
----
+Until `config.js` is filled in, the form validates and thanks the guest
+but the reply goes nowhere — so do this before the link is sent to
+anybody. `CONFIG.whatsapp` in `script.js` is worth filling in too: it is
+what catches a reply when the network call fails.
 
 ## The design
 

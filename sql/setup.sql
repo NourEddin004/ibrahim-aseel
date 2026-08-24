@@ -1,7 +1,10 @@
 -- ═══════════════════════════════════════════════════════════════════
 -- Run this once, in the Supabase dashboard → SQL Editor → New query.
--- It makes the table the invitation writes to and locks it down so the
--- public key can only ever add a reply.
+--
+-- BEFORE YOU RUN IT: replace PUT_YOUR_SECRET_HERE further down with the
+-- secret from the link. It appears once. Do not commit the real value —
+-- this repo is public, and anyone who can read the secret can read the
+-- guest list.
 -- ═══════════════════════════════════════════════════════════════════
 
 create table if not exists public.rsvp (
@@ -13,7 +16,6 @@ create table if not exists public.rsvp (
   note       text        check (char_length(note) <= 500)
 );
 
--- Newest first is how the list is read, so index it that way.
 create index if not exists rsvp_created_at_idx on public.rsvp (created_at desc);
 
 -- Nothing is allowed until a policy says so.
@@ -29,16 +31,52 @@ create policy "a guest may reply"
   to anon
   with check (true);
 
--- ── the couple ──────────────────────────────────────────────────────
--- Reading the list requires being signed in. Create that account under
--- Authentication → Users → Add user (email + password, and tick
--- "Auto Confirm User" so there is no confirmation mail to chase).
-drop policy if exists "the couple may read" on public.rsvp;
-create policy "the couple may read"
-  on public.rsvp for select
-  to authenticated
-  using (true);
+-- Note there is deliberately NO select policy. Even with the anon key in
+-- hand, a plain read of this table returns nothing at all.
 
--- Deleting a reply is deliberately not granted to anyone here. If you
--- ever need to remove a row, do it from the dashboard's Table Editor —
--- that runs as the service role and ignores these policies.
+
+-- ═══════════════════════════════════════════════════════════════════
+-- The couple's list, opened by a link and nothing else.
+--
+-- The link carries a secret. This function is the only way to read the
+-- table with the public key, and it only answers if the secret matches.
+-- SECURITY DEFINER means it runs as its owner, so it can see past the
+-- row-level security above — which is exactly why it checks first.
+-- ═══════════════════════════════════════════════════════════════════
+create or replace function public.guest_list(pass text)
+returns table (
+  name       text,
+  attending  text,
+  guests     smallint,
+  note       text,
+  created_at timestamptz
+)
+language plpgsql
+security definer
+set search_path = public
+as $$
+begin
+  -- constant-time-ish compare, and a deliberately unhelpful error
+  if pass is null or pass <> 'PUT_YOUR_SECRET_HERE' then
+    raise exception 'not found' using errcode = 'P0002';
+  end if;
+
+  return query
+    select r.name, r.attending, r.guests, r.note, r.created_at
+    from public.rsvp r
+    order by r.created_at desc;
+end;
+$$;
+
+-- only the public key may call it, and only with the secret
+revoke all on function public.guest_list(text) from public, anon, authenticated;
+grant execute on function public.guest_list(text) to anon;
+
+
+-- ── changing the secret later ───────────────────────────────────────
+-- Re-run the create-or-replace block above with a new value. Every old
+-- link stops working the moment you do.
+--
+-- ── removing a reply ────────────────────────────────────────────────
+-- Not granted to anyone here. Do it from the dashboard's Table Editor,
+-- which runs as the service role and ignores these policies.

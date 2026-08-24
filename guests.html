@@ -38,19 +38,14 @@ h1{
   padding:clamp(1.1rem,4.4vw,1.9rem);
 }
 
-/* ── sign in ─────────────────────────────────────────────────────── */
-.gate{ max-width:24rem; margin-inline:auto }
-label{ display:block; margin-top:.9rem; font-size:.95rem; color:var(--ink-soft) }
-input{
-  width:100%; min-height:48px; margin-top:.35rem; padding:.55rem .9rem;
-  font:inherit; font-size:1rem; color:var(--ink);
-  background:#FFFCF3; border:1px solid rgba(107,93,61,.45); border-radius:2px;
-}
-input:focus-visible{ outline:2px solid var(--gold); outline-offset:2px }
+/* ── the state line ──────────────────────────────────────────────── */
+.gate{ max-width:26rem; margin-inline:auto; text-align:center }
+.msg{ margin:0; color:var(--ink-soft) }
+.msg.bad{ color:var(--pom) }
 button{
   font:inherit; cursor:pointer; border:0; border-radius:2px;
   background:var(--burg); color:var(--cream-lt);
-  min-height:48px; padding:.55rem 1.4rem; margin-top:1.2rem; width:100%;
+  min-height:40px; padding:.35rem 1rem;
   transition:background .3s var(--ease);
 }
 button:hover{ background:#71301E }
@@ -102,18 +97,9 @@ td.when{ color:var(--ink-soft); font-size:.88rem; white-space:nowrap }
   <h1>قائمة المدعوين</h1>
   <p class="sub">الردود على دعوة زفاف إبراهيم وأسيل</p>
 
-  <!-- ── sign in ──────────────────────────────────────────────────── -->
+  <!-- No form. The link is the credential: guests.html#s=<secret>. -->
   <section class="card gate" id="gate">
-    <form id="signin" novalidate>
-      <label for="email">البريد الإلكتروني</label>
-      <input id="email" type="email" autocomplete="username" required>
-
-      <label for="pass">كلمة المرور</label>
-      <input id="pass" type="password" autocomplete="current-password" required>
-
-      <button type="submit" id="go">دخول</button>
-      <p class="err" id="err" role="alert"></p>
-    </form>
+    <p class="msg" id="msg">جارٍ فتح القائمة…</p>
   </section>
 
   <!-- ── the list ─────────────────────────────────────────────────── -->
@@ -130,7 +116,6 @@ td.when{ color:var(--ink-soft); font-size:.88rem; white-space:nowrap }
         <button type="button" id="refresh">تحديث</button>
         <button type="button" class="ghost" id="csv">تنزيل CSV</button>
         <span class="spacer"></span>
-        <button type="button" class="ghost" id="out">خروج</button>
       </div>
 
       <div class="scroll">
@@ -154,87 +139,77 @@ td.when{ color:var(--ink-soft); font-size:.88rem; white-space:nowrap }
 
 </div>
 
-<script src="config.js?v=1"></script>
+<script src="config.js?v=2"></script>
 <script>
 /* ═══════════════════════════════════════════════════════════════════
-   The couple's list. No framework and no Supabase SDK — two REST calls
-   is the whole thing, and a page with no build step is a page that
-   still works in two years.
+   The couple's list. Opened by a link and nothing else — no account, no
+   password, no form.
 
-   Reading the table requires a signed-in session: the RLS policy grants
-   SELECT to `authenticated` only, so the public key alone gets nothing.
-   The token lives in sessionStorage, which the browser drops when the
-   tab closes.
+   The secret rides in the URL fragment (guests.html#s=...) rather than
+   the query string on purpose: a fragment is never sent to the server,
+   so it stays out of access logs, out of the Referer header on any link
+   clicked from here, and out of anything a proxy records.
+
+   Understand the trade: whoever holds the link can read the list. That
+   is what "a link that just works" means. It is one long random string
+   and it is not written down anywhere in this repo — and if it ever gets
+   out, re-run the function in sql/setup.sql with a new value and every
+   old link dies at once.
+
+   No framework and no Supabase SDK: one REST call is the whole thing,
+   and a page with no build step still works in two years.
    ══════════════════════════════════════════════════════════════════ */
 const DB = window.INVITE_DB || {};
 const $ = (s) => document.querySelector(s);
-const KEY = 'inviteToken';
 
 const ar = (n) => String(n).replace(/\d/g, (d) => '٠١٢٣٤٥٦٧٨٩'[d]);
 
-const gate = $('#gate'), list = $('#list');
-const err = $('#err'), err2 = $('#err2');
+const gate = $('#gate'), list = $('#list'), msg = $('#msg'), err2 = $('#err2');
 
-if (!DB.url || !DB.key) {
-  err.textContent = 'config.js لم يُملأ بعد — أضف رابط المشروع والمفتاح العام.';
-  $('#go').disabled = true;
+/* Left in the address bar on purpose: clearing it would mean a refresh
+   loses the link. It is a bookmark as much as a credential. */
+const secret = new URLSearchParams(location.hash.slice(1)).get('s') || '';
+
+function fail(text) {
+  gate.hidden = false; list.hidden = true;
+  msg.textContent = text; msg.classList.add('bad');
 }
 
-/* ── sign in ─────────────────────────────────────────────────────── */
-$('#signin').addEventListener('submit', async (e) => {
-  e.preventDefault();
-  err.textContent = '';
-  const btn = $('#go');
-  btn.disabled = true; btn.textContent = 'جارٍ الدخول…';
-  try {
-    const r = await fetch(`${DB.url.replace(/\/$/, '')}/auth/v1/token?grant_type=password`, {
-      method: 'POST',
-      headers: { apikey: DB.key, 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email: $('#email').value.trim(), password: $('#pass').value }),
-    });
-    const data = await r.json();
-    if (!r.ok) throw new Error(data.error_description || data.msg || r.status);
-    sessionStorage.setItem(KEY, data.access_token);
-    $('#pass').value = '';
-    show();
-  } catch (e) {
-    err.textContent = 'تعذّر الدخول. تأكّد من البريد وكلمة المرور.';
-  } finally {
-    btn.disabled = false; btn.textContent = 'دخول';
-  }
-});
-
-$('#out').addEventListener('click', () => {
-  sessionStorage.removeItem(KEY);
-  list.hidden = true; gate.hidden = false;
-});
-
-$('#refresh').addEventListener('click', load);
-
-/* ── the rows ────────────────────────────────────────────────────── */
 let rows = [];
 
 async function load() {
-  const token = sessionStorage.getItem(KEY);
-  if (!token) return;
   err2.textContent = '';
   try {
-    const url = `${DB.url.replace(/\/$/, '')}/rest/v1/${DB.table || 'rsvp'}`
-              + '?select=name,attending,guests,note,created_at&order=created_at.desc';
-    const r = await fetch(url, {
-      headers: { apikey: DB.key, Authorization: `Bearer ${token}` },
+    const r = await fetch(`${DB.url.replace(/\/$/, '')}/rest/v1/rpc/guest_list`, {
+      method: 'POST',
+      headers: {
+        apikey: DB.key,
+        Authorization: `Bearer ${DB.key}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ pass: secret }),
     });
-    if (r.status === 401) { sessionStorage.removeItem(KEY); gate.hidden = false; list.hidden = true; return; }
-    if (!r.ok) throw new Error(r.status);
+    if (!r.ok) {
+      /* the function raises for a bad secret, so a 4xx here means the
+         link is wrong far more often than the database is down */
+      fail(r.status >= 400 && r.status < 500
+        ? 'هذا الرابط غير صالح.'
+        : 'تعذّر الوصول إلى القائمة. حاول بعد قليل.');
+      return;
+    }
     rows = await r.json();
+    gate.hidden = true; list.hidden = false;
     paint();
   } catch {
-    err2.textContent = 'تعذّر تحميل القائمة. حاول مرة أخرى.';
+    if (list.hidden) fail('تعذّر الوصول إلى القائمة. تحقّق من الاتصال.');
+    else err2.textContent = 'تعذّر التحديث. حاول مرة أخرى.';
   }
 }
 
+$('#refresh').addEventListener('click', load);
+
 /* a reply counts as attendance when it starts with نعم — the same test
-   the invitation itself makes when it decides to ask for a headcount */
+   the invitation makes when it decides to ask for a headcount */
 const coming = (r) => (r.attending || '').startsWith('نعم');
 
 function paint() {
@@ -256,7 +231,6 @@ function paint() {
       if (cls) td.className = cls;
       td.textContent = text;          // textContent, never innerHTML: the
       tr.appendChild(td);             // name and note are typed by guests
-      return td;
     };
     add(r.name || '—');
     add(coming(r) ? 'نعم' : 'اعتذار', coming(r) ? '' : 'no');
@@ -286,7 +260,7 @@ $('#csv').addEventListener('click', () => {
                 when(r.created_at)].map(esc).join(','));
   }
   /* the BOM is what makes Excel open Arabic as Arabic instead of mojibake */
-  const blob = new Blob(['﻿' + lines.join('\r\n')], { type: 'text/csv;charset=utf-8' });
+  const blob = new Blob(['\ufeff' + lines.join('\r\n')], { type: 'text/csv;charset=utf-8' });
   const a = document.createElement('a');
   a.href = URL.createObjectURL(blob);
   a.download = 'rsvp.csv';
@@ -294,8 +268,14 @@ $('#csv').addEventListener('click', () => {
   URL.revokeObjectURL(a.href);
 });
 
-function show() { gate.hidden = true; list.hidden = false; load(); }
-if (sessionStorage.getItem(KEY)) show();
+/* ── go ──────────────────────────────────────────────────────────── */
+if (!DB.url || !DB.key) {
+  fail('config.js لم يُملأ بعد — أضف رابط المشروع والمفتاح العام.');
+} else if (!secret) {
+  fail('افتح القائمة من الرابط الكامل الذي يحتوي على المفتاح.');
+} else {
+  load();
+}
 </script>
 </body>
 </html>
