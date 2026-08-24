@@ -462,8 +462,13 @@ img,svg{ max-width:100%; display:block }
    about the children — and a mark is allowed to stand on its own.
    ═══════════════════════════════════════════════════════════════════ */
 .nowhite{ margin-top:clamp(1rem,4vw,1.5rem); line-height:0 }
-.nowhite svg{ width:clamp(2.1rem,9.4vw,2.7rem); height:auto; display:block; margin-inline:auto }
-.nw-face{ fill:#FFF }
+.nowhite svg{ width:clamp(2.45rem,10.9vw,3.1rem); height:auto; display:block; margin-inline:auto }
+/* Two colours in one face. Ivory is close enough to white that side by
+   side inside a ring they read as one disc lit unevenly, so a hairline
+   divides them — without it the second colour is not visibly there. */
+.nw-face--white{ fill:#FFFFFF }
+.nw-face--ivory{ fill:#EDE0C4 }
+.nw-split{ fill:none; stroke:rgba(97,38,24,.34); stroke-width:1.1 }
 /* the ring is drawn on the same circle as the face, so half its width
    falls inside and half outside — the white keeps its full diameter and
    the mark still reads at 34px */
