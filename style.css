@@ -971,20 +971,15 @@ img,svg{ max-width:100%; display:block }
 .gate.is-opening .door--r{ animation:slideR 1.6s cubic-bezier(.6,.02,.2,1) forwards;
   animation-delay:.07s }                /* never quite together */
 
-/* The leading edge throws a shadow onto the card as it draws back — so
-   it has no business existing before the leaves move, and none above the
-   crown of the arch either. It used to run top:0 to bottom:0 of the
-   leaf's box, which is a rectangle; the leaf is not. Once the wall came
-   out from behind it, that overhang was left painting a band straight
-   onto the page above the doorway. Starts at the crown, and only while
-   the doors are actually travelling. */
-.door::after{
-  content:''; position:absolute; top:12%; bottom:0; width:26px;
-  pointer-events:none; opacity:0; transition:opacity .25s var(--ease);
-}
-.gate.is-opening .door::after{ opacity:1 }
-.door--l::after{ right:-26px; background:linear-gradient(270deg,rgba(64,42,20,.3),transparent) }
-.door--r::after{ left:-26px;  background:linear-gradient(90deg,rgba(64,42,20,.3),transparent) }
+/* There is no leading-edge shadow any more. It was a 26px band offset
+   OUTSIDE the leaf — right:-26px on the left door, left:-26px on the
+   right — so it travelled with the leaf and, once the leaf had slid out
+   of the frame, came to rest back inside the doorway: two grey slabs
+   standing in the opening after the doors had gone. Scoping it to the
+   slide did not help, because is-opening is still set when the leaves
+   have finished travelling. A shadow that has to be chased around the
+   frame to stop it appearing where nothing is casting it is not worth
+   the 26 pixels it was drawing. */
 
 /* the ring pull, near the meeting edge */
 .door-pull{
