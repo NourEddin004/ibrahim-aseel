@@ -511,7 +511,15 @@ img,svg{ max-width:100%; display:block }
    with a rule of its own and gets room above it — a beat between the
    reply and the picture, rather than one section butting into the next */
 .sec--night{ padding-top:clamp(2.4rem,9vw,4rem); padding-bottom:clamp(1rem,4vw,1.8rem) }
-.night{ max-width:var(--card); margin-inline:auto }
+.night{
+  max-width:var(--card); margin-inline:auto;
+  /* Every card on the page carries a 1px outer ring; the plate carries a
+     6px one — a hairline, then the red bead, then the gold. The boxes are
+     identical, so the plate was reading ten pixels wider than everything
+     above it on the strength of its shadow alone. Inset by the difference
+     and the painted edges line up. */
+  padding-inline:calc(6px - 1px);
+}
 .night-orn{
   display:block; width:min(62%,13rem);
   margin:0 auto clamp(1.1rem,4.4vw,1.7rem);
