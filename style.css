@@ -432,7 +432,7 @@ img,svg{ max-width:100%; display:block }
 .ramps{ display:grid; gap:clamp(.5rem,2.2vw,.8rem); justify-items:center;
   margin:clamp(.85rem,3.4vw,1.15rem) 0 0 }
 .ramp{
-  --d:clamp(2.5rem,11.8vw,3.1rem);       /* one disc */
+  --d:clamp(1.85rem,8.4vw,2.35rem);      /* one disc */
   display:flex; justify-content:center;
 }
 .ramp i{
@@ -453,26 +453,28 @@ img,svg{ max-width:100%; display:block }
 .ramp i:nth-child(4){ z-index:2 }
 .ramp i:nth-child(5){ z-index:1 }
 
-/* the white sits on its own, a little below the three, and slightly
-   larger — it is not a fourth family, it is the one request */
-.ramp--no{ margin-top:clamp(.85rem,3.4vw,1.2rem) }
-.dot--no{
-  position:relative; display:block;
-  width:var(--d); height:var(--d); border-radius:50%; background:var(--c);
-  box-shadow:0 0 0 1px rgba(97,38,24,.5), 0 0 0 3px var(--cream),
-             0 0 0 4px rgba(168,135,85,.55);
+/* The white ramp: the same shape as the three above it, struck. It sits a
+   little lower than the gap between the others, which is what separates a
+   statement from a choice without needing a rule or a word. */
+.ramps--no{ margin-top:clamp(.75rem,3vw,1.05rem) }
+.ramp i.no{
+  /* a paler disc needs a firmer hairline or it has no edge on parchment */
+  box-shadow:0 0 0 1px rgba(97,38,24,.42), 0 0 0 3px var(--cream),
+             0 0 0 4px rgba(168,135,85,.5);
 }
-/* Anchored from one corner and centred with a transform, not with inset.
+/* Anchored from one corner and centred with a transform, not with inset:
    `inset` plus an explicit width over-constrains the box, and in an RTL
    document it is the horizontal side that loses. */
-.dot--no svg{
+.ramp i.no svg{
   position:absolute; top:50%; left:50%;
-  width:calc(100% + 5px); height:calc(100% + 5px);
+  width:calc(100% + 4px); height:calc(100% + 4px);
   transform:translate(-50%,-50%);
   overflow:visible;
 }
-.dot--no svg path{
-  stroke:var(--pom); stroke-width:2.6; stroke-linecap:round; fill:none;
+/* the viewBox is 24 and the disc fills it, so its radius is 12 units; the
+   ends sit at 11.2 — right across the disc, stopping a cap inside the ring */
+.ramp i.no svg path{
+  stroke:var(--pom); stroke-width:2.4; stroke-linecap:round; fill:none;
 }
 
 /* ── the pomegranate plate ─────────────────────────────────────── */

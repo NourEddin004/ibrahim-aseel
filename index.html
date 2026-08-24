@@ -34,7 +34,7 @@
 <!-- ⚠️ Bump ?v= on BOTH of these whenever you edit style.css or script.js.
      Browsers cache them hard; without a new URL a guest who has already
      opened the invitation keeps seeing the old design. -->
-<link rel="stylesheet" href="style.css?v=113">
+<link rel="stylesheet" href="style.css?v=114">
 
 <!-- The cover and the scroll lock are opt-in: with JavaScript off the
      guest lands straight on the invitation instead of a dead layer. -->
@@ -639,16 +639,21 @@
       </span>
     </div>
 
-    <!-- The one thing being asked, said the only way it can be said without
-         a sentence: the colour, struck through. -->
-    <span class="ramp ramp--no">
-      <i class="dot--no" style="--c:#FFFFFF">
-        <svg viewBox="0 0 24 24" role="img" aria-labelledby="noWhite">
-          <title id="noWhite">نرجو تجنّب الأبيض ودرجاته</title>
-          <path d="M4.1 19.9 19.9 4.1"/>
-        </svg>
-      </i>
-    </span>
+    <!-- White gets a ramp of its own rather than a single disc. One circle
+         under three full rows read as something left over; five shades of
+         white, every one struck, is the same statement made in the same
+         shape as the three above it — and "white and its shades" is what
+         is actually being asked. Its own role="img" carries the words, so
+         the five strikes are not read out one at a time. -->
+    <div class="ramps ramps--no" role="img" aria-label="نرجو تجنّب الأبيض ودرجاته">
+      <span class="ramp">
+        <i class="no" style="--c:#FFFFFF"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4.1 19.9 19.9 4.1"/></svg></i>
+        <i class="no" style="--c:#FBF8F3"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4.1 19.9 19.9 4.1"/></svg></i>
+        <i class="no" style="--c:#F6F1E8"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4.1 19.9 19.9 4.1"/></svg></i>
+        <i class="no" style="--c:#F0E9DC"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4.1 19.9 19.9 4.1"/></svg></i>
+        <i class="no" style="--c:#E9E0CE"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4.1 19.9 19.9 4.1"/></svg></i>
+      </span>
+    </div>
 
   </div>
 </section>
@@ -2530,6 +2535,6 @@
 
 </main>
 
-<script src="script.js?v=113" defer></script>
+<script src="script.js?v=114" defer></script>
 </body>
 </html>
