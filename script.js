@@ -600,3 +600,32 @@ const sky = calm ? null : (() => {
     }
   }
 }
+
+/* ── 11 · the pomegranate rides the programme ────────────────────────
+   It travels exactly from the first diamond to the last, driven by how
+   far the block has come up the screen rather than by a timer — so it
+   tracks the reader instead of running ahead of them.
+   ══════════════════════════════════════════════════════════════════ */
+{
+  const tl = $('.tl'), pom = $('#tlPom');
+  const dots = tl ? [...tl.querySelectorAll('.tl-d')] : [];
+  if (tl && pom && dots.length > 1 && !calm) {
+    let queued = false;
+    const place = () => {
+      queued = false;
+      const r = tl.getBoundingClientRect();
+      if (r.bottom < 0 || r.top > innerHeight) return;
+      const travel = dots[dots.length - 1].offsetTop - dots[0].offsetTop;
+      const p = Math.min(1, Math.max(0,
+        (innerHeight * 0.62 - r.top) / Math.max(1, r.height * 0.86)));
+      pom.style.setProperty('--ty', (p * travel).toFixed(1) + 'px');
+    };
+    addEventListener('scroll', () => {
+      if (!queued) { queued = true; requestAnimationFrame(place); }
+    }, { passive: true });
+    addEventListener('resize', place, { passive: true });
+    place();
+    /* the webfonts change the row heights when they land */
+    document.fonts && document.fonts.ready.then(place);
+  }
+}
