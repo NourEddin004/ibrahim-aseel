@@ -182,11 +182,15 @@ async function load() {
   try {
     const r = await fetch(`${DB.url.replace(/\/$/, '')}/rest/v1/rpc/guest_list`, {
       method: 'POST',
-      headers: {
-        apikey: DB.key,
-        Authorization: `Bearer ${DB.key}`,
-        'Content-Type': 'application/json',
-      },
+      /* The old anon key is a JWT and PostgREST reads the role out of it,
+         so it goes in Authorization too. The new sb_publishable_ key is
+         not a JWT — handing it to Authorization gives PostgREST something
+         it cannot parse and the call comes back 401. Both go in apikey;
+         only the JWT gets a Bearer. */
+      headers: Object.assign(
+        { apikey: DB.key, 'Content-Type': 'application/json' },
+        /^eyJ/.test(DB.key) ? { Authorization: `Bearer ${DB.key}` } : {},
+      ),
       body: JSON.stringify({ pass: secret }),
     });
     if (!r.ok) {

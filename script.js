@@ -39,6 +39,18 @@ const CONFIG = {
 };
 const MAX_SEATS = 10;
 
+/* Supabase has two generations of public key and they want different
+   headers. The old anon key is a JWT, and PostgREST reads the role out of
+   it — so it goes in Authorization as well as apikey. The new
+   `sb_publishable_...` key is not a JWT at all: putting it in
+   Authorization gives PostgREST something it cannot parse, and the
+   request comes back 401. Both go in apikey; only the JWT gets a Bearer. */
+const dbHeaders = (key, extra = {}) => Object.assign(
+  { apikey: key },
+  /^eyJ/.test(key) ? { Authorization: `Bearer ${key}` } : {},
+  extra,
+);
+
 const $ = (s, c = document) => c.querySelector(s);
 const root = document.documentElement;
 const calm = matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -271,12 +283,10 @@ $('#mapLink').href = CONFIG.mapsLink ||
       const res = sb && sb.url && sb.key
         ? await fetch(`${sb.url.replace(/\/$/, '')}/rest/v1/${sb.table}`, {
             method: 'POST',
-            headers: {
-              'apikey': sb.key,
-              'Authorization': `Bearer ${sb.key}`,
+            headers: dbHeaders(sb.key, {
               'Content-Type': 'application/json',
               'Prefer': 'return=minimal',
-            },
+            }),
             body: JSON.stringify({
               name: name.value.trim(),
               attending: form.attending.value,
