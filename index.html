@@ -34,7 +34,7 @@
 <!-- ⚠️ Bump ?v= on BOTH of these whenever you edit style.css or script.js.
      Browsers cache them hard; without a new URL a guest who has already
      opened the invitation keeps seeing the old design. -->
-<link rel="stylesheet" href="style.css?v=105">
+<link rel="stylesheet" href="style.css?v=106">
 
 <!-- The cover and the scroll lock are opt-in: with JavaScript off the
      guest lands straight on the invitation instead of a dead layer. -->
@@ -604,65 +604,7 @@
 
 
 <!-- ════════════════════════════════════════════════════════════════
-     4 · THE EVENING'S PROGRAMME
-     A rail with the hours on one side and what happens at them on the
-     other, and a pomegranate that rides down it as you scroll. It sits
-     on bare paper between two framed blocks on purpose — three cards in
-     a row would flatten the rhythm of the page.
-     NOTE: these five times are a sensible default, not a supplied
-     programme. Confirm them with the families before sending.
-     ════════════════════════════════════════════════════════════════ -->
-<section class="sec sec--prog" id="programme">
-  <div class="prog reveal">
-
-    <svg class="fact-div" viewBox="0 0 200 22" aria-hidden="true">
-      <path class="dv-rule" d="M6 11H82M118 11H194" fill="none"/>
-      <use href="#flr" class="fl" transform="translate(100 11) scale(.78)"/>
-      <use href="#olv" class="lf" transform="translate(88 11) rotate(196) scale(.62)"/>
-      <use href="#olv" class="lf" transform="translate(112 11) rotate(-16) scale(.62)"/>
-    </svg>
-
-    <h2 class="sec-title">برنامج الحفل</h2>
-
-    <div class="tl-wrap">
-      <svg class="tl-pom" id="tlPom" viewBox="0 0 44 44" aria-hidden="true">
-        <use href="#pg" class="pg" transform="translate(22 22) scale(.62)"/>
-      </svg>
-
-      <ol class="tl">
-        <li class="tl-row">
-          <span class="tl-t">٧:٣٠</span>
-          <span class="tl-d" aria-hidden="true"></span>
-          <span class="tl-l">استقبال الضيوف</span>
-        </li>
-        <li class="tl-row">
-          <span class="tl-t">٨:٣٠</span>
-          <span class="tl-d" aria-hidden="true"></span>
-          <span class="tl-l">الزفّة</span>
-        </li>
-        <li class="tl-row">
-          <span class="tl-t">٩:٣٠</span>
-          <span class="tl-d" aria-hidden="true"></span>
-          <span class="tl-l">العشاء</span>
-        </li>
-        <li class="tl-row">
-          <span class="tl-t">١٠:٣٠</span>
-          <span class="tl-d" aria-hidden="true"></span>
-          <span class="tl-l">السهرة والرقص</span>
-        </li>
-        <li class="tl-row">
-          <span class="tl-t">١٢:٠٠</span>
-          <span class="tl-d" aria-hidden="true"></span>
-          <span class="tl-l">الختام</span>
-        </li>
-      </ol>
-    </div>
-  </div>
-</section>
-
-
-<!-- ════════════════════════════════════════════════════════════════
-     5 · THE DRESS
+     4 · THE DRESS
      A printed note, not a panel. It carries no fill of its own — the
      card stock shows through, ruled above and below the way a letterpress
      aside is set. The dots illustrate; the line names the colours, so a
@@ -670,26 +612,34 @@
      ════════════════════════════════════════════════════════════════ -->
 <section class="sec sec--dress" id="dress">
   <div class="dcode reveal">
-    <h2 class="dcode-t">قواعد اللباس</h2>
+    <h2 class="dcode-t">ألوان الحفل</h2>
 
-    <ul class="dots" aria-hidden="true">
-      <li style="--c:#3E4A33"></li>
-      <li style="--c:#6B6E3F"></li>
-      <li style="--c:#9B2E20"></li>
-      <li style="--c:#7C241B"></li>
-      <li style="--c:#612618"></li>
+    <!-- The five welcomed colours are named in the line below, so they are
+         hidden from a screen reader here rather than read out twice. The
+         struck-through white is not named anywhere — it carries the only
+         thing on the page that no text says — so it keeps a label. -->
+    <ul class="dots">
+      <li aria-hidden="true" style="--c:#3E4A33"></li>
+      <li aria-hidden="true" style="--c:#6B6E3F"></li>
+      <li aria-hidden="true" style="--c:#9B2E20"></li>
+      <li aria-hidden="true" style="--c:#7C241B"></li>
+      <li aria-hidden="true" style="--c:#612618"></li>
+      <li class="dot--no" style="--c:#FFFFFF">
+        <svg viewBox="0 0 24 24" role="img" aria-labelledby="noWhite">
+          <title id="noWhite">نرجو تجنّب الأبيض ودرجاته</title>
+          <path d="M4.6 19.4 19.4 4.6"/>
+        </svg>
+      </li>
     </ul>
 
     <p class="dcode-l"><b>للسيدات</b> — درجات الأخضر والأحمر والعنّابيّ</p>
     <p class="dcode-l"><b>للسادة</b> — يفضل الوان داكنه</p>
-
-    <p class="dcode-no">يُرجى تجنّب اللون الأبيض و درجاته</p>
   </div>
 </section>
 
 
 <!-- ════════════════════════════════════════════════════════════════
-     6 · THE LAST PAGE — RSVP
+     5 · THE LAST PAGE — RSVP
      ════════════════════════════════════════════════════════════════ -->
 <section class="sec sec--rsvp" id="rsvp">
   <article class="sheet sheet--rsvp reveal">
@@ -804,7 +754,7 @@
 
 
 <!-- ════════════════════════════════════════════════════════════════
-     7 · THE CLOSING PLATE
+     6 · THE CLOSING PLATE
      The tree used to sit mid-page, where it was one more picture between
      two blocks of text. It closes the invitation now: you read, you
      reply, and then the two of them are standing under the pomegranate
@@ -2564,6 +2514,6 @@
 
 </main>
 
-<script src="script.js?v=105" defer></script>
+<script src="script.js?v=106" defer></script>
 </body>
 </html>
