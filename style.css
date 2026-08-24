@@ -765,41 +765,60 @@ img,svg{ max-width:100%; display:block }
    in that smaller space and have to be bigger to clear the frame than
    the ones for the birds standing on the floor. */
 .tree--land .bd{
-  animation:birdIn 1.55s cubic-bezier(.2,.62,.3,1) both;
+  /* linear on purpose. The stops below already carry the speed profile;
+     putting an ease on top of them applied the deceleration twice, which
+     is what made the first half a streak and the rest a crawl. */
+  animation:birdIn 2.8s linear both;
   will-change:transform, opacity;
-  animation-delay:calc(2.95s + var(--o) * .24s);
+  animation-delay:calc(2.6s + var(--o) * .22s);
 }
-/* A bird does not travel in a straight line to a branch. It comes in
-   high and fast, loses speed as it closes, drops the last stretch, then
-   flares — nose up, almost stopped — and settles. The stops below are
-   that shape: most of the ground is covered in the first third. */
+/* Eleven stops at even intervals, each covering a little less ground than
+   the one before. Even spacing is the point: the browser interpolates
+   linearly between stops, so equal time steps with shrinking distances is
+   a smooth deceleration, and with this many of them there is no segment
+   long enough to read as a straight dash.
+
+   y trails x — the bird holds its height while it closes the distance,
+   then comes down. At 97% it is a few pixels ABOVE the branch: that is
+   the flare, the last thing a bird does before it drops onto its feet. */
 @keyframes birdIn{
   0%   { transform:translate(var(--ex),var(--ey)) rotate(var(--er)); opacity:0 }
-  10%  { opacity:1 }
-  32%  { transform:translate(calc(var(--ex) * .52),calc(var(--ey) * .78))
-         rotate(calc(var(--er) * .92)); opacity:1 }
-  58%  { transform:translate(calc(var(--ex) * .22),calc(var(--ey) * .46))
-         rotate(calc(var(--er) * .6)); opacity:1 }
-  78%  { transform:translate(calc(var(--ex) * .07),calc(var(--ey) * .19))
-         rotate(calc(var(--er) * .3)); opacity:1 }
-  /* the flare: it rises a touch and tips the other way to brake */
-  91%  { transform:translate(0,-7px) rotate(calc(var(--er) * -.3)); opacity:1 }
+  8%   { transform:translate(calc(var(--ex) * .9),calc(var(--ey) * .93))
+         rotate(var(--er)); opacity:1 }
+  20%  { transform:translate(calc(var(--ex) * .76),calc(var(--ey) * .84))
+         rotate(calc(var(--er) * .96)) }
+  32%  { transform:translate(calc(var(--ex) * .62),calc(var(--ey) * .73))
+         rotate(calc(var(--er) * .9)) }
+  44%  { transform:translate(calc(var(--ex) * .48),calc(var(--ey) * .6))
+         rotate(calc(var(--er) * .82)) }
+  56%  { transform:translate(calc(var(--ex) * .35),calc(var(--ey) * .47))
+         rotate(calc(var(--er) * .7)) }
+  67%  { transform:translate(calc(var(--ex) * .24),calc(var(--ey) * .34))
+         rotate(calc(var(--er) * .56)) }
+  77%  { transform:translate(calc(var(--ex) * .15),calc(var(--ey) * .22))
+         rotate(calc(var(--er) * .42)) }
+  86%  { transform:translate(calc(var(--ex) * .085),calc(var(--ey) * .12))
+         rotate(calc(var(--er) * .28)) }
+  93%  { transform:translate(calc(var(--ex) * .038),calc(var(--ey) * .05))
+         rotate(calc(var(--er) * .14)) }
+  97%  { transform:translate(calc(var(--ex) * .012),-5px)
+         rotate(calc(var(--er) * -.22)) }
   100% { transform:none; opacity:1 }
 }
 
-/* The wings. They are a group of their own inside the bird so the beat
-   and the flight path are two simple animations instead of one keyframe
-   list carrying both. fill-box puts the origin on the bird's own body,
-   so one rule serves all eight wherever they sit.
-   Eight iterations of an alternating half-beat land back at rest, so the
-   wings are already folded when the feet touch — no need to cut the
-   animation off mid-stroke. */
+/* The wings. A group of their own inside the bird, so the beat and the
+   flight path are two simple animations instead of one keyframe list
+   carrying both; fill-box puts the origin on the bird's own body, so one
+   rule serves all eight wherever they sit.
+   Twenty-two iterations of an alternating half-beat fill the 2.8s flight
+   and land on an even count, which is rest — so the wings are folded by
+   the time the feet touch and nothing is cut off mid-stroke. */
 .wing{ transform-box:fill-box; transform-origin:50% 42% }
 .tree--land .wing{
-  animation:flap .19s ease-in-out 8 alternate;
-  animation-delay:calc(2.95s + var(--o) * .24s);
+  animation:flap .128s ease-in-out 22 alternate;
+  animation-delay:calc(2.6s + var(--o) * .22s);
 }
-@keyframes flap{ from{ transform:scaleY(1) } to{ transform:scaleY(.82) } }
+@keyframes flap{ from{ transform:scaleY(1) } to{ transform:scaleY(.8) } }
 
 /* down, and back to shifting their weight. Two classes so it outranks
    the entrance rule whichever order they end up in. */
