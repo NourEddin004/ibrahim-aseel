@@ -34,7 +34,7 @@
 <!-- ⚠️ Bump ?v= on BOTH of these whenever you edit style.css or script.js.
      Browsers cache them hard; without a new URL a guest who has already
      opened the invitation keeps seeing the old design. -->
-<link rel="stylesheet" href="style.css?v=117">
+<link rel="stylesheet" href="style.css?v=119">
 
 <!-- The cover and the scroll lock are opt-in: with JavaScript off the
      guest lands straight on the invitation instead of a dead layer. -->
@@ -639,24 +639,13 @@
       </span>
     </div>
 
-    <!-- Not a swatch — a sign. A lone disc among swatches read as one that
-         had been left over, and a whole ramp of near-whites washed out
-         against paper this colour. This is the same mark the page already
-         uses for the children: a ring and a bar, in the red the rest of
-         the card is printed in. A sign is allowed to stand on its own,
-         which a swatch is not. -->
-    <div class="nowhite" role="img" aria-label="نرجو تجنّب الأبيض والعاجيّ ودرجاتهما">
-      <svg viewBox="0 0 44 44" aria-hidden="true">
-        <!-- one face, two colours: white on the right where the reading
-             starts, ivory on the left. Both are inside the same ring and
-             under the same bar, which is what says they are one rule and
-             not two. -->
-        <path class="nw-face nw-face--white" d="M22 6.6A15.4 15.4 0 0 1 22 37.4Z"/>
-        <path class="nw-face nw-face--ivory" d="M22 6.6A15.4 15.4 0 0 0 22 37.4Z"/>
-        <path class="nw-split" d="M22 6.6V37.4"/>
-        <circle class="nw-ring" cx="22" cy="22" r="15.4"/>
-        <path class="nw-bar" d="M11.1 32.9 32.9 11.1"/>
-      </svg>
+    <!-- Two swatches, the same circle as every other colour on the page,
+         each with a red diagonal inside its frame. -->
+    <div class="ramps ramps--no" role="img" aria-label="نرجو تجنّب الأبيض والعاجيّ ودرجاتهما">
+      <span class="ramp">
+        <i class="no" style="--c:#FFFFFF"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4.1 19.9 19.9 4.1"/></svg></i>
+        <i class="no" style="--c:#F1E9D7"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4.1 19.9 19.9 4.1"/></svg></i>
+      </span>
     </div>
 
   </div>
@@ -2539,6 +2528,6 @@
 
 </main>
 
-<script src="script.js?v=117" defer></script>
+<script src="script.js?v=119" defer></script>
 </body>
 </html>
