@@ -8,13 +8,29 @@ the finished markup, so it renders with no JavaScript and no layout shift.
 | script     | what it emits                              | lands in |
 |------------|--------------------------------------------|----------|
 | `arch.py`  | the cusped Moorish arch (`<path id="arch">`) | the hero and the cover |
-| `tree.py`  | the pomegranate tree, the ground, and the couple standing on it | the navy plate |
+| `tree.py`  | the pomegranate tree, the ground, the birds and the couple | the navy plate |
 | `door.py`  | the arched doorway: one leaf, the stone head, and the ivy | the cover |
 
 Both seed a small LCG from the wedding date, so re-running any of
 them reproduces exactly the same artwork.
 
-`tree.py` grows the tree rather than drawing it, so its extent is not known
+`tree.py` is shaped from a photograph of a real pomegranate rather than from
+the weaving: a broad low dome on a short trunk that forks early, wider than
+it is tall, with the outer branches arching over and drooping at the tips.
+The canopy is a mass — 1371 leaves, small ones, scattered off the stems
+rather than lined up along them — because six big leaves a limb reads as a
+diagram of a tree, not a tree. The navy field was made near-square to take
+it; against the old portrait frame a dome could only ever be width-limited,
+and the top third of the plate stayed empty.
+
+The seed is no longer the wedding date. The tree is grown, so how squarely
+it comes out is down to the seed, and the date's grew one that reached 150
+units further right than left — which the fit then pays for, since it must
+scale by the longest arm and the trunk may not leave the centre line.
+Twenty were grown; seed 13 comes out 8 units off symmetric and fills the
+plate 91% by 98%, where the date's managed 74% by 100%.
+
+It grows rather than draws, so its extent is not known
 until it exists — and it never comes out symmetric. The tail of the script
 measures what grew and fits it to the plate, scaling about the foot of the
 trunk and allowing a small capped sideways shift to balance the two halves.
