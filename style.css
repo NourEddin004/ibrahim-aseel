@@ -423,7 +423,12 @@ img,svg{ max-width:100%; display:block }
   font-size:clamp(1.2rem,5.2vw,1.45rem); line-height:1.6; color:var(--burg);
 }
 .dots{
-  display:flex; justify-content:center; gap:.55rem;
+  /* Each disc carries a 4px ring of paper and gold outside its box, and a
+     box-shadow takes no space in the layout — so at the old .55rem gap the
+     rings of neighbouring discs came within a pixel of each other and the
+     row read as one chain. .75rem leaves four clear pixels between them
+     and nine still hold a single line at 320. */
+  display:flex; justify-content:center; gap:.75rem;
   margin:clamp(.7rem,2.8vw,.95rem) 0 0; padding:0; list-style:none;
 }
 .dots li{
@@ -458,11 +463,6 @@ img,svg{ max-width:100%; display:block }
 .dot--no svg path{
   stroke:var(--pom); stroke-width:2.6; stroke-linecap:round; fill:none;
 }
-.dcode-l{
-  margin:clamp(.65rem,2.6vw,.85rem) 0 0; font-size:1rem; line-height:1.75;
-  color:var(--ink-soft);
-}
-.dcode-l b{ font-weight:700; color:var(--burg) }
 
 /* ── the pomegranate plate ─────────────────────────────────────── */
 /* the same max-width as every other card, so the plate does not sit
