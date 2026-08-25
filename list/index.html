@@ -142,6 +142,23 @@ button[disabled]{ opacity:.6; cursor:default }
 .addform input:focus-visible, .addform select:focus-visible{
   outline:2px solid var(--gold); outline-offset:2px }
 .addrow{ display:grid; grid-template-columns:1fr 1fr; gap:.6rem }
+.lbl{ display:block; margin-top:.7rem; font-size:.9rem; color:var(--ink-soft) }
+.step{
+  display:grid; grid-template-columns:44px 1fr 44px; align-items:stretch;
+  margin-top:.25rem; height:44px;
+  background:#FFFCF3; border:1px solid rgba(107,93,61,.45); border-radius:2px;
+}
+.step button{
+  min-height:0; padding:0; border-radius:0; font-size:1.25rem; line-height:1;
+  background:none; color:var(--burg);
+}
+.step button:hover{ background:rgba(97,38,24,.08) }
+.step button[disabled]{ opacity:.35 }
+.step output{
+  display:grid; place-items:center; font-size:1.05rem; color:var(--ink);
+  border-inline:1px solid rgba(107,93,61,.3);
+}
+.step.off{ opacity:.45; pointer-events:none }
 .addbtns{ display:flex; gap:.5rem; margin-top:1rem }
 .addbtns button{ flex:1 }
 .addbtns .cancel{ background:none; color:var(--burg);
@@ -186,8 +203,18 @@ button[disabled]{ opacity:.6; cursor:default }
             </select>
           </div>
           <div>
-            <label for="aNum">عدد الأشخاص</label>
-            <input id="aNum" type="number" min="1" max="10" step="1" value="1" inputmode="numeric">
+            <!-- A stepper, not a number field. type="number" accepts ASCII
+                 digits only, so an Arabic keyboard types ٣ and the browser
+                 throws the keystroke away — the field looks broken and is
+                 doing exactly what it was told. Two buttons need no
+                 keyboard at all, which is also how the invitation itself
+                 asks the same question. -->
+            <span class="lbl" id="aNumLbl">عدد الأشخاص</span>
+            <div class="step" role="group" aria-labelledby="aNumLbl">
+              <button type="button" id="aMinus" aria-label="عدد أقل">−</button>
+              <output id="aOut" aria-live="polite">١</output>
+              <button type="button" id="aPlus" aria-label="عدد أكثر">+</button>
+            </div>
           </div>
         </div>
 
@@ -441,9 +468,25 @@ const showAdd = (on) => {
 addOpen.addEventListener('click', () => showAdd(true));
 $('#aCancel').addEventListener('click', () => { clearAdd(); showAdd(false); });
 
+/* the headcount lives here, not in a field, so nothing a keyboard does
+   can put a value in it that the database would refuse */
+let aCount = 1;
+const MAX = 10;
+
+function setCount(n) {
+  aCount = Math.min(MAX, Math.max(1, n));
+  $('#aOut').textContent = ar(aCount);
+  $('#aMinus').disabled = aCount === 1;
+  $('#aPlus').disabled  = aCount === MAX;
+}
+$('#aMinus').addEventListener('click', () => setCount(aCount - 1));
+$('#aPlus') .addEventListener('click', () => setCount(aCount + 1));
+
 function clearAdd() {
   $('#aName').value = ''; $('#aNote').value = '';
-  $('#aGo').value = 'yes'; $('#aNum').value = '1';
+  $('#aGo').value = 'yes';
+  setCount(1);
+  goneChanged();
 }
 
 /* the same two strings the invitation writes, so a hand-added guest and
@@ -456,9 +499,7 @@ $('#aSave').addEventListener('click', async () => {
   if (!name) { aErr.textContent = 'يرجى كتابة الاسم.'; $('#aName').focus(); return; }
 
   const going = $('#aGo').value === 'yes';
-  let n = parseInt($('#aNum').value, 10);
-  if (!Number.isFinite(n) || n < 1) n = 1;
-  if (n > 10) n = 10;
+  const n = aCount;
 
   const btn = $('#aSave');
   btn.disabled = true; btn.textContent = 'جارٍ الحفظ…';
@@ -481,11 +522,12 @@ $('#aSave').addEventListener('click', async () => {
 });
 
 /* the headcount only means something for someone who is coming */
-$('#aGo').addEventListener('change', () => {
+function goneChanged() {
   const going = $('#aGo').value === 'yes';
-  $('#aNum').disabled = !going;
-  $('#aNum').style.opacity = going ? '' : '.5';
-});
+  $('#aOut').closest('.step').classList.toggle('off', !going);
+}
+$('#aGo').addEventListener('change', goneChanged);
+setCount(1);
 
 /* ── go ──────────────────────────────────────────────────────────── */
 if (!DB.url || !DB.key) {
