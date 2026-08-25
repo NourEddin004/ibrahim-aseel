@@ -24,14 +24,18 @@
      WhatsApp, Messenger and the rest simply drop a relative og:image and
      show the link as a bare line of text with no picture at all. Which is
      the one thing this link must not look like when a relative forwards
-     it on. If the site ever moves, these two lines move with it. -->
+     it on. If the site ever moves, these two lines move with it.
+
+     The ?v= on the image is not for browsers, it is for WhatsApp and
+     Facebook: they cache a preview card per URL and will keep showing
+     an old one for days. Change the picture, change the number. -->
 <meta property="og:url" content="https://noureddin004.github.io/ibrahim-aseel/">
-<meta property="og:image" content="https://noureddin004.github.io/ibrahim-aseel/og-image.png">
+<meta property="og:image" content="https://noureddin004.github.io/ibrahim-aseel/og-image.png?v=2">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="دعوة زفاف إبراهيم وأسيل">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://noureddin004.github.io/ibrahim-aseel/og-image.png">
+<meta name="twitter:image" content="https://noureddin004.github.io/ibrahim-aseel/og-image.png?v=2">
 
 <!-- inline so there is no extra request and no stray 404: a pomegranate -->
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='38' r='21' fill='%239B2E20'/%3E%3Cpath d='M24 19l-2-12 6 7 2-11 3 11 5-7-1 11z' fill='%236B5D3D'/%3E%3C/svg%3E">
