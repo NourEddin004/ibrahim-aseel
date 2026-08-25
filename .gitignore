@@ -4,3 +4,4 @@ reel/
 
 # the SQL with the real link-secret pasted in — never commit this
 sql/setup.local.sql
+sql/list-admin.local.sql

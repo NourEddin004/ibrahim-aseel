@@ -18,24 +18,38 @@
 *,*::before,*::after{ box-sizing:border-box }
 [hidden]{ display:none !important }
 body{
-  margin:0; padding:clamp(1rem,4vw,2.5rem) clamp(.8rem,4vw,2rem);
+  margin:0; padding:1.5rem 1rem;
   font-family:'Amiri',serif; font-size:1rem; line-height:1.9;
   color:var(--ink); background:var(--cream);
 }
-.wrap{ max-width:56rem; margin-inline:auto }
+/* ── one layout, every screen ─────────────────────────────────────
+   Nothing here is allowed to depend on how wide the phone is. The tally
+   used to be repeat(auto-fit, minmax(...)), which is a grid that decides
+   its own column count — so it came out three-and-one on one handset and
+   two-by-two on another, and the two did not look like the same page.
+   Every vw unit went with it for the same reason: a vw is a fraction of
+   the viewport, so it is a difference between devices by definition.
+   Fixed column counts, fixed sizes, one column of fixed width.
+   ═══════════════════════════════════════════════════════════════════ */
+/* 22rem = 352px. Any phone with at least 384px of screen lands exactly
+   on that number, so a 13 and a 15 Pro Max render the same pixels rather
+   than merely the same arrangement. Narrower handsets than that get the
+   space they have — the alternative is a page that runs off the side,
+   which is worse than eight pixels of difference. */
+.wrap{ width:100%; max-width:22rem; margin-inline:auto }
 
 h1{
   margin:0 0 .2rem; text-align:center; font-family:'Aref Ruqaa',serif;
-  font-weight:400; font-size:clamp(1.4rem,6vw,1.9rem); color:var(--burg);
+  font-weight:400; font-size:1.6rem; color:var(--burg);
 }
-.sub{ margin:0 0 clamp(1.2rem,5vw,2rem); text-align:center;
+.sub{ margin:0 0 1.4rem; text-align:center;
   font-size:.98rem; color:var(--ink-soft) }
 
 .card{
   background:var(--cream-lt); border-radius:2px;
   box-shadow:0 0 0 1px rgba(97,38,24,.35), 0 0 0 4px var(--cream),
              0 0 0 5px rgba(168,135,85,.45), 0 10px 30px -22px rgba(45,33,25,.6);
-  padding:clamp(1.1rem,4.4vw,1.9rem);
+  padding:1.1rem;
 }
 
 /* ── the state line ──────────────────────────────────────────────── */
@@ -55,8 +69,8 @@ button[disabled]{ opacity:.6; cursor:default }
 
 /* ── the tallies ─────────────────────────────────────────────────── */
 .tally{
-  display:grid; grid-template-columns:repeat(auto-fit,minmax(7.5rem,1fr));
-  gap:.7rem; margin:0 0 clamp(1rem,4vw,1.5rem);
+  display:grid; grid-template-columns:repeat(2,1fr);
+  gap:.7rem; margin:0 0 1.2rem;
 }
 .tally div{
   background:var(--cream-lt); border-radius:2px; padding:.8rem .6rem;
@@ -76,18 +90,62 @@ button[disabled]{ opacity:.6; cursor:default }
 .bar .ghost:hover{ background:rgba(97,38,24,.07) }
 .spacer{ flex:1 }
 
-.scroll{ overflow-x:auto }
-table{ width:100%; border-collapse:collapse; font-size:.96rem }
-th,td{ padding:.6rem .7rem; text-align:start; vertical-align:top;
-  border-bottom:1px solid rgba(168,135,85,.4) }
-th{ font-weight:700; color:var(--burg); white-space:nowrap;
-  border-bottom-width:2px }
-tbody tr:last-child td{ border-bottom:0 }
-td.num{ font-variant-numeric:tabular-nums; white-space:nowrap }
-td.when{ color:var(--ink-soft); font-size:.88rem; white-space:nowrap }
-.no{ color:var(--sage) }
-.note{ color:var(--ink-soft); max-width:22rem }
+/* ── one guest, one card ──────────────────────────────────────────
+   This was a six-column table. On a 352px column that table wanted
+   433px, so it scrolled sideways inside its own box — and the delete
+   button, being the last column, sat off the edge where nobody would
+   find it. A row of a table is the wrong shape for a phone. A card
+   holds the same five facts, needs no horizontal scrolling, and puts
+   the button where the thumb already is.
+   ═══════════════════════════════════════════════════════════════════ */
+.g{
+  display:grid; grid-template-columns:1fr auto; gap:.2rem .5rem;
+  align-items:start;
+  padding:.75rem 0; border-bottom:1px solid rgba(168,135,85,.4);
+}
+.g:last-child{ border-bottom:0 }
+.g-name{ font-weight:700; color:var(--burg); line-height:1.5 }
+.g-act{ grid-row:1 / span 3; align-self:center }
+.g-meta{ grid-column:1; font-size:.92rem; color:var(--ink-soft); line-height:1.6 }
+.g-meta .yes{ color:var(--burg) }
+.g-meta .g-meta .dot{ opacity:.5; margin-inline:.3rem }
+.g-note{ grid-column:1; font-size:.92rem; color:var(--ink-soft); line-height:1.6 }
+.g-when{ grid-column:1; font-size:.82rem; color:var(--ink-soft); opacity:.75 }
+
 .empty{ padding:2rem 0; text-align:center; color:var(--ink-soft) }
+
+/* ── remove one ──────────────────────────────────────────────────── */
+/* Two taps, never one. A single × beside a name is a row deleted by a
+   thumb brushing the screen, and there is no undo behind it. */
+.x{
+  border:0; background:none; cursor:pointer; padding:.3rem .45rem;
+  color:var(--sage); font-size:1.05rem; line-height:1; border-radius:2px;
+}
+.x:hover{ color:var(--pom); background:rgba(155,46,32,.08) }
+.confirm{ display:flex; gap:.3rem; align-items:center }
+.confirm b{ font-weight:400; font-size:.86rem; color:var(--pom) }
+.confirm button{ min-height:0; padding:.22rem .5rem; font-size:.86rem }
+.confirm .yes{ background:var(--pom) }
+.confirm .no{ background:none; color:var(--ink-soft);
+  box-shadow:inset 0 0 0 1px rgba(97,38,24,.3) }
+
+/* ── add one ─────────────────────────────────────────────────────── */
+.addwrap{ margin:0 0 1.2rem }
+.addwrap > button{ width:100% }
+.addform{ margin-top:.8rem }
+.addform label{ display:block; margin-top:.7rem; font-size:.9rem; color:var(--ink-soft) }
+.addform input, .addform select{
+  width:100%; min-height:44px; margin-top:.25rem; padding:.45rem .7rem;
+  font:inherit; font-size:1rem; color:var(--ink);
+  background:#FFFCF3; border:1px solid rgba(107,93,61,.45); border-radius:2px;
+}
+.addform input:focus-visible, .addform select:focus-visible{
+  outline:2px solid var(--gold); outline-offset:2px }
+.addrow{ display:grid; grid-template-columns:1fr 1fr; gap:.6rem }
+.addbtns{ display:flex; gap:.5rem; margin-top:1rem }
+.addbtns button{ flex:1 }
+.addbtns .cancel{ background:none; color:var(--burg);
+  box-shadow:inset 0 0 0 1px rgba(97,38,24,.4) }
 </style>
 </head>
 
@@ -111,6 +169,39 @@ td.when{ color:var(--ink-soft); font-size:.88rem; white-space:nowrap }
       <div><b id="tAll">٠</b><i>مجموع الردود</i></div>
     </div>
 
+    <!-- for the relative who replies by phone instead of through the card -->
+    <div class="addwrap">
+      <button type="button" id="addOpen">إضافة ضيف</button>
+
+      <div class="card addform" id="addForm" hidden>
+        <label for="aName">الاسم الكامل</label>
+        <input id="aName" type="text" maxlength="80" autocomplete="off">
+
+        <div class="addrow">
+          <div>
+            <label for="aGo">الحضور</label>
+            <select id="aGo">
+              <option value="yes">نعم</option>
+              <option value="no">اعتذار</option>
+            </select>
+          </div>
+          <div>
+            <label for="aNum">عدد الأشخاص</label>
+            <input id="aNum" type="number" min="1" max="10" step="1" value="1" inputmode="numeric">
+          </div>
+        </div>
+
+        <label for="aNote">ملاحظات (اختياري)</label>
+        <input id="aNote" type="text" maxlength="200" autocomplete="off">
+
+        <div class="addbtns">
+          <button type="button" id="aSave">حفظ</button>
+          <button type="button" class="cancel" id="aCancel">إلغاء</button>
+        </div>
+        <p class="err" id="aErr" role="alert"></p>
+      </div>
+    </div>
+
     <div class="card">
       <div class="bar">
         <button type="button" id="refresh">تحديث</button>
@@ -118,20 +209,8 @@ td.when{ color:var(--ink-soft); font-size:.88rem; white-space:nowrap }
         <span class="spacer"></span>
       </div>
 
-      <div class="scroll">
-        <table>
-          <thead>
-            <tr>
-              <th>الاسم</th>
-              <th>الحضور</th>
-              <th>العدد</th>
-              <th>ملاحظات</th>
-              <th>وصل في</th>
-            </tr>
-          </thead>
-          <tbody id="rows"></tbody>
-        </table>
-      </div>
+      <div id="rows"></div>
+
       <p class="empty" id="empty" hidden>لا توجد ردود بعد.</p>
       <p class="err" id="err2" role="alert"></p>
     </div>
@@ -179,22 +258,28 @@ function fail(text) {
 
 let rows = [];
 
+/* Every call is the same shape: a function name, the secret, and
+   whatever else it needs. One place to get the headers right. */
+function rpc(fn, body) {
+  return fetch(`${DB.url.replace(/\/$/, '')}/rest/v1/rpc/${fn}`, {
+    method: 'POST',
+    /* The old anon key is a JWT and PostgREST reads the role out of it,
+       so it goes in Authorization too. The new sb_publishable_ key is not
+       a JWT — handing it to Authorization gives PostgREST something it
+       cannot parse and the call comes back 401. Both go in apikey; only
+       the JWT gets a Bearer. */
+    headers: Object.assign(
+      { apikey: DB.key, 'Content-Type': 'application/json' },
+      /^eyJ/.test(DB.key) ? { Authorization: `Bearer ${DB.key}` } : {},
+    ),
+    body: JSON.stringify(Object.assign({ pass: secret }, body || {})),
+  });
+}
+
 async function load() {
   err2.textContent = '';
   try {
-    const r = await fetch(`${DB.url.replace(/\/$/, '')}/rest/v1/rpc/guest_list`, {
-      method: 'POST',
-      /* The old anon key is a JWT and PostgREST reads the role out of it,
-         so it goes in Authorization too. The new sb_publishable_ key is
-         not a JWT — handing it to Authorization gives PostgREST something
-         it cannot parse and the call comes back 401. Both go in apikey;
-         only the JWT gets a Bearer. */
-      headers: Object.assign(
-        { apikey: DB.key, 'Content-Type': 'application/json' },
-        /^eyJ/.test(DB.key) ? { Authorization: `Bearer ${DB.key}` } : {},
-      ),
-      body: JSON.stringify({ pass: secret }),
-    });
+    const r = await rpc('guest_list');
     if (!r.ok) {
       /* A rejected secret is the function raising, and PostgREST returns
          a raise as 500 — the same status a database that is genuinely
@@ -236,20 +321,86 @@ function paint() {
   $('#empty').hidden = rows.length > 0;
 
   for (const r of rows) {
-    const tr = document.createElement('tr');
-    const add = (text, cls) => {
-      const td = document.createElement('td');
-      if (cls) td.className = cls;
-      td.textContent = text;          // textContent, never innerHTML: the
-      tr.appendChild(td);             // name and note are typed by guests
-    };
-    add(r.name || '—');
-    add(coming(r) ? 'نعم' : 'اعتذار', coming(r) ? '' : 'no');
-    add(coming(r) ? ar(r.guests || 0) : '—', 'num');
-    add(r.note || '', 'note');
-    add(when(r.created_at), 'when');
-    body.appendChild(tr);
+    const card = document.createElement('div');
+    card.className = 'g';
+
+    const name = document.createElement('div');
+    name.className = 'g-name';
+    name.textContent = r.name || '—';        // textContent, never innerHTML:
+    card.appendChild(name);                  // guests type these fields
+
+    card.appendChild(removeCell(r));
+
+    /* One text run, not three spans with margins between them. Split
+       across elements the bidi algorithm reordered the separator against
+       the numeral and it came out as «نعم٣٠ أشخاص» — the dot reading as
+       a zero stuck to the count. Written as a single string it is laid
+       out once, in order. */
+    const meta = document.createElement('div');
+    meta.className = 'g-meta ' + (coming(r) ? 'yes' : 'no');
+    const n = r.guests || 0;
+    meta.textContent = coming(r)
+      ? `نعم، ${ar(n)} ${n === 1 ? 'شخص' : n === 2 ? 'شخصان' : 'أشخاص'}`
+      : 'اعتذار';
+    card.appendChild(meta);
+
+    if (r.note) {
+      const note = document.createElement('div');
+      note.className = 'g-note';
+      note.textContent = r.note;
+      card.appendChild(note);
+    }
+
+    const w = document.createElement('div');
+    w.className = 'g-when';
+    w.textContent = when(r.created_at);
+    card.appendChild(w);
+
+    body.appendChild(card);
   }
+}
+
+/* Two taps to delete, and the second one only appears after the first.
+   A bare × next to a name is a row lost to a thumb brushing the screen,
+   and nothing behind it can put the row back. */
+function removeCell(r) {
+  const td = document.createElement('div');
+  td.className = 'g-act';
+
+  const ask = document.createElement('button');
+  ask.type = 'button'; ask.className = 'x'; ask.textContent = '✕';
+  ask.setAttribute('aria-label', `حذف ${r.name || ''}`);
+
+  ask.addEventListener('click', () => {
+    td.textContent = '';
+    const box = document.createElement('div');
+    box.className = 'confirm';
+
+    const q = document.createElement('b'); q.textContent = 'حذف؟';
+    const yes = document.createElement('button');
+    yes.type = 'button'; yes.className = 'yes'; yes.textContent = 'نعم';
+    const no = document.createElement('button');
+    no.type = 'button'; no.className = 'no'; no.textContent = 'لا';
+
+    no.addEventListener('click', () => { td.textContent = ''; td.appendChild(ask); });
+    yes.addEventListener('click', async () => {
+      yes.disabled = no.disabled = true;
+      try {
+        const res = await rpc('guest_remove', { p_id: r.id });
+        if (!res.ok) throw new Error(res.status);
+        await load();
+      } catch {
+        err2.textContent = 'تعذّر الحذف. حاول مرة أخرى.';
+        td.textContent = ''; td.appendChild(ask);
+      }
+    });
+
+    box.append(q, yes, no);
+    td.appendChild(box);
+  });
+
+  td.appendChild(ask);
+  return td;
 }
 
 function when(iso) {
@@ -277,6 +428,63 @@ $('#csv').addEventListener('click', () => {
   a.download = 'rsvp.csv';
   a.click();
   URL.revokeObjectURL(a.href);
+});
+
+/* ── add a guest ─────────────────────────────────────────────────── */
+const addForm = $('#addForm'), addOpen = $('#addOpen'), aErr = $('#aErr');
+
+const showAdd = (on) => {
+  addForm.hidden = !on;
+  addOpen.hidden = on;
+  if (on) { aErr.textContent = ''; $('#aName').focus(); }
+};
+addOpen.addEventListener('click', () => showAdd(true));
+$('#aCancel').addEventListener('click', () => { clearAdd(); showAdd(false); });
+
+function clearAdd() {
+  $('#aName').value = ''; $('#aNote').value = '';
+  $('#aGo').value = 'yes'; $('#aNum').value = '1';
+}
+
+/* the same two strings the invitation writes, so a hand-added guest and
+   a self-replied one are the same kind of row and coming() reads both */
+const YES = 'نعم، بكل سرور';
+const NO  = 'للأسف لن أتمكن من الحضور';
+
+$('#aSave').addEventListener('click', async () => {
+  const name = $('#aName').value.trim();
+  if (!name) { aErr.textContent = 'يرجى كتابة الاسم.'; $('#aName').focus(); return; }
+
+  const going = $('#aGo').value === 'yes';
+  let n = parseInt($('#aNum').value, 10);
+  if (!Number.isFinite(n) || n < 1) n = 1;
+  if (n > 10) n = 10;
+
+  const btn = $('#aSave');
+  btn.disabled = true; btn.textContent = 'جارٍ الحفظ…';
+  aErr.textContent = '';
+  try {
+    const res = await rpc('guest_add', {
+      p_name: name,
+      p_attending: going ? YES : NO,
+      p_guests: going ? n : 0,
+      p_note: $('#aNote').value.trim() || null,
+    });
+    if (!res.ok) throw new Error(res.status);
+    clearAdd(); showAdd(false);
+    await load();
+  } catch {
+    aErr.textContent = 'تعذّر الحفظ. حاول مرة أخرى.';
+  } finally {
+    btn.disabled = false; btn.textContent = 'حفظ';
+  }
+});
+
+/* the headcount only means something for someone who is coming */
+$('#aGo').addEventListener('change', () => {
+  const going = $('#aGo').value === 'yes';
+  $('#aNum').disabled = !going;
+  $('#aNum').style.opacity = going ? '' : '.5';
 });
 
 /* ── go ──────────────────────────────────────────────────────────── */
